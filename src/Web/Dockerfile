@@ -5,6 +5,8 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
 COPY ["src/Web/Web.csproj", "src/Web/"]
+COPY ["src/ApplicationCore/ApplicationCore.csproj", "src/ApplicationCore/"]
+COPY ["src/Infrastructure/Infrastructure.csproj", "src/Infrastructure/"]
 RUN dotnet restore "src/Web/Web.csproj"
 COPY . .
 WORKDIR "/src/src/Web"
