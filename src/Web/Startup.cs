@@ -1,4 +1,5 @@
 using Masny.QRAnimal.Infrastructure.Identity;
+using Masny.QRAnimal.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,11 +52,7 @@ namespace Masny.QRAnimal.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //UNDONE: Âûםוסעט ג מעהוכüםûי middleware
-            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                scope.ServiceProvider.GetService<IdentityContext>().Database.Migrate();
-            }
+            RuntimeMigration.ApplyMigration(app);
 
             if (env.IsDevelopment())
             {
