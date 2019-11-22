@@ -15,6 +15,8 @@ namespace Masny.QRAnimal.Infrastructure.Identity
         public IdentityContext(DbContextOptions<IdentityContext> options)
             : base(options)
         {
+            // Использовать, если не требуется выполнение миграции в режиме реального времени.
+            //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
