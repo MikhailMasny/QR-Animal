@@ -1,4 +1,4 @@
-﻿namespace Masny.QRAnimal.ApplicationCore.Interfaces
+﻿namespace Masny.QRAnimal.Application.Interfaces
 {
     /// <summary>
     /// Интерфейс для логгера.

@@ -1,4 +1,4 @@
-﻿using Masny.QRAnimal.ApplicationCore.Interfaces;
+﻿using Masny.QRAnimal.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Logging
