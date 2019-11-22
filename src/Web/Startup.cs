@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace Masny.QRAnimal.Web
 {
+
+
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -41,7 +43,6 @@ namespace Masny.QRAnimal.Web
                 if (existingUserManager == null)
                 {
                     services.AddIdentity<AppUser, IdentityRole>()
-                        .AddDefaultUI()
                         .AddEntityFrameworkStores<IdentityContext>()
                                         .AddDefaultTokenProviders();
                 }
@@ -50,7 +51,7 @@ namespace Masny.QRAnimal.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // UNDONE: Âûםוסעט ג מעהוכüםûי middleware
+            //UNDONE: Âûםוסעט ג מעהוכüםûי middleware
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 scope.ServiceProvider.GetService<IdentityContext>().Database.Migrate();
@@ -64,7 +65,7 @@ namespace Masny.QRAnimal.Web
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
