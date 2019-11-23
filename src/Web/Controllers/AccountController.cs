@@ -32,6 +32,49 @@ namespace Web.Controllers
         /// <summary>
         /// Страница для входа в систему.
         /// </summary>
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Регистрация нового пользователя.
+        /// </summary>
+        /// <param name="model">Модель пользовательских данных.</param>
+        [HttpPost]
+        public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new AppUser
+                {
+                    Email = model.Email,
+                    UserName = model.UserName
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    await _userManager.AddToRoleAsync(user, "User");
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Страница для входа в систему.
+        /// </summary>
         /// <param name="returnUrl">Возврат по определенному адресу.</param>
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
@@ -54,7 +97,8 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                // UNDONE: Реализовать корректное поведение RememberMe
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
@@ -63,15 +107,11 @@ namespace Web.Controllers
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "InvalidData");
-                }
+
+                ModelState.AddModelError("", "InvalidData");
             }
 
             return View(model);

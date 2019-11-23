@@ -1,38 +1,28 @@
 ﻿@model LoginViewModel
 
 @{
-    Layout = null;
+    Layout = "_Account";
 }
 
-<!DOCTYPE html>
+<form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
+    <div asp-validation-summary="ModelOnly"></div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-</head>
-<body>
-    <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
-        <div asp-validation-summary="ModelOnly"></div>
+    <h1>Login</h1>
 
-        <h1>Login</h1>
+    <div>
+        <input type="email" asp-for="Email" placeholder="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
 
-        <div>
-            <input type="email" id="inputEmail" placeholder="Email" asp-for="Email" />
-            <span asp-validation-for="Email"></span>
-        </div>
+    <div>
+        <input type="password" placeholder="Password" required asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
 
-        <div>
-            <input type="password" id="inputPassword" placeholder="Password" required asp-for="Password" />
-            <span asp-validation-for="Password"></span>
-        </div>
+    <div>
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe">RememberMe</label>
+    </div>
 
-        <div>
-            <input asp-for="RememberMe" />
-            <label asp-for="RememberMe">RememberMe</label>
-        </div>
-
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+    <button type="submit">Login</button>
+</form>
