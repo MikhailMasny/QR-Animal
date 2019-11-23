@@ -1,7 +1,7 @@
 ﻿using Masny.QRAnimal.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Logging
+namespace Masny.QRAnimal.Infrastructure.Logging
 {
     /// <summary>
     /// Реализация базового логгера.
