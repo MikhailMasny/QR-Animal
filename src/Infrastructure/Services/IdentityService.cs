@@ -4,6 +4,7 @@ using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,18 +16,22 @@ namespace Masny.QRAnimal.Infrastructure.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="userManager">Управление пользователем.</param>
-        public IdentityService(UserManager<AppUser> userManager)
+        /// <param name="signInManager">Управление состоянием входа пользователя.</param>
+        public IdentityService(UserManager<AppUser> userManager,
+                               SignInManager<AppUser> signInManager)
         {
-            _userManager = userManager;
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
         /// <inheritdoc />
-        public async Task<string> GetUserNameAsync(string userId)
+        public async Task<string> GetUserNameByIdAsync(string userId)
         {
             var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
 
@@ -43,6 +48,10 @@ namespace Masny.QRAnimal.Infrastructure.Services
             };
 
             var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+            }
 
             return (result.ToApplicationResult(), user.Id);
         }
@@ -58,6 +67,34 @@ namespace Masny.QRAnimal.Infrastructure.Services
             }
 
             return Result.Success();
+        }
+
+        /// <inheritdoc />
+        public async Task<Result> LoginUserAsync(string email, string password, bool isPersistent, bool lockoutOnFailure)
+        {
+            // UNDONE: Реализовать корректное поведение RememberMe
+            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent, lockoutOnFailure);
+
+            return result.ToApplicationResult();
+        }
+
+        /// <inheritdoc />
+        public async Task SignInUserAsync(string email, string userName)
+        {
+            var user = new AppUser
+            {
+                Email = email,
+                UserName = userName
+            };
+
+            await _signInManager.SignInAsync(user, false);
+        }
+
+        /// <inheritdoc />
+        public async Task SignOutUserAsync()
+        {
+            // Удаление аутентификационных куков.
+            await _signInManager.SignOutAsync();
         }
 
         private async Task<Result> DeleteUserAsync(AppUser user)

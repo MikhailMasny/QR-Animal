@@ -9,6 +9,8 @@ namespace Masny.QRAnimal.Web.Extensions
     /// </summary>
     public static class IdentityConfigureServiceExtension
     {
+        // UNDONE: Перенести в проект Infrastructure в класс DI
+
         /// <summary>
         /// Добавление сервиса Identity.
         /// </summary>

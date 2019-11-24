@@ -1,32 +1,29 @@
-﻿using Masny.QRAnimal.Application.ViewModels;
-using Masny.QRAnimal.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Контроллер управления личным кабинетом пользователя.
+    /// </summary>
     public class AccountController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IIdentityService _identityService;
         private readonly ILogger _logger;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="singInManager">менеджер входа в систему.</param>
-        public AccountController(RoleManager<IdentityRole> roleManager,
-                                 UserManager<AppUser> userManager,
-                                 SignInManager<AppUser> signInManager,
+        /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
+        public AccountController(IIdentityService identityService,
                                  ILogger<AccountController> logger)
         {
-            _roleManager = roleManager;
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -43,29 +40,23 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="model">Модель пользовательских данных.</param>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser
-                {
-                    Email = model.Email,
-                    UserName = model.UserName
-                };
-
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var (result, _) = await _identityService.CreateUserAsync(model.Email, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    await _userManager.AddToRoleAsync(user, "User");
+                    await _identityService.SignInUserAsync(model.Email, model.UserName);
 
                     return RedirectToAction("Index", "Home");
                 }
 
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, error);
                 }
             }
 
@@ -97,8 +88,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // UNDONE: Реализовать корректное поведение RememberMe
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+                var result = await _identityService.LoginUserAsync(model.Email, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
@@ -123,9 +113,9 @@ namespace Web.Controllers
         /// <returns>Перенаправление на определенную страницу.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> LogOffAsync()
         {
-            await _signInManager.SignOutAsync(); // Удаление аутентификационных куков.
+            await _identityService.SignOutUserAsync();
 
             return RedirectToAction("Index", "Home");
         }
