@@ -32,6 +32,7 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult SignUp()
         {
+            _logger.LogInformation("Test");
             return View();
         }
 

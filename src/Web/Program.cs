@@ -1,9 +1,11 @@
 using Masny.QRAnimal.Infrastructure.Identity;
+using Masny.QRAnimal.Infrastructure.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -13,29 +15,44 @@ namespace Masny.QRAnimal.Web
     {
         public async static Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            Log.Logger = SerilogConfiguration.LoggerConfig();
 
-            using (var scope = host.Services.CreateScope())
+            try
             {
-                var services = scope.ServiceProvider;
-                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                Log.Information("Starting web host");
 
-                try
-                {
-                    var context = services.GetRequiredService<IdentityContext>();
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var host = CreateHostBuilder(args).Build();
 
-                    await IdentityContextSeed.SeedAsync(context, userManager, roleManager);
-                }
-                catch (Exception ex)
+                using (var scope = host.Services.CreateScope())
                 {
-                    var logger = loggerFactory.CreateLogger<Program>();
-                    logger.LogError(ex, "Error.");
+                    var services = scope.ServiceProvider;
+                    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+                    try
+                    {
+                        var context = services.GetRequiredService<IdentityContext>();
+                        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                        await IdentityContextSeed.SeedAsync(context, userManager, roleManager);
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = loggerFactory.CreateLogger<Program>();
+                        logger.LogError(ex, "Error.");
+                    }
                 }
+
+                host.Run();
             }
-
-            host.Run();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -43,6 +60,7 @@ namespace Masny.QRAnimal.Web
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseSerilog();
                 });
     }
 }
