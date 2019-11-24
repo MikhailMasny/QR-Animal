@@ -45,7 +45,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var (result, _) = await _identityService.CreateUserAsync(model.Email, model.Password);
+                var (result, _) = await _identityService.CreateUserAsync(model.Email, model.UserName, model.Password);
 
                 if (result.Succeeded)
                 {

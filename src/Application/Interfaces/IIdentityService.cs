@@ -21,7 +21,7 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <param name="userName">Имя пользователя.</param>
         /// <param name="password">Пароль.</param>
         /// <returns>Результат операции и Id пользователя.</returns>
-        Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
+        Task<(Result Result, string UserId)> CreateUserAsync(string email, string userName, string password);
 
         /// <summary>
         /// Удалить пользователя.

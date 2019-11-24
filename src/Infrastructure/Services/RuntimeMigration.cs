@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Masny.QRAnimal.Web.Services
+namespace Masny.QRAnimal.Infrastructure.Services
 {
     /// <summary>
     /// Применение миграции в режиме реального времени.
@@ -16,10 +16,8 @@ namespace Masny.QRAnimal.Web.Services
         /// <param name="app">Строитель приложения.</param>
         public static void ApplyMigration(IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                scope.ServiceProvider.GetService<IdentityContext>().Database.Migrate();
-            }
+            using IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            scope.ServiceProvider.GetService<IdentityContext>().Database.Migrate();
         }
     }
 }

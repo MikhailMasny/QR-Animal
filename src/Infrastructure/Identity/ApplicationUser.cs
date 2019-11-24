@@ -5,7 +5,7 @@ namespace Masny.QRAnimal.Infrastructure.Identity
     /// <summary>
     /// Пользователь приложения.
     /// </summary>
-    public class AppUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
     }
 }

@@ -1,8 +1,6 @@
-using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Identity;
 using Masny.QRAnimal.Infrastructure.Services;
-using Masny.QRAnimal.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +34,7 @@ namespace Masny.QRAnimal.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            RuntimeMigration.ApplyMigration(app);
+            //RuntimeMigration.ApplyMigration(app);
 
             if (env.IsDevelopment())
             {

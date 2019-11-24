@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="Middlewares\" />
     <Folder Include="HealthChecks\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

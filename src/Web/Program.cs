@@ -22,8 +22,11 @@ namespace Masny.QRAnimal.Web
 
                 try
                 {
-                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-                    await IdentityContextSeed.SeedAsync(userManager);
+                    var context = services.GetRequiredService<IdentityContext>();
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    await IdentityContextSeed.SeedAsync(context, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

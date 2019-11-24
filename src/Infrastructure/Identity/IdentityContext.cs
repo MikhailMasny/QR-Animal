@@ -6,7 +6,7 @@ namespace Masny.QRAnimal.Infrastructure.Identity
     /// <summary>
     /// Контекст для взаимодействия с пользователем.
     /// </summary>
-    public class IdentityContext : IdentityDbContext<AppUser>
+    public class IdentityContext : IdentityDbContext<ApplicationUser>
     {
         /// <summary>
         /// Конструктор с параметрами.
@@ -16,7 +16,7 @@ namespace Masny.QRAnimal.Infrastructure.Identity
             : base(options)
         {
             // Использовать, если не требуется выполнение миграции в режиме реального времени.
-            //Database.Migrate();
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -15,16 +15,16 @@ namespace Masny.QRAnimal.Infrastructure.Services
     /// </summary>
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="userManager">Управление пользователем.</param>
         /// <param name="signInManager">Управление состоянием входа пользователя.</param>
-        public IdentityService(UserManager<AppUser> userManager,
-                               SignInManager<AppUser> signInManager)
+        public IdentityService(UserManager<ApplicationUser> userManager,
+                               SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
@@ -39,12 +39,12 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
+        public async Task<(Result Result, string UserId)> CreateUserAsync(string email, string userName, string password)
         {
-            var user = new AppUser
+            var user = new ApplicationUser
             {
-                UserName = userName,
-                Email = userName,
+                Email = email,
+                UserName = userName
             };
 
             var result = await _userManager.CreateAsync(user, password);
@@ -81,7 +81,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         /// <inheritdoc />
         public async Task SignInUserAsync(string email, string userName)
         {
-            var user = new AppUser
+            var user = new ApplicationUser
             {
                 Email = email,
                 UserName = userName
@@ -97,7 +97,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
             await _signInManager.SignOutAsync();
         }
 
-        private async Task<Result> DeleteUserAsync(AppUser user)
+        private async Task<Result> DeleteUserAsync(ApplicationUser user)
         {
             var result = await _userManager.DeleteAsync(user);
 
