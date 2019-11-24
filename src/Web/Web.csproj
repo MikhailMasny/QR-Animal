@@ -8,6 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="HealthChecks\**" />
+    <Compile Remove="Middlewares\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="HealthChecks\**" />
+    <Content Remove="Middlewares\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="HealthChecks\**" />
+    <EmbeddedResource Remove="Middlewares\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="HealthChecks\**" />
+    <None Remove="Middlewares\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
@@ -25,12 +40,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
-    <Folder Include="HealthChecks\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
