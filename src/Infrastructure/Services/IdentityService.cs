@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Masny.QRAnimal.Infrastructure.Services
 {
     /// <summary>
-    /// Cервис работы с идентификацией пользователя.
+    /// Cервис для работы с идентификацией пользователя.
     /// </summary>
     public class IdentityService : IIdentityService
     {
