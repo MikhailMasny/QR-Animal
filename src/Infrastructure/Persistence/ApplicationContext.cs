@@ -17,6 +17,8 @@ namespace Masny.QRAnimal.Infrastructure.Persistence
             : base(options)
         {
             // Использовать, если не требуется выполнение миграции в режиме реального времени.
+            // Windows: Server=(localdb)\\mssqllocaldb;Database=QRAnimalApp;Trusted_Connection=True;MultipleActiveResultSets=true
+            // Docker: Server=db;Database=QRAnimalApp;User=sa;Password=Your_password123;Trusted_Connection=False;MultipleActiveResultSets=true
             Database.Migrate();
         }
 
