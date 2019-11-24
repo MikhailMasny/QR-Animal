@@ -113,7 +113,7 @@ namespace Web.Controllers
         /// <returns>Перенаправление на определенную страницу.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOffAsync()
+        public async Task<IActionResult> SignOutAsync()
         {
             await _identityService.SignOutUserAsync();
 

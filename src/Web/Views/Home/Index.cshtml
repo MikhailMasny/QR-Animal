@@ -4,8 +4,8 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <form method="post" asp-controller="Account" asp-action="LogOff">
-        <input type="submit" value="LogOut" />
+    <form method="post" asp-controller="Account" asp-action="SignOut">
+        <input type="submit" value="SignOut" />
     </form>
 }
 else

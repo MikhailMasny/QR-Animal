@@ -1,7 +1,7 @@
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Identity;
 using Masny.QRAnimal.Infrastructure.Services;
-using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,10 +26,9 @@ namespace Masny.QRAnimal.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddInfrastructure();
 
-            services.AddIdentityService();
-            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddControllersWithViews();
 
             // Добавлен Identity контекст.
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
