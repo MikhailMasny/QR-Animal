@@ -1,5 +1,6 @@
 using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Identity;
+using Masny.QRAnimal.Infrastructure.Persistence;
 using Masny.QRAnimal.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +30,7 @@ namespace Masny.QRAnimal.Web
             services.AddControllersWithViews();
 
             // Добавлен Identity контекст.
-            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnection")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

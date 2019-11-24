@@ -1,5 +1,6 @@
 ﻿using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Infrastructure.Identity;
+using Masny.QRAnimal.Infrastructure.Persistence;
 using Masny.QRAnimal.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,7 @@ namespace Masny.QRAnimal.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                    .AddEntityFrameworkStores<IdentityContext>()
+                    .AddEntityFrameworkStores<ApplicationContext>()
                     .AddDefaultTokenProviders();
 
             services.AddScoped<IIdentityService, IdentityService>();

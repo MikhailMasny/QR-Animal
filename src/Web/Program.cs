@@ -1,5 +1,6 @@
 using Masny.QRAnimal.Infrastructure.Identity;
 using Masny.QRAnimal.Infrastructure.Logging;
+using Masny.QRAnimal.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,11 +31,11 @@ namespace Masny.QRAnimal.Web
 
                     try
                     {
-                        var context = services.GetRequiredService<IdentityContext>();
+                        var context = services.GetRequiredService<ApplicationContext>();
                         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                        await IdentityContextSeed.SeedAsync(context, userManager, roleManager);
+                        await ApplicationContextSeed.IdentitySeedAsync(context, userManager, roleManager);
                     }
                     catch (Exception ex)
                     {

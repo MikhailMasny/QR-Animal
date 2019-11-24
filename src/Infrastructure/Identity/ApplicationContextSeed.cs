@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Masny.QRAnimal.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,23 +9,24 @@ namespace Masny.QRAnimal.Infrastructure.Identity
     /// <summary>
     /// Класс для заполнения контекста.
     /// </summary>
-    public class IdentityContextSeed
+    public class ApplicationContextSeed
     {
         /// <summary>
         /// Заполнение базы данных начальными данными.
         /// </summary>
-        /// <param name="identityContext">Контекст Identity.</param>
+        /// <param name="applicationContext">Контекст приложения.</param>
         /// <param name="userManager">Управление пользователем.</param>
         /// <param name="roleManager">Управление ролями.</param>
-        public static async Task SeedAsync(IdentityContext identityContext,
-                                           UserManager<ApplicationUser> userManager,
-                                           RoleManager<IdentityRole> roleManager)
+        public static async Task IdentitySeedAsync(ApplicationContext applicationContext,
+                                                    UserManager<ApplicationUser> userManager,
+                                                    RoleManager<IdentityRole> roleManager)
         {
-            identityContext = identityContext ?? throw new ArgumentNullException(nameof(identityContext));
+            applicationContext = applicationContext ?? throw new ArgumentNullException(nameof(applicationContext));
             userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
 
             // Проверка на пустоту данных в базе данных.
-            if (identityContext.Users.Any() || identityContext.Roles.Any() || identityContext.UserRoles.Any())
+            if (applicationContext.Users.Any() || applicationContext.Roles.Any() || applicationContext.UserRoles.Any())
             {
                 return;
             }

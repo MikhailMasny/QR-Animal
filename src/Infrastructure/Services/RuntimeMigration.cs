@@ -1,4 +1,4 @@
-﻿using Masny.QRAnimal.Infrastructure.Identity;
+﻿using Masny.QRAnimal.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +17,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         public static void ApplyMigration(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            scope.ServiceProvider.GetService<IdentityContext>().Database.Migrate();
+            scope.ServiceProvider.GetService<ApplicationContext>().Database.Migrate();
         }
     }
 }
