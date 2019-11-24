@@ -2,12 +2,13 @@ version: '3.4'
 
 services:
   web:
-    image: ${DOCKER_REGISTRY-}web
     build:
       context: .
       dockerfile: src/Web/Dockerfile
+    ports:
+      - 85:85
     depends_on:
-          - db
+      - db
   db:
     image: microsoft/mssql-server-linux
     environment:

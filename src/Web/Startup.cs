@@ -1,7 +1,7 @@
+using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure;
-using Masny.QRAnimal.Infrastructure.Identity;
+using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
-using Masny.QRAnimal.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +27,15 @@ namespace Masny.QRAnimal.Web
         {
             services.AddInfrastructure();
 
+            var appSettingSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingSection);
+
             services.AddControllersWithViews();
 
             // Добавлен Identity контекст.
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnection")));
+            var isDockerSupport = appSettingSection.Get<AppSettings>().IsDockerSupport;
+            string connectionString = Configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

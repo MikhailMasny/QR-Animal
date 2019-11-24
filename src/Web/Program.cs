@@ -14,6 +14,8 @@ namespace Masny.QRAnimal.Web
 {
     public class Program
     {
+        private static readonly string url = "http://*:85";
+
         public async static Task Main(string[] args)
         {
             Log.Logger = SerilogConfiguration.LoggerConfig();
@@ -60,6 +62,7 @@ namespace Masny.QRAnimal.Web
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls(url);
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseSerilog();
                 });
