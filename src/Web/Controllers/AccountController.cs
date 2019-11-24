@@ -30,7 +30,7 @@ namespace Web.Controllers
         /// Страница для входа в систему.
         /// </summary>
         [HttpGet]
-        public IActionResult Registration()
+        public IActionResult SignUp()
         {
             return View();
         }
@@ -41,7 +41,7 @@ namespace Web.Controllers
         /// <param name="model">Модель пользовательских данных.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
+        public async Task<IActionResult> SignUpAsync(SignUpViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -68,9 +68,9 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="returnUrl">Возврат по определенному адресу.</param>
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult SignIn(string returnUrl = null)
         {
-            var viewModel = new LoginViewModel
+            var viewModel = new SignInViewModel
             {
                 ReturnUrl = returnUrl
             };
@@ -84,7 +84,7 @@ namespace Web.Controllers
         /// <param name="model">Модель пользовательских данных.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginViewModel model)
+        public async Task<IActionResult> SignInAsync(SignInViewModel model)
         {
             if (ModelState.IsValid)
             {

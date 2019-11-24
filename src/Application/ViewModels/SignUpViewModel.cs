@@ -5,7 +5,7 @@ namespace Masny.QRAnimal.Application.ViewModels
     /// <summary>
     /// ViewModel для формы регистрации.
     /// </summary>
-    public class RegistrationViewModel
+    public class SignUpViewModel
     {
         /// <summary>
         /// Имя пользователя.
