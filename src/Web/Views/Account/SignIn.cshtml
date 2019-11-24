@@ -1,0 +1,28 @@
+﻿@model SignInViewModel
+
+@{
+    Layout = "_Account";
+}
+
+<form method="post" asp-controller="Account" asp-action="SignIn" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <h1>SignIn</h1>
+
+    <div>
+        <input type="email" asp-for="Email" placeholder="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <input type="password" placeholder="Password" required asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe">RememberMe</label>
+    </div>
+
+    <button type="submit">SignIn</button>
+</form>

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form method="post" asp-controller="Account" asp-action="SignOut">
+        <input type="submit" value="SignOut" />
+    </form>
+}
+else
+{
+    <div>
+        <a asp-controller="Home" asp-action="Index">Main</a>
+        <a asp-controller="Account" asp-action="SignUp">SignUp</a>
+        <a asp-controller="Account" asp-action="SignIn">SignIn</a>
+    </div>
+
+
+}
+
+<div>
+    <h1>Welcome to our site!</h1>
+</div>

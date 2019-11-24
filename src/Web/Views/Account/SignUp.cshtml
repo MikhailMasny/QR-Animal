@@ -1,0 +1,34 @@
+﻿@model SignUpViewModel
+
+@{
+    Layout = "_Account";
+}
+
+<form method="post" asp-controller="Account" asp-action="SignUp" asp-antiforgery="true">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <h1>SignUp</h1>
+
+    <div>
+        <input type="text" asp-for="UserName" placeholder="UserName" required />
+        <span asp-validation-for="UserName"></span>
+    </div>
+
+    <div>
+        <input type="email" asp-for="Email" placeholder="Email" required />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <input type="password" asp-for="Password" placeholder="Password" required />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <input type="password" asp-for="PasswordConfirm" placeholder="PasswordConfirm" required />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+
+    <button type="submit">SignUp</button>
+
+</form>
