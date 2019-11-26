@@ -49,6 +49,6 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <summary>
         /// Выход из системы.
         /// </summary>
-        Task SignOutUserAsync();
+        Task LogoutUserAsync();
     }
 }

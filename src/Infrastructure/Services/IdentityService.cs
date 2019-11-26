@@ -91,7 +91,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task SignOutUserAsync()
+        public async Task LogoutUserAsync()
         {
             // Удаление аутентификационных куков.
             await _signInManager.SignOutAsync();

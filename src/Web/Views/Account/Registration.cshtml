@@ -1,10 +1,10 @@
-﻿@model SignUpViewModel
+﻿@model RegistrationViewModel
 
 @{
     Layout = "_Account";
 }
 
-<form method="post" asp-controller="Account" asp-action="SignUp" asp-antiforgery="true">
+<form method="post" asp-controller="Account" asp-action="Registration" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
     <h1>SignUp</h1>
@@ -29,6 +29,6 @@
         <span asp-validation-for="PasswordConfirm"></span>
     </div>
 
-    <button type="submit">SignUp</button>
+    <button type="submit">Registration</button>
 
 </form>

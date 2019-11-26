@@ -15,7 +15,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
     public class EmailSenderService : IMessageSender
     {
         private readonly ILogger _logger;
-        private readonly MailSettings _emailConfiguration;
+        private readonly MailSettings _mailConfig;
 
         /// <summary>
         /// Конструктор с параметрами.
@@ -25,7 +25,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            _emailConfiguration = MailKitConfiguration();
+            _mailConfig = MailKitConfiguration();
         }
 
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         {
             var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("QRAnimalApp", _emailConfiguration.EmailAddress));
+            message.From.Add(new MailboxAddress("QRAnimalApp", _mailConfig.EmailAddress));
             message.To.Add(new MailboxAddress("", recipient));
             message.Subject = subject;
             message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -44,8 +44,8 @@ namespace Masny.QRAnimal.Infrastructure.Services
             try
             {
                 using var client = new SmtpClient();
-                await client.ConnectAsync(_emailConfiguration.Server, _emailConfiguration.Port, false);
-                await client.AuthenticateAsync(_emailConfiguration.EmailAddress, _emailConfiguration.Password);
+                await client.ConnectAsync(_mailConfig.Server, _mailConfig.Port, false);
+                await client.AuthenticateAsync(_mailConfig.EmailAddress, _mailConfig.Password);
                 await client.SendAsync(message);
 
                 await client.DisconnectAsync(true);
@@ -61,10 +61,13 @@ namespace Masny.QRAnimal.Infrastructure.Services
         private MailSettings MailKitConfiguration()
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("mailsettings.json")
+                .AddJsonFile("sendersettings.json")
                 .Build();
 
-            return configuration.Get<MailSettings>();
+            var mailSettingSection = configuration.GetSection("MailSettings");
+            var mailSettings = mailSettingSection.Get<MailSettings>();
+
+            return mailSettings;
         }
     }
 }

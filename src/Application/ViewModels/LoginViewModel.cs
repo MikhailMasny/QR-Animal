@@ -5,10 +5,10 @@ namespace Masny.QRAnimal.Application.ViewModels
     /// <summary>
     /// ViewModel для входа в систему.
     /// </summary>
-    public class SignInViewModel
+    public class LoginViewModel
     {
         /// <summary>
-        /// Электронный почта.
+        /// Электронная почта.
         /// </summary>
         [Required(ErrorMessage = "Неверная электронная почта")]
         [Display(Name = "Электронная почта")]
