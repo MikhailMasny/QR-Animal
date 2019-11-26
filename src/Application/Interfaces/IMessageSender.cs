@@ -12,8 +12,8 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// </summary>
         /// <param name="recipient">Получатель.</param>
         /// <param name="subject">Тема.</param>
-        /// <param name="message">Сообщение</param>
+        /// <param name="body">Сообщение</param>
 
-        Task SendMessageAsync(string recipient, string subject, string message);
+        Task SendMessageAsync(string recipient, string subject, string body);
     }
 }

@@ -18,6 +18,8 @@ namespace Masny.QRAnimal.Infrastructure.Logging
         /// <returns>Конфигурация Seriog.</returns>
         public static Logger LoggerConfig()
         {
+            // UNDONE: Перенести в сервисы DI.
+
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();

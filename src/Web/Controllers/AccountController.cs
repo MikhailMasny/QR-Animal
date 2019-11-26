@@ -22,7 +22,7 @@ namespace Web.Controllers
         public AccountController(IIdentityService identityService,
                                  ILogger<AccountController> logger)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(logger));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
