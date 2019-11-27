@@ -89,7 +89,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _identityService.LoginUserAsync(model.Email, model.Password, model.RememberMe, true);
+                var result = await _identityService.LoginUserAsync(model.UserName, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {

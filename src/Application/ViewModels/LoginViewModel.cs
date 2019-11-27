@@ -8,11 +8,11 @@ namespace Masny.QRAnimal.Application.ViewModels
     public class LoginViewModel
     {
         /// <summary>
-        /// Электронная почта.
+        /// Имя пользователя.
         /// </summary>
-        [Required(ErrorMessage = "Неверная электронная почта")]
-        [Display(Name = "Электронная почта")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "Неверное имя пользователя")]
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
 
         /// <summary>
         /// Пароль.

@@ -33,11 +33,11 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <summary>
         /// Авторизировать пользователя.
         /// </summary>
-        /// <param name="email">Электронная почта.</param>
+        /// <param name="userName">Имя пользователя.</param>
         /// <param name="password">Пароль.</param>
         /// <param name="isPersistent">Запомнить меня.</param>
         /// <param name="lockoutOnFailure">Блокировка.</param>
-        Task<Result> LoginUserAsync(string email, string password, bool isPersistent, bool lockoutOnFailure);
+        Task<Result> LoginUserAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure);
 
         /// <summary>
         /// Вход в систему.
