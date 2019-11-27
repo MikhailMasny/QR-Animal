@@ -3,9 +3,9 @@
 namespace Masny.QRAnimal.Application.ViewModels
 {
     /// <summary>
-    /// ViewModel для формы регистрации.
+    /// ViewModel для входа в систему.
     /// </summary>
-    public class SignUpViewModel
+    public class LoginViewModel
     {
         /// <summary>
         /// Имя пользователя.
@@ -13,13 +13,6 @@ namespace Masny.QRAnimal.Application.ViewModels
         [Required(ErrorMessage = "Неверное имя пользователя")]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
-
-        /// <summary>
-        /// Электронный адрес.
-        /// </summary>
-        [Required(ErrorMessage = "Неверная электронная почта")]
-        [Display(Name = "Электронная почта")]
-        public string Email { get; set; }
 
         /// <summary>
         /// Пароль.
@@ -30,12 +23,14 @@ namespace Masny.QRAnimal.Application.ViewModels
         public string Password { get; set; }
 
         /// <summary>
-        /// Подтвердить пароль.
+        /// Запомнить.
         /// </summary>
-        [Required(ErrorMessage = "Неверный пароль")]
-        [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Подтвердить пароль")]
-        public string PasswordConfirm { get; set; }
+        [Display(Name = "Запомнить?")]
+        public bool RememberMe { get; set; }
+
+        /// <summary>
+        /// Вернуться по определенному адресу.
+        /// </summary>
+        public string ReturnUrl { get; set; }
     }
 }

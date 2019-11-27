@@ -22,7 +22,7 @@ namespace Web.Controllers
         public AccountController(IIdentityService identityService,
                                  ILogger<AccountController> logger)
         {
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(logger));
+            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -30,7 +30,7 @@ namespace Web.Controllers
         /// Страница для входа в систему.
         /// </summary>
         [HttpGet]
-        public IActionResult SignUp()
+        public IActionResult Registration()
         {
             _logger.LogInformation("Test");
             return View();
@@ -42,7 +42,7 @@ namespace Web.Controllers
         /// <param name="model">Модель пользовательских данных.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUpAsync(SignUpViewModel model)
+        public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -69,9 +69,9 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="returnUrl">Возврат по определенному адресу.</param>
         [HttpGet]
-        public IActionResult SignIn(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null)
         {
-            var viewModel = new SignInViewModel
+            var viewModel = new LoginViewModel
             {
                 ReturnUrl = returnUrl
             };
@@ -85,11 +85,11 @@ namespace Web.Controllers
         /// <param name="model">Модель пользовательских данных.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignInAsync(SignInViewModel model)
+        public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _identityService.LoginUserAsync(model.Email, model.Password, model.RememberMe, true);
+                var result = await _identityService.LoginUserAsync(model.UserName, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
@@ -114,9 +114,9 @@ namespace Web.Controllers
         /// <returns>Перенаправление на определенную страницу.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignOutAsync()
+        public async Task<IActionResult> LogoutAsync()
         {
-            await _identityService.SignOutUserAsync();
+            await _identityService.LogoutUserAsync();
 
             return RedirectToAction("Index", "Home");
         }
