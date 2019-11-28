@@ -13,11 +13,6 @@ namespace Domain.Entities
         public int Id { get; set; }
 
         /// <summary>
-        /// Идентификатор животного.
-        /// </summary>
-        public int AnimalId { get; set; }
-
-        /// <summary>
         /// Данные для генерации.
         /// </summary>
         public string Code { get; set; }
@@ -26,5 +21,18 @@ namespace Domain.Entities
         /// Дата создания.
         /// </summary>
         public DateTime Created { get; set; }
+
+
+
+
+        /// <summary>
+        /// Идентификатор животного.
+        /// </summary>
+        public int AnimalId { get; set; }
+
+        /// <summary>
+        /// Навигация для животного.
+        /// </summary>
+        public Animal Animal { get; set; }
     }
 }

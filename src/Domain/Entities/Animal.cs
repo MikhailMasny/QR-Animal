@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -51,5 +52,12 @@ namespace Domain.Entities
         /// Особенности.
         /// </summary>
         public string Features { get; set; }
+
+
+
+        /// <summary>
+        /// Навигация по QR кодам.
+        /// </summary>
+        public ICollection<QRCode> QRCodes { get; set; }
     }
 }
