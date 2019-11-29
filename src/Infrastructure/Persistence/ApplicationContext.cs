@@ -1,4 +1,5 @@
-﻿using Masny.QRAnimal.Infrastructure.Identity;
+﻿using Domain.Entities;
+using Masny.QRAnimal.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,12 @@ namespace Masny.QRAnimal.Infrastructure.Persistence
     /// </summary>
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
+        // QRCode entities.
+        public DbSet<QRCode> QRCodes { get; set; }
+
+        // Animal entities.
+        public DbSet<Animal> Animals { get; set; }
+
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
