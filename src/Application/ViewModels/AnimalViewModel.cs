@@ -3,17 +3,15 @@ using System;
 
 namespace Masny.QRAnimal.Application.ViewModels
 {
+    /// <summary>
+    /// ViewModel для Animal.
+    /// </summary>
     public class AnimalViewModel
     {
         /// <summary>
         /// Идентификатор.
         /// </summary>
         public int Id { get; set; }
-
-        /// <summary>
-        /// Данные QR кода.
-        /// </summary>
-        public string Code { get; set; }
 
         /// <summary>
         /// Вид (разновидность).
