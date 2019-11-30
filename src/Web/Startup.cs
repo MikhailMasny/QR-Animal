@@ -1,3 +1,5 @@
+using Masny.QRAnimal.Application;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Extensions;
@@ -26,6 +28,7 @@ namespace Masny.QRAnimal.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure();
+            services.AddApplication();
 
             var appSettingSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingSection);
@@ -36,6 +39,8 @@ namespace Masny.QRAnimal.Web
             var isDockerSupport = appSettingSection.Get<AppSettings>().IsDockerSupport;
             string connectionString = Configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddScoped<IApplicationContext, ApplicationContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

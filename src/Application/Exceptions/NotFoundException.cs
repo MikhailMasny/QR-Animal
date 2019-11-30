@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Exceptions
+namespace Masny.QRAnimal.Application.Exceptions
 {
     /// <summary>
     /// Ошибка об отсутсвие сущности.

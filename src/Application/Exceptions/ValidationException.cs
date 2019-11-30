@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Application.Exceptions
+namespace Masny.QRAnimal.Application.Exceptions
 {
     /// <summary>
     /// Ошибка валидации.

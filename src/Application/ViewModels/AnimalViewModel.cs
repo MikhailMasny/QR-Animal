@@ -9,9 +9,9 @@ namespace Masny.QRAnimal.Application.ViewModels
     public class AnimalViewModel
     {
         /// <summary>
-        /// Идентификатор.
+        /// Идентификатор пользователя.
         /// </summary>
-        public int Id { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Вид (разновидность).
