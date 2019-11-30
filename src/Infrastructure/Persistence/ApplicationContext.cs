@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Masny.QRAnimal.Domain.Entities;
 using Masny.QRAnimal.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

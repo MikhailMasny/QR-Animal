@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Domain.Entities
+namespace Masny.QRAnimal.Domain.Entities
 {
     /// <summary>
     /// Модель QR кода.

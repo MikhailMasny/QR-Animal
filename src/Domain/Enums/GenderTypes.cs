@@ -1,4 +1,4 @@
-﻿namespace Domain.Enums
+﻿namespace Masny.QRAnimal.Domain.Enums
 {
     /// <summary>
     /// Пол животного.

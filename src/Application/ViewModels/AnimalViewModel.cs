@@ -1,13 +1,9 @@
 ﻿using Masny.QRAnimal.Domain.Enums;
 using System;
-using System.Collections.Generic;
 
-namespace Masny.QRAnimal.Domain.Entities
+namespace Masny.QRAnimal.Application.ViewModels
 {
-    /// <summary>
-    /// Модель животного.
-    /// </summary>
-    public class Animal
+    public class AnimalViewModel
     {
         /// <summary>
         /// Идентификатор.
@@ -15,9 +11,9 @@ namespace Masny.QRAnimal.Domain.Entities
         public int Id { get; set; }
 
         /// <summary>
-        /// Идентификатор пользователя.
+        /// Данные QR кода.
         /// </summary>
-        public string UserId { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
         /// Вид (разновидность).
@@ -53,12 +49,5 @@ namespace Masny.QRAnimal.Domain.Entities
         /// Особенности.
         /// </summary>
         public string Features { get; set; }
-
-
-
-        /// <summary>
-        /// Навигация по QR кодам.
-        /// </summary>
-        public ICollection<QRCode> QRCodes { get; set; }
     }
 }
