@@ -5,7 +5,7 @@ namespace Masny.QRAnimal.Application.ViewModels
     /// <summary>
     /// ViewModel для QRCode.
     /// </summary>
-    class QRCodeViewModel
+    public class QRCodeViewModel
     {
         /// <summary>
         /// Данные для генерации.
@@ -16,5 +16,10 @@ namespace Masny.QRAnimal.Application.ViewModels
         /// Дата создания.
         /// </summary>
         public DateTime Created { get; set; }
+
+        /// <summary>
+        /// Идентификатор животного.
+        /// </summary>
+        public int AnimalId { get; set; }
     }
 }

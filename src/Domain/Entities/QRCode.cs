@@ -24,7 +24,6 @@ namespace Masny.QRAnimal.Domain.Entities
 
 
 
-
         /// <summary>
         /// Идентификатор животного.
         /// </summary>
