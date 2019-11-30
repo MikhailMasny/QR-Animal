@@ -1,4 +1,5 @@
-﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
+﻿using Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
 using Masny.QRAnimal.Domain.Enums;
@@ -42,24 +43,26 @@ namespace Web.Controllers
 
             //await _messageSender.SendMessageAsync("somemail@mail.ru", "Тема письма", "Тест письма: тест!");
 
-            var animalViewModel = new AnimalViewModel
-            {
-                UserId = "test",
-                Kind = "test",
-                Breed = "test",
-                Gender = GenderTypes.None,
-                Passport = "test",
-                BirthDate = DateTime.Now,
-                Nickname = "test",
-                Features = "test"
-            };
+            //var animalViewModel = new AnimalViewModel
+            //{
+            //    UserId = "test",
+            //    Kind = "test",
+            //    Breed = "test",
+            //    Gender = GenderTypes.None,
+            //    Passport = "test",
+            //    BirthDate = DateTime.Now,
+            //    Nickname = "test",
+            //    Features = "test"
+            //};
 
 
-            CreateAnimalCommand command = new CreateAnimalCommand
-            {
-                Model = animalViewModel
-            };
-            await _mediator.Send(command);
+            //CreateAnimalCommand command = new CreateAnimalCommand
+            //{
+            //    Model = animalViewModel
+            //};
+            // var id = await _mediator.Send(command);
+
+            //var animals = await _mediator.Send(new GetAnimalsQuery());
 
             return View();
         }

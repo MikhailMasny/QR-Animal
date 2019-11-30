@@ -1,17 +1,18 @@
-﻿using Masny.QRAnimal.Application.Exceptions;
+﻿using AutoMapper;
+using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Application.ViewModels;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
+namespace Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
-    /// Удалить Animal.
+    /// Получить данные Animal.
     /// </summary>
-    public class DeleteAnimalCommand : IRequest
+    public class GetAnimalQuery : IRequest<AnimalViewModel>
     {
         /// <summary>
         /// Идентификатор.
@@ -19,29 +20,31 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
         public int Id { get; set; }
 
         /// <summary>
-        /// Команда удалить.
+        /// Запрос получить данные.
         /// </summary>
-        public class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand>
+        public class GetAnimalQueryHandler : IRequestHandler<GetAnimalQuery, AnimalViewModel>
         {
             private readonly IApplicationContext _context;
+            private readonly IMapper _mapper;
 
             /// <summary>
             /// Конструктор с параметрами.
             /// </summary>
             /// <param name="context">Контекст.</param>
-            public DeleteAnimalCommandHandler(IApplicationContext context)
+            /// <param name="mapper">Маппер.</param>
+            public GetAnimalQueryHandler(IApplicationContext context,
+                                         IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             /// <summary>
-            /// Удалить животное.
+            /// Получить данные о животном.
             /// </summary>
-            /// <returns>Значение.</returns>
-            public async Task<Unit> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
+            /// <returns>ViewModel животного.</returns>
+            public async Task<AnimalViewModel> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
-                request = request ?? throw new ArgumentNullException(nameof(request));
-
                 var entity = await _context.Animals.FindAsync(request.Id, cancellationToken);
 
                 if (entity == null)
@@ -49,10 +52,9 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
                     throw new NotFoundException(nameof(Animal), request.Id);
                 }
 
-                _context.Animals.Remove(entity);
-                await _context.SaveChangesAsync(cancellationToken);
+                var animal = _mapper.Map<AnimalViewModel>(entity);
 
-                return Unit.Value;
+                return animal;
             }
         }
     }
