@@ -70,10 +70,10 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task<Result> LoginUserAsync(string email, string password, bool isPersistent, bool lockoutOnFailure)
+        public async Task<Result> LoginUserAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
         {
             // UNDONE: Реализовать корректное поведение RememberMe
-            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent, lockoutOnFailure);
+            var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
 
             return result.ToApplicationResult();
         }
@@ -91,7 +91,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task SignOutUserAsync()
+        public async Task LogoutUserAsync()
         {
             // Удаление аутентификационных куков.
             await _signInManager.SignOutAsync();

@@ -4,16 +4,16 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <form method="post" asp-controller="Account" asp-action="SignOut">
-        <input type="submit" value="SignOut" />
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Logout" />
     </form>
 }
 else
 {
     <div>
         <a asp-controller="Home" asp-action="Index">Main</a>
-        <a asp-controller="Account" asp-action="SignUp">SignUp</a>
-        <a asp-controller="Account" asp-action="SignIn">SignIn</a>
+        <a asp-controller="Account" asp-action="Registration">Registration</a>
+        <a asp-controller="Account" asp-action="Login">Login</a>
     </div>
 
 

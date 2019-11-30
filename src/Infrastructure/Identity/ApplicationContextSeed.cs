@@ -18,8 +18,8 @@ namespace Masny.QRAnimal.Infrastructure.Identity
         /// <param name="userManager">Управление пользователем.</param>
         /// <param name="roleManager">Управление ролями.</param>
         public static async Task IdentitySeedAsync(ApplicationContext applicationContext,
-                                                    UserManager<ApplicationUser> userManager,
-                                                    RoleManager<IdentityRole> roleManager)
+                                                   UserManager<ApplicationUser> userManager,
+                                                   RoleManager<IdentityRole> roleManager)
         {
             applicationContext = applicationContext ?? throw new ArgumentNullException(nameof(applicationContext));
             userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
