@@ -1,8 +1,4 @@
-﻿using Application.CQRS.Queries.GetAnimal;
-using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
-using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
-using Masny.QRAnimal.Domain.Enums;
+﻿using Masny.QRAnimal.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +51,6 @@ namespace Web.Controllers
             //    Features = "test"
             //};
 
-
             //CreateAnimalCommand command = new CreateAnimalCommand
             //{
             //    Model = animalViewModel
@@ -63,6 +58,25 @@ namespace Web.Controllers
             // var id = await _mediator.Send(command);
 
             //var animals = await _mediator.Send(new GetAnimalsQuery());
+
+            //var qr = new QRCodeViewModel
+            //{
+            //    Code = "test",
+            //    Created = DateTime.Now,
+            //    AnimalId = 1
+            //};
+
+            //CreateQRCodeCommand command = new CreateQRCodeCommand
+            //{
+            //    Model = qr
+            //};
+            //var id = await _mediator.Send(command);
+
+            //var qrq = new GetQRCodeQuery
+            //{
+            //    Id = 1
+            //};
+            //var qr = await _mediator.Send(qrq);
 
             return View();
         }

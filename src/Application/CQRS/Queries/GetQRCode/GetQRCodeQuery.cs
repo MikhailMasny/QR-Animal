@@ -45,7 +45,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
             /// <returns>ViewModel QR Code.</returns>
             public async Task<QRCodeViewModel> Handle(GetQRCodeQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.QRCodes.FindAsync(request.Id, cancellationToken);
+                var entity = await _context.QRCodes.FindAsync(request.Id);
 
                 if (entity == null)
                 {

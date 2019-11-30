@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.CQRS.Queries.GetAnimal
+namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
     /// Получить данные Animal.

@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Application.CQRS.Commands.UpdateAnimal
+namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
 {
     /// <summary>
     /// Валидация данных для Animal.

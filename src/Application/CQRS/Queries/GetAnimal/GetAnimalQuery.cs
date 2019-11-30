@@ -7,7 +7,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.CQRS.Queries.GetAnimal
+namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
     /// Получить данные Animal.
@@ -45,7 +45,7 @@ namespace Application.CQRS.Queries.GetAnimal
             /// <returns>ViewModel животного.</returns>
             public async Task<AnimalViewModel> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Animals.FindAsync(request.Id, cancellationToken);
+                var entity = await _context.Animals.FindAsync(request.Id);
 
                 if (entity == null)
                 {
