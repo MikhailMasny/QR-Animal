@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Entities
@@ -31,7 +32,7 @@ namespace Domain.Entities
         /// <summary>
         /// Пол.
         /// </summary>
-        public bool Gender { get; set; }
+        public GenderTypes Gender { get; set; }
 
         /// <summary>
         /// Паспорт.
