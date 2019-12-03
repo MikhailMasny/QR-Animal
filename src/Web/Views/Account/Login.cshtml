@@ -4,27 +4,28 @@
     Layout = "_Account";
 }
 
-<form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
+<form class="form-account" method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
-    <h1>SignIn</h1>
+    @*Place for logo*@
+    @*<img class="mb-4" src="" alt="" width="72" height="72">*@
 
-    <div>
-        <input type="text" asp-for="UserName" placeholder="UserName" />
-        <span asp-validation-for="UserName"></span>
-    </div>
+    <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
 
-    <div>
-        <input type="password" placeholder="Password" required asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
+    <input type="text" class="form-control" placeholder="UserName" asp-for="UserName" required autofocus />
+    <span asp-validation-for="UserName"></span>
 
-    <div>
+    <input type="password" class="form-control" placeholder="Password" asp-for="Password" required  />
+    <span asp-validation-for="Password"></span>
+
+    <div class="checkbox mb-3">
         <input asp-for="RememberMe" />
         <label asp-for="RememberMe">RememberMe</label>
     </div>
 
-    <button type="submit">Login</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+
+    <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
 </form>
 
 @section Scripts {
