@@ -4,32 +4,29 @@
     Layout = "_Account";
 }
 
-<form method="post" asp-controller="Account" asp-action="Registration" asp-antiforgery="true">
+<form class="form-account" method="post" asp-controller="Account" asp-action="Registration" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
-    <h1>SignUp</h1>
+    @*Place for logo*@
+    @*<img class="mb-4" src="" alt="" width="72" height="72">*@
 
-    <div>
-        <input type="text" asp-for="UserName" placeholder="UserName" required />
-        <span asp-validation-for="UserName"></span>
-    </div>
+    <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
 
-    <div>
-        <input type="email" asp-for="Email" placeholder="Email" required />
-        <span asp-validation-for="Email"></span>
-    </div>
+    <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="UserName" required />
+    <span asp-validation-for="UserName"></span>
 
-    <div>
-        <input type="password" asp-for="Password" placeholder="Password" required />
-        <span asp-validation-for="Password"></span>
-    </div>
+    <input id="email" type="email" class="form-control" asp-for="Email" placeholder="Email" required />
+    <span asp-validation-for="Email"></span>
 
-    <div>
-        <input type="password" asp-for="PasswordConfirm" placeholder="PasswordConfirm" required />
-        <span asp-validation-for="PasswordConfirm"></span>
-    </div>
+    <input id="passWithoutBorder" type="password" class="form-control" asp-for="Password" placeholder="Password" required />
+    <span asp-validation-for="Password"></span>
 
-    <button type="submit">Registration</button>
+    <input id="passWithBorder" type="password" class="form-control" asp-for="PasswordConfirm" placeholder="PasswordConfirm" required />
+    <span asp-validation-for="PasswordConfirm"></span>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Registration</button>
+
+    <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
 
 </form>
 

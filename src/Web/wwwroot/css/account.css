@@ -36,16 +36,24 @@ body {
             z-index: 2;
         }
 
-    .form-account input[type="text"] {
+    .form-account input#username {
         margin-bottom: -1px;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
     }
 
-    .form-account input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
+    .form-account input#email,
+    .form-account input#passWithoutBorder {
+        margin-top: -1px;
+        margin-bottom: -1px;
+        border-radius: 0;
+    }
+
+    .form-account input#passWithBorder {
+        margin-top: -1px;
         border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        margin-bottom: 10px
     }
 
 .bd-placeholder-img {
