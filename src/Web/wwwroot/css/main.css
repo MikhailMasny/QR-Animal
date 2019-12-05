@@ -1,12 +1,10 @@
 ﻿body {
 }
 
-.featurette-divider {
-    margin: 5rem 0;
+.nav-divider {
+    margin: 0 0 5rem 0;
 }
 
-.featurette-heading {
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: -.05rem;
+.hr-divider {
+    margin: 5rem 0;
 }
