@@ -4,25 +4,25 @@
     ViewData["Title"] = "Profile";
 }
 
+
+
 <h1>@User.Identity.Name</h1>
 <div>Hello!</div>
 
-<div class="container">
-    <div class="row row-cols-3">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
 
-        @foreach (var item in Model)
-        {
-            <div class="col-6 col-md mt-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Nickname</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@item.Passport</h6>
-                        <p class="card-text">@item.Features</p>
-                        <a href="#" class="card-link">Редактировать</a>
-                    </div>
+    @foreach (var item in Model)
+    {
+        <div class="col mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nickname</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@item.Passport</h6>
+                    <p class="card-text">@item.Features</p>
+                    <a href="#" class="card-link">Редактировать</a>
                 </div>
             </div>
-        }
+        </div>
+    }
 
-    </div>
 </div>

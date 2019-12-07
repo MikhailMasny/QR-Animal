@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Web.Controllers
@@ -29,12 +30,14 @@ namespace Web.Controllers
         {
             _logger.LogInformation("Profile");
 
+            var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
+
             var qrq = new GetAnimalsQuery();
             var qr = await _mediator.Send(qrq);
 
-            //await _identityService.GetUserNameByIdAsync(User.Identity.Name);
+            var userAnimals = qr.Where(a => a.UserId == userId);
 
-            return View(qr);
+            return View(userAnimals);
         }
     }
 }

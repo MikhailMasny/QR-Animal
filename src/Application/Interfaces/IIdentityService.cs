@@ -9,11 +9,11 @@ namespace Masny.QRAnimal.Application.Interfaces
     public interface IIdentityService
     {
         /// <summary>
-        /// Получить имя пользователя.
+        /// Получить Id пользователя.
         /// </summary>
-        /// <param name="userId">Id пользователя.</param>
-        /// <returns>Имя пользователя.</returns>
-        Task<string> GetUserNameByIdAsync(string userId);
+        /// <param name="userName">Имя пользователя.</param>
+        /// <returns>Id пользователя.</returns>
+        Task<string> GetUserIdByNameAsync(string userName);
 
         /// <summary>
         /// Создать пользователя.

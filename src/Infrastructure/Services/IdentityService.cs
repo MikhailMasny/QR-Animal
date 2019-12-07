@@ -31,11 +31,11 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task<string> GetUserNameByIdAsync(string userId)
+        public async Task<string> GetUserIdByNameAsync(string userName)
         {
-            var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+            var user = await _userManager.Users.FirstAsync(u => u.UserName == userName);
 
-            return user.UserName;
+            return user.Id;
         }
 
         /// <inheritdoc />
