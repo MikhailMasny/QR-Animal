@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace Web.Controllers
+namespace Masny.QRAnimal.Web.Controllers
 {
     /// <summary>
     /// Контроллер управления личным кабинетом пользователя.

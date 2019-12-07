@@ -9,8 +9,11 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Web.Controllers
+namespace Masny.QRAnimal.Web.Controllers
 {
+    /// <summary>
+    /// Контроллер управления основными страницами приложения.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly IMessageSender _messageSender;
@@ -22,7 +25,7 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         public HomeController(IMessageSender messageSender,
-                              ILogger<AccountController> logger,
+                              ILogger<HomeController> logger,
                               IMediator mediator)
         {
             _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));

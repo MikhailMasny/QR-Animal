@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Controllers
+namespace Masny.QRAnimal.Web.Controllers
 {
     /// <summary>
     /// Контроллер управления профилем пользователя.
