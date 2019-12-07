@@ -1,4 +1,5 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
+using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
 using MediatR;
@@ -7,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+
+// UNDONE: добавить DTO модели
+// UNDONE: добавить задачу worker для удаления определенных данных
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -55,17 +59,45 @@ namespace Masny.QRAnimal.Web.Controllers
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
                 model.UserId = userId;
 
-                CreateAnimalCommand command = new CreateAnimalCommand
+                // Создание команды для добавления нового животного
+                var animalCommand = new CreateAnimalCommand
                 {
                     Model = model
                 };
 
-                await _mediator.Send(command);
+                var id = await _mediator.Send(animalCommand);
+
+                // Создание команды для добавления QR кода для животного
+                var qrCode = new QRCodeViewModel
+                {
+                    Code = Guid.NewGuid().ToString(),
+                    Created = DateTime.Now,
+                    AnimalId = id
+                };
+
+                var qrCommand = new CreateQRCodeCommand
+                {
+                    Model = qrCode
+                };
+
+                await _mediator.Send(qrCommand);
 
                 return RedirectToAction("Index", "Profile");
             }
 
             return View(model);
+        }
+
+        /// <summary>
+        /// Удалить выбранное животное.
+        /// </summary>
+        /// <param name="id">идентификатор.</param>
+        /// <returns>Представление главной страницы.</returns>
+        public async Task<IActionResult> Delete(int id)
+        {
+            // UNDONE: Реализовать с учетом нового алгоритма
+
+            return RedirectToAction("Index", "Profile");
         }
     }
 }

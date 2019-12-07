@@ -6,6 +6,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+// UNDONE: Переработать возможность удаления животных = помечать, что удалены
+
 namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
 {
     /// <summary>
