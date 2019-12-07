@@ -1,7 +1,6 @@
 ﻿using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -13,17 +12,15 @@ namespace Web.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityService _identityService;
-        private readonly ILogger _logger;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="logger">Логгер.</param>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
-        public AccountController(IIdentityService identityService,
-                                 ILogger<AccountController> logger)
+        public AccountController(IIdentityService identityService)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -32,7 +29,6 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult Registration()
         {
-            _logger.LogInformation("Test");
             return View();
         }
 

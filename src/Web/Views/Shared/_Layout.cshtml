@@ -26,27 +26,27 @@
                 {
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Profile" asp-action="Index" tabindex="-1" aria-disabled="true">Profile</a>
+                            <a class="nav-link" asp-controller="Profile" asp-action="Index">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Online chat</a>
+                            <a class="nav-link" href="#">Online chat</a>
                         </li>
                     </ul>
 
                     <form method="post" asp-controller="Account" asp-action="Logout">
-                        <input class="btn btn-warning btn-sm" type="submit" value="Logout" />
+                        <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
                     </form>
                 }
                 else
                 {
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Online chat</a>
+                            <a class="nav-link" href="#">Online chat</a>
                         </li>
                     </ul>
 
-                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-sm mr-2" role="button">Login</a>
-                    <a asp-controller="Account" asp-action="Registration" class="btn btn-success btn-sm" role="button">Registration</a>
+                    <a asp-controller="Account" asp-action="Login" class="btn text-white btn-link btn-sm mr-2" role="button">Sign In</a>
+                    <a asp-controller="Account" asp-action="Registration" class="btn btn-outline-light btn-sm" role="button">Sign Up</a>
                 }
 
             </div>

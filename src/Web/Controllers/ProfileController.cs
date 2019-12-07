@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
+    /// <summary>
+    /// Контроллер управления профилем пользователя.
+    /// </summary>
     [Authorize]
     public class ProfileController : Controller
     {
@@ -17,6 +20,12 @@ namespace Web.Controllers
         private readonly IMediator _mediator;
         private readonly IIdentityService _identityService;
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="logger">Логгер.</param>
+        /// <param name="mediator">Медиатор.</param>
+        /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         public ProfileController(ILogger<ProfileController> logger,
                                  IMediator mediator,
                                  IIdentityService identityService)
@@ -26,16 +35,17 @@ namespace Web.Controllers
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
         }
 
+        /// <summary>
+        /// Страница для отображения всех животных пользователя.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Profile");
-
             var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
+            var animals = await _mediator.Send(new GetAnimalsQuery());
 
-            var qrq = new GetAnimalsQuery();
-            var qr = await _mediator.Send(qrq);
+            var userAnimals = animals.Where(a => a.UserId == userId);
 
-            var userAnimals = qr.Where(a => a.UserId == userId);
+            _logger.LogInformation($"{userAnimals.Count()} animals showed for user {User.Identity.Name}.");
 
             return View(userAnimals);
         }
