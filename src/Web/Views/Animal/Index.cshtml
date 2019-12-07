@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<AnimalViewModel>
+
 @{
+    ViewData["Title"] = "Profile";
 }
+
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">UserId</th>
+                <th scope="col">Kind</th>
+                <th scope="col">Breed</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Passport</th>
+                <th scope="col">BirthDate</th>
+                <th scope="col">Nickname</th>
+                <th scope="col">Features</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.UserId</td>
+                <td>@item.Kind</td>
+                <td>@item.Breed</td>
+                <td>@item.Gender</td>
+                <td>@item.Passport</td>
+                <td>@item.BirthDate</td>
+                <td>@item.Nickname</td>
+                <td>@item.Features</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
