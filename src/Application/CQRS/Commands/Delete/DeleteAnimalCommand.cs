@@ -2,7 +2,9 @@
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,7 +44,10 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
             {
                 request = request ?? throw new ArgumentNullException(nameof(request));
 
-                var entity = await _context.Animals.FindAsync(request.Id, cancellationToken);
+
+                var entity = await _context.Animals.Where(a => a.Id == request.Id &&
+                                                          a.IsDeleted)
+                                                   .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {

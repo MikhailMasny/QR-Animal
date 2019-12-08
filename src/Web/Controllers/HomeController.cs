@@ -1,4 +1,7 @@
-﻿using Masny.QRAnimal.Application.Interfaces;
+﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
+using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,20 +9,23 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Web.Controllers
+namespace Masny.QRAnimal.Web.Controllers
 {
+    /// <summary>
+    /// Контроллер управления основными страницами приложения.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly IMessageSender _messageSender;
         private readonly ILogger _logger;
-        private IMediator _mediator;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         public HomeController(IMessageSender messageSender,
-                              ILogger<AccountController> logger,
+                              ILogger<HomeController> logger,
                               IMediator mediator)
         {
             _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
@@ -39,23 +45,23 @@ namespace Web.Controllers
 
             //await _messageSender.SendMessageAsync("somemail@mail.ru", "Тема письма", "Тест письма: тест!");
 
-            //var animalViewModel = new AnimalViewModel
-            //{
-            //    UserId = "test",
-            //    Kind = "test",
-            //    Breed = "test",
-            //    Gender = GenderTypes.None,
-            //    Passport = "test",
-            //    BirthDate = DateTime.Now,
-            //    Nickname = "test",
-            //    Features = "test"
-            //};
+            var animalViewModel = new AnimalViewModel
+            {
+                UserId = "34f27b3c-aa0d-481d-8750-2c0942a9099a",
+                Kind = "test1",
+                Breed = "test1",
+                Gender = GenderTypes.None,
+                Passport = "test1",
+                BirthDate = DateTime.Now,
+                Nickname = "test1",
+                Features = "test1"
+            };
 
-            //CreateAnimalCommand command = new CreateAnimalCommand
-            //{
-            //    Model = animalViewModel
-            //};
-            // var id = await _mediator.Send(command);
+            CreateAnimalCommand command = new CreateAnimalCommand
+            {
+                Model = animalViewModel
+            };
+            var id = await _mediator.Send(command);
 
             //var animals = await _mediator.Send(new GetAnimalsQuery());
 

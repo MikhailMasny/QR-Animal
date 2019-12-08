@@ -54,6 +54,11 @@ namespace Masny.QRAnimal.Domain.Entities
         /// </summary>
         public string Features { get; set; }
 
+        /// <summary>
+        /// Удалено.
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
 
 
         /// <summary>

@@ -1,0 +1,14 @@
+﻿@model AnimalViewModel
+
+@{
+    ViewData["Title"] = $"Animal {@Model.Nickname} - QR Animal";
+}
+
+<h4 class="mb-3">Your animal - @Model.Nickname</h4>
+
+<li class="list-group-item">Kind: <b>@Model.Kind</b></li>
+<li class="list-group-item">Breed: <b>@Model.Breed</b></li>
+<li class="list-group-item">Gender: <b>@Model.Gender</b></li>
+<li class="list-group-item">Passport: <b>@Model.Passport</b></li>
+<li class="list-group-item">BirthDate: <b>@Model.BirthDate</b></li>
+<li class="list-group-item">Features: <b>@Model.Features</b></li>

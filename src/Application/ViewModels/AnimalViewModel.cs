@@ -11,7 +11,7 @@ namespace Masny.QRAnimal.Application.ViewModels
         /// <summary>
         /// Идентификатор животного.
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Идентификатор пользователя.

@@ -1,0 +1,76 @@
+﻿html,
+body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    background-color: #F5F5F5;
+}
+
+.form-account {
+    width: 100%;
+    max-width: 20.625rem;
+    padding: 1rem;
+    margin: auto;
+}
+
+    .form-account .checkbox {
+        font-weight: 400;
+    }
+
+    .form-account .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+        .form-account .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-account input#username {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-account input#email,
+    .form-account input#passWithoutBorder {
+        margin-top: -1px;
+        margin-bottom: -1px;
+        border-radius: 0;
+    }
+
+    .form-account input#passWithBorder {
+        margin-top: -1px;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+    }
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.form-bg {
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}

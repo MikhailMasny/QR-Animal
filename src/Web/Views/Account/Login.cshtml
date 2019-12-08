@@ -4,25 +4,30 @@
     Layout = "_Account";
 }
 
-<form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
+@{
+    ViewData["Title"] = "Sign In - QR Animal";
+}
+
+<form class="form-account form-bg" method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
-    <h1>SignIn</h1>
+    @*Place for logo*@
+    @*<img class="mb-4" src="" alt="" width="72" height="72">*@
 
-    <div>
-        <input type="text" asp-for="UserName" placeholder="UserName" />
-        <span asp-validation-for="UserName"></span>
-    </div>
+    <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
 
-    <div>
-        <input type="password" placeholder="Password" required asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
+    <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="Username" required autofocus />
+    <span asp-validation-for="UserName"></span>
 
-    <div>
+    <input id="passWithBorder" type="password" class="form-control mb-3" asp-for="Password" placeholder="Password" required />
+    <span asp-validation-for="Password"></span>
+
+    <div class="checkbox mb-2">
         <input asp-for="RememberMe" />
-        <label asp-for="RememberMe">RememberMe</label>
+        <label asp-for="RememberMe">Remember me</label>
     </div>
 
-    <button type="submit">Login</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+
+    <p class="mt-3">New to QR Animal? <a class="btn-link" asp-controller="Account" asp-action="Registration" role="button">Create an account.</a></p>
 </form>
