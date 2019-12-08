@@ -1,10 +1,10 @@
 ﻿@model AnimalViewModel
 
 @{
-    ViewData["Title"] = "Edit animal";
+    ViewData["Title"] = $"Edit {@Model.Nickname} - QR Animal";
 }
 
-<h4 class="mb-3">Update animal @Model.Id</h4>
+<h4 class="mb-3">Update @Model.Nickname</h4>
 
 <form method="post" asp-controller="Animal" asp-action="Edit">
     <div asp-validation-summary="ModelOnly"></div>
@@ -40,5 +40,5 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-outline-success btn-lg btn-block">Confirm to update</button>
+    <button type="submit" class="btn btn-outline-warning btn-lg btn-block">Update</button>
 </form>

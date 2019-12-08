@@ -10,7 +10,7 @@ body {
     align-items: center;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
-    background-color: #f5f5f5;
+    background-color: #F5F5F5;
 }
 
 .form-account {
@@ -62,6 +62,11 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.form-bg {
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
 }
 
 @media (min-width: 768px) {

@@ -1,4 +1,12 @@
 ﻿body {
+    background-color: #F5F5F5;
+}
+
+.container-bg {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
 }
 
 .nav-divider {
@@ -6,5 +14,5 @@
 }
 
 .hr-divider {
-    margin: 5rem 0;
+    margin: 2rem 0;
 }

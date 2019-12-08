@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<AnimalViewModel>
 
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = $"Profile {User.Identity.Name} - QR Animal";
 }
 
 <div>
-    <h1>@User.Identity.Name</h1>
+    <h1>Hello, @User.Identity.Name!</h1>
     <p class="font-weight-normal">Your animals will be displayed here.</p>
 </div>
 
@@ -40,8 +40,8 @@ else
 {
     <div class="alert alert-success mt-4" role="alert">
         <h4 class="alert-heading">Welcome to your profile!</h4>
-        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+        <p>This section allows you to manage your profile and add animals, which you can later share thanks to the QR code.</p>
         <hr>
-        <p class="mb-0">For animals to be displayed here, click on "Add new animal", fill in and add it.</p>
+        <p class="mb-0">For animals to be displayed here, click on "Add new animal", fill in all the fields and add an animal.</p>
     </div>
 }

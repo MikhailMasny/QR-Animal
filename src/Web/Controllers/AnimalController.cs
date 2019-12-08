@@ -124,7 +124,9 @@ namespace Masny.QRAnimal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Создание команды для добавления нового животного
+                var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
+                model.UserId = userId;
+
                 var animalCommand = new UpdateAnimalCommand
                 {
                     Model = model

@@ -4,7 +4,11 @@
     Layout = "_Account";
 }
 
-<form class="form-account" method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
+@{
+    ViewData["Title"] = "Sign In - QR Animal";
+}
+
+<form class="form-account form-bg" method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
     @*Place for logo*@
