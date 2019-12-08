@@ -13,14 +13,19 @@ using System.Threading.Tasks;
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
-    /// Получить данные Animal.
+    /// Получить всех животных для конкретного пользователя.
     /// </summary>
-    public class GetAnimalsQuery : IRequest<IEnumerable<AnimalViewModel>>
+    public class GetAnimalsByUserIdQuery : IRequest<IEnumerable<AnimalViewModel>>
     {
+        /// <summary>
+        /// Идентификатор.
+        /// </summary>
+        public string UserId { get; set; }
+
         /// <summary>
         /// Запрос получить данные.
         /// </summary>
-        public class GetAnimalsQueryHandler : IRequestHandler<GetAnimalsQuery, IEnumerable<AnimalViewModel>>
+        public class GetAnimalsByUserIdQueryHandler : IRequestHandler<GetAnimalsByUserIdQuery, IEnumerable<AnimalViewModel>>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -30,8 +35,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// </summary>
             /// <param name="context">Контекст.</param>
             /// <param name="mapper">Маппер.</param>
-            public GetAnimalsQueryHandler(IApplicationContext context,
-                                         IMapper mapper)
+            public GetAnimalsByUserIdQueryHandler(IApplicationContext context,
+                                                  IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
@@ -41,9 +46,10 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// Получить данные о животных.
             /// </summary>
             /// <returns>ViewModel животного.</returns>
-            public async Task<IEnumerable<AnimalViewModel>> Handle(GetAnimalsQuery request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<AnimalViewModel>> Handle(GetAnimalsByUserIdQuery request, CancellationToken cancellationToken)
             {
-                var entites = await _context.Animals.ToListAsync(cancellationToken);
+                var entites = await _context.Animals.Where(a => a.UserId == request.UserId)
+                                                    .ToListAsync(cancellationToken);
 
                 var animals = _mapper.Map<List<AnimalViewModel>>(entites);
 

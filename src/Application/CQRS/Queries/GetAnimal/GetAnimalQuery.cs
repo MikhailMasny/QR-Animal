@@ -47,11 +47,6 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             {
                 var entity = await _context.Animals.FindAsync(request.Id);
 
-                if (entity == null)
-                {
-                    throw new NotFoundException(nameof(Animal), request.Id);
-                }
-
                 var animal = _mapper.Map<AnimalViewModel>(entity);
 
                 return animal;

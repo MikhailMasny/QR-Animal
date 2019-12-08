@@ -13,21 +13,33 @@
     <a asp-controller="Animal" asp-action="Create" class="btn btn-outline-success btn-sm" role="button">Add new animal</a>
 </div>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+@if (Model.Any())
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
 
-    @foreach (var item in Model)
-    {
-        <div class="col mt-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Nickname</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@item.Passport</h6>
-                    <p class="card-text">@item.Features</p>
-                    <a asp-controller="Animal" asp-action="Edit" asp-route-id="@item.Id" class="card-link text-warning">Edit</a>
-                    <a asp-controller="Animal" asp-action="Delete" asp-route-id="@item.Id" class="card-link text-danger">Delete</a>
+        @foreach (var item in Model)
+        {
+            <div class="col mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Nickname</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.Passport</h6>
+                        <p class="card-text">@item.Features</p>
+                        <a asp-controller="Animal" asp-action="Edit" asp-route-id="@item.Id" class="card-link text-warning">Edit</a>
+                        <a asp-controller="Animal" asp-action="Delete" asp-route-id="@item.Id" class="card-link text-danger">Delete</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
 
-</div>
+    </div>
+}
+else
+{
+    <div class="alert alert-success mt-4" role="alert">
+        <h4 class="alert-heading">Welcome to your profile!</h4>
+        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+        <hr>
+        <p class="mb-0">For animals to be displayed here, click on "Add new animal", fill in and add it.</p>
+    </div>
+}

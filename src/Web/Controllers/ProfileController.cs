@@ -1,10 +1,14 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Application.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,9 +45,13 @@ namespace Masny.QRAnimal.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
-            var animals = await _mediator.Send(new GetAnimalsQuery());
 
-            var userAnimals = animals.Where(a => a.UserId == userId);
+            var animalQuery = new GetAnimalsByUserIdQuery
+            {
+                UserId = userId
+            };
+
+            var userAnimals = await _mediator.Send(animalQuery);
 
             _logger.LogInformation($"{userAnimals.Count()} animals showed for user {User.Identity.Name}.");
 
