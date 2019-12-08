@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
-using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,7 +11,7 @@ using System.Threading.Tasks;
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
-    /// Получить всех животных для конкретного пользователя.
+    /// Получить всех Animal для конкретного пользователя.
     /// </summary>
     public class GetAnimalsByUserIdQuery : IRequest<IEnumerable<AnimalViewModel>>
     {
@@ -48,7 +46,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>ViewModel животного.</returns>
             public async Task<IEnumerable<AnimalViewModel>> Handle(GetAnimalsByUserIdQuery request, CancellationToken cancellationToken)
             {
-                var entites = await _context.Animals.Where(a => a.UserId == request.UserId)
+                var entites = await _context.Animals.Where(a => a.UserId == request.UserId && !a.IsDeleted)
                                                     .ToListAsync(cancellationToken);
 
                 var animals = _mapper.Map<List<AnimalViewModel>>(entites);

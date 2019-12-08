@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
 {
     /// <summary>
-    /// Обновить новый Animal.
+    /// Обновить Animal.
     /// </summary>
     public class UpdateAnimalCommand : IRequest
     {

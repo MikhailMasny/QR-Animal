@@ -1,19 +1,16 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
-using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
-    /// Получить данные Animal.
+    /// Получить всех Animal.
     /// </summary>
     public class GetAnimalsQuery : IRequest<IEnumerable<AnimalViewModel>>
     {

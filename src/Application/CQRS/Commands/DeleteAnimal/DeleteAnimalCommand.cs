@@ -44,14 +44,16 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
             {
                 request = request ?? throw new ArgumentNullException(nameof(request));
 
-                var entity = await _context.Animals.FindAsync(request.Id, cancellationToken);
+
+                var entity = await _context.Animals.FindAsync(request.Id);
 
                 if (entity == null)
                 {
                     throw new NotFoundException(nameof(Animal), request.Id);
                 }
 
-                _context.Animals.Remove(entity);
+                entity.IsDeleted = true;
+
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

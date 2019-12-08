@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
-using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
     /// <summary>
-    /// Получить данные Animal.
+    /// Получить Animal.
     /// </summary>
     public class GetAnimalQuery : IRequest<AnimalViewModel>
     {
@@ -45,7 +45,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>ViewModel животного.</returns>
             public async Task<AnimalViewModel> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Animals.FindAsync(request.Id);
+                var entity = await _context.Animals.Where(a => a.Id == request.Id && !a.IsDeleted)
+                                                   .SingleOrDefaultAsync();
 
                 var animal = _mapper.Map<AnimalViewModel>(entity);
 

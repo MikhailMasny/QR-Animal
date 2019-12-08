@@ -1,7 +1,9 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
 using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
+using Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal;
 using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
 using MediatR;
@@ -103,6 +105,11 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var model = await _mediator.Send(animalCommand);
 
+            if (model == null)
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
             return View(model);
         }
 
@@ -120,7 +127,14 @@ namespace Masny.QRAnimal.Web.Controllers
                     Model = model
                 };
 
-                await _mediator.Send(animalCommand);
+                try
+                {
+                    await _mediator.Send(animalCommand);
+                }
+                catch (NotFoundException ex)
+                {
+                    // UNDONE: Logger
+                }
 
                 return RedirectToAction("Index", "Profile");
             }
@@ -135,7 +149,20 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <returns>Представление главной страницы.</returns>
         public async Task<IActionResult> Delete(int id)
         {
-            // UNDONE: Реализовать с учетом нового алгоритма
+            // Создание команды для добавления нового животного
+            var animalCommand = new DeleteAnimalCommand
+            {
+                Id = id
+            };
+
+            try
+            {
+                await _mediator.Send(animalCommand);
+            }
+            catch (NotFoundException ex)
+            {
+                // UNDONE: Logger
+            }
 
             return RedirectToAction("Index", "Profile");
         }
