@@ -1,0 +1,15 @@
+﻿@model AnimalViewModel
+
+@{
+    ViewData["Title"] = "Info animal";
+}
+
+<h4 class="mb-3">Info animal @Model.Id</h4>
+
+<li class="list-group-item">Kind: <b>@Model.Kind</b></li>
+<li class="list-group-item">Breed: <b>@Model.Breed</b></li>
+<li class="list-group-item">Gender: <b>@Model.Gender</b></li>
+<li class="list-group-item">Passport: <b>@Model.Passport</b></li>
+<li class="list-group-item">BirthDate: <b>@Model.BirthDate</b></li>
+<li class="list-group-item">Nickname: <b>@Model.Nickname</b></li>
+<li class="list-group-item">Features: <b>@Model.Features</b></li>

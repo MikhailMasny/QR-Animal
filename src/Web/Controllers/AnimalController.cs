@@ -145,7 +145,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Удалить выбранное животное.
         /// </summary>
-        /// <param name="id">идентификатор.</param>
+        /// <param name="id">Идентификатор.</param>
         /// <returns>Представление главной страницы.</returns>
         public async Task<IActionResult> Delete(int id)
         {
@@ -165,6 +165,25 @@ namespace Masny.QRAnimal.Web.Controllers
             }
 
             return RedirectToAction("Index", "Profile");
+        }
+
+        /// <summary>
+        /// Получить информацию о выбранном животном.
+        /// </summary>
+        /// <param name="id">Идентификатор.</param>
+        /// <returns>Представление страницы с информацией о животном.</returns>
+        public async Task<IActionResult> Info(int id)
+        {
+            var animalQuery = new GetAnimalQuery
+            {
+                Id = id
+            };
+
+            var userAnimal = await _mediator.Send(animalQuery);
+
+            _logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
+
+            return View(userAnimal);
         }
     }
 }
