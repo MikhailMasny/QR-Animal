@@ -98,9 +98,12 @@ namespace Masny.QRAnimal.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
+
             var animalCommand = new GetAnimalQuery
             {
-                Id = id
+                Id = id,
+                UserId = userId
             };
 
             var model = await _mediator.Send(animalCommand);
@@ -143,16 +146,18 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Удалить выбранное животное.
+        /// Удалить выбранное животное (пометить для удаления).
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <returns>Представление главной страницы.</returns>
         public async Task<IActionResult> Delete(int id)
         {
-            // Создание команды для добавления нового животного
-            var animalCommand = new DeleteAnimalCommand
+            var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
+
+            var animalCommand = new MarkAsDeletedAnimalCommand
             {
-                Id = id
+                Id = id,
+                UserId = userId 
             };
 
             try
@@ -174,14 +179,22 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <returns>Представление страницы с информацией о животном.</returns>
         public async Task<IActionResult> Info(int id)
         {
+            var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
+
             var animalQuery = new GetAnimalQuery
             {
-                Id = id
+                Id = id,
+                UserId = userId
             };
 
             var userAnimal = await _mediator.Send(animalQuery);
 
-            _logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
+            //_logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
+
+            if (userAnimal == null)
+            {
+                return RedirectToAction("Index", "Profile");
+            }
 
             return View(userAnimal);
         }

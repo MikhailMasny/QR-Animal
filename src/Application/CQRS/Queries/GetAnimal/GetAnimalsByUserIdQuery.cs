@@ -46,7 +46,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>ViewModel животного.</returns>
             public async Task<IEnumerable<AnimalViewModel>> Handle(GetAnimalsByUserIdQuery request, CancellationToken cancellationToken)
             {
-                var entites = await _context.Animals.Where(a => a.UserId == request.UserId && !a.IsDeleted)
+                var entites = await _context.Animals.Where(a => a.UserId == request.UserId && 
+                                                           !a.IsDeleted)
                                                     .ToListAsync(cancellationToken);
 
                 var animals = _mapper.Map<List<AnimalViewModel>>(entites);

@@ -4,6 +4,8 @@ using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,7 +47,10 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
             /// <returns>Id нового животного.</returns>
             public async Task<Unit> Handle(UpdateAnimalCommand request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Animals.FindAsync(request.Model.Id);
+                var entity = await _context.Animals.Where(a => a.Id == request.Model.Id &&
+                                                          a.UserId == request.Model.UserId &&
+                                                          !a.IsDeleted)
+                                                   .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {

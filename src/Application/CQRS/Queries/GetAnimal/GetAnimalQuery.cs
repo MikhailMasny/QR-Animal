@@ -20,6 +20,11 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
         public int Id { get; set; }
 
         /// <summary>
+        /// Идентификатор пользователя.
+        /// </summary>
+        public string UserId { get; set; }
+
+        /// <summary>
         /// Запрос получить данные.
         /// </summary>
         public class GetAnimalQueryHandler : IRequestHandler<GetAnimalQuery, AnimalViewModel>
@@ -45,7 +50,9 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>ViewModel животного.</returns>
             public async Task<AnimalViewModel> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Animals.Where(a => a.Id == request.Id && !a.IsDeleted)
+                var entity = await _context.Animals.Where(a => a.Id == request.Id && 
+                                                          a.UserId == request.UserId && 
+                                                          !a.IsDeleted)
                                                    .SingleOrDefaultAsync();
 
                 var animal = _mapper.Map<AnimalViewModel>(entity);

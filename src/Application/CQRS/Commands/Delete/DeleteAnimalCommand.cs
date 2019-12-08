@@ -2,11 +2,11 @@
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-// UNDONE: Переработать возможность удаления животных = помечать, что удалены
 
 namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
 {
@@ -45,15 +45,16 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
                 request = request ?? throw new ArgumentNullException(nameof(request));
 
 
-                var entity = await _context.Animals.FindAsync(request.Id);
+                var entity = await _context.Animals.Where(a => a.Id == request.Id &&
+                                                          a.IsDeleted)
+                                                   .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {
                     throw new NotFoundException(nameof(Animal), request.Id);
                 }
 
-                entity.IsDeleted = true;
-
+                _context.Animals.Remove(entity);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
