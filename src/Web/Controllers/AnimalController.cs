@@ -1,5 +1,7 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
 using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
+using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
+using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.ViewModels;
 using MediatR;
@@ -81,6 +83,44 @@ namespace Masny.QRAnimal.Web.Controllers
                 };
 
                 await _mediator.Send(qrCommand);
+
+                return RedirectToAction("Index", "Profile");
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Страница для обновления данных животного.
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var animalCommand = new GetAnimalQuery
+            {
+                Id = id
+            };
+
+            var model = await _mediator.Send(animalCommand);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Обновить животное.
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> Edit(AnimalViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Создание команды для добавления нового животного
+                var animalCommand = new UpdateAnimalCommand
+                {
+                    Model = model
+                };
+
+                await _mediator.Send(animalCommand);
 
                 return RedirectToAction("Index", "Profile");
             }
