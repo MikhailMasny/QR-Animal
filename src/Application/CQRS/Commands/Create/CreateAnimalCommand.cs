@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -14,9 +14,9 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
     public class CreateAnimalCommand : IRequest<int>
     {
         /// <summary>
-        /// ViewModel животного.
+        /// DTO животного.
         /// </summary>
-        public AnimalViewModel Model { get; set; }
+        public AnimalDTO Model { get; set; }
 
         /// <summary>
         /// Команда добавить.

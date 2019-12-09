@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +17,9 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
     public class UpdateAnimalCommand : IRequest
     {
         /// <summary>
-        /// ViewModel животного.
+        /// DTO животного.
         /// </summary>
-        public AnimalViewModel Model { get; set; }
+        public AnimalDTO Model { get; set; }
 
         /// <summary>
         /// Команда обновить.

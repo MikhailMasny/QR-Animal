@@ -3,9 +3,10 @@ using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
 using Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal;
 using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 
 // UNDONE: добавить DTO модели
 // UNDONE: добавить задачу worker для удаления определенных данных
+// UNDONE: добавить возможность при создании животного делать его исключительно приватным
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -64,24 +66,36 @@ namespace Masny.QRAnimal.Web.Controllers
                 model.UserId = userId;
 
                 // Создание команды для добавления нового животного
+                var animalDTO = new AnimalDTO
+                {
+                    UserId = userId,
+                    Kind = model.Kind,
+                    Breed = model.Breed,
+                    Gender = model.Gender, // TODO: Extension
+                    Passport = model.Passport,
+                    BirthDate = model.BirthDate,
+                    Nickname = model.Nickname,
+                    Features = model.Features
+                };
+
                 var animalCommand = new CreateAnimalCommand
                 {
-                    Model = model
+                    Model = animalDTO
                 };
 
                 var id = await _mediator.Send(animalCommand);
 
                 // Создание команды для добавления QR кода для животного
-                var qrCode = new QRCodeViewModel
+                var qrCodeDTO = new QRCodeDTO
                 {
-                    Code = Guid.NewGuid().ToString(),
+                    Code = Guid.NewGuid().ToString(), // TODO: Реализовать возможность генерации пути ../Public/*номер животного*
                     Created = DateTime.Now,
                     AnimalId = id
                 };
 
                 var qrCommand = new CreateQRCodeCommand
                 {
-                    Model = qrCode
+                    Model = qrCodeDTO
                 };
 
                 await _mediator.Send(qrCommand);
@@ -125,11 +139,23 @@ namespace Masny.QRAnimal.Web.Controllers
             if (ModelState.IsValid)
             {
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
-                model.UserId = userId;
+
+                // Создание команды для обновления животного
+                var animalDTO = new AnimalDTO
+                {
+                    UserId = userId,
+                    Kind = model.Kind,
+                    Breed = model.Breed,
+                    Gender = model.Gender, // TODO: Extension
+                    Passport = model.Passport,
+                    BirthDate = model.BirthDate,
+                    Nickname = model.Nickname,
+                    Features = model.Features
+                };
 
                 var animalCommand = new UpdateAnimalCommand
                 {
-                    Model = model
+                    Model = animalDTO
                 };
 
                 try
