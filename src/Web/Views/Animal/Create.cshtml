@@ -4,57 +4,59 @@
     ViewData["Title"] = "Add new animal - QR Animal";
 }
 
-<h4 class="mb-3">Add new animal</h4>
+<div class="shadow-sm p-3 bg-white rounded">
+    <h4 class="mb-3">Add new animal</h4>
 
-<form method="post" asp-controller="Animal" asp-action="Create">
-    <div asp-validation-summary="ModelOnly"></div>
+    <form method="post" asp-controller="Animal" asp-action="Create">
+        <div asp-validation-summary="ModelOnly"></div>
 
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label>Nickname</label>
-            <input id="animalNickname" type="text" class="form-control" asp-for="Nickname" placeholder="Nickname" required />
-            <span asp-validation-for="Nickname"></span>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Nickname</label>
+                <input id="animalNickname" type="text" class="form-control" asp-for="Nickname" placeholder="Nickname" required />
+                <span asp-validation-for="Nickname"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Birth date</label>
+                <input id="animalBirthDate" type="date" class="form-control" asp-for="BirthDate" placeholder="BirthDate" required />
+                <span asp-validation-for="BirthDate"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Passport</label>
+                <input id="animalPassport" type="text" class="form-control" asp-for="Passport" placeholder="Passport" required />
+                <span asp-validation-for="Passport"></span>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label>Birth date</label>
-            <input id="animalBirthDate" type="date" class="form-control" asp-for="BirthDate" placeholder="BirthDate" required />
-            <span asp-validation-for="BirthDate"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label>Passport</label>
-            <input id="animalPassport" type="text" class="form-control" asp-for="Passport" placeholder="Passport" required />
-            <span asp-validation-for="Passport"></span>
-        </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label>Kind</label>
-            <input id="animalKind" type="text" class="form-control" asp-for="Kind" placeholder="Kind" required />
-            <span asp-validation-for="Kind"></span>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Kind</label>
+                <input id="animalKind" type="text" class="form-control" asp-for="Kind" placeholder="Kind" required />
+                <span asp-validation-for="Kind"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Breed</label>
+                <input id="animalBreed" type="text" class="form-control" asp-for="Breed" placeholder="Breed" required />
+                <span asp-validation-for="Breed"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Gender</label>
+                <select id="animalGender" class="form-control" asp-for="Gender" required>
+                    <option selected>-1</option>
+                    <option>0</option>
+                    <option>1</option>
+                </select>
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label>Breed</label>
-            <input id="animalBreed" type="text" class="form-control" asp-for="Breed" placeholder="Breed" required />
-            <span asp-validation-for="Breed"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label>Gender</label>
-            <select id="animalGender" class="form-control" asp-for="Gender" required>
-                <option selected>-1</option>
-                <option>0</option>
-                <option>1</option>
-            </select>
-        </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <label>Features</label>
-            <textarea id="animalFeatures" class="form-control" asp-for="Features" aria-label="With textarea"></textarea>
-            <span asp-validation-for="Features"></span>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label>Features</label>
+                <textarea id="animalFeatures" class="form-control" asp-for="Features" aria-label="With textarea"></textarea>
+                <span asp-validation-for="Features"></span>
+            </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-outline-success btn-lg btn-block">Add</button>
-</form>
+        <button type="submit" class="btn btn-outline-success btn-lg btn-block">Add</button>
+    </form>
+</div>

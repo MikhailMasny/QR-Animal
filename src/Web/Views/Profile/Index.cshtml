@@ -4,13 +4,15 @@
     ViewData["Title"] = $"Profile {User.Identity.Name} - QR Animal";
 }
 
-<div>
-    <h1>Hello, @User.Identity.Name!</h1>
-    <p class="font-weight-normal">Your animals will be displayed here.</p>
-</div>
+<div class="shadow-sm p-3 bg-white rounded">
+    <div>
+        <h1>Hello, @User.Identity.Name!</h1>
+        <p class="font-weight-normal">Your animals will be displayed here.</p>
+    </div>
 
-<div>
-    <a asp-controller="Animal" asp-action="Create" class="btn btn-outline-success btn-sm" role="button">Add new animal</a>
+    <div>
+        <a asp-controller="Animal" asp-action="Create" class="btn btn-outline-success btn-sm" role="button">Add new animal</a>
+    </div>
 </div>
 
 @if (Model.Any())
@@ -20,15 +22,15 @@
         @foreach (var item in Model)
         {
             <div class="col mt-4">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card border-cancel">
+                    <div class="card-body shadow-sm p-3 bg-white rounded">
                         <a asp-controller="Animal" asp-action="Info" asp-route-id="@item.Id" class="card-link">
                             <h5 class="card-title">@item.Nickname</h5>
                         </a>
                         <h6 class="card-subtitle mb-2 text-muted">@item.Passport</h6>
                         <p class="card-text">@item.Features</p>
-                        <a asp-controller="Animal" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                        <a asp-controller="Animal" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        <a asp-controller="Animal" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-controller="Animal" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                 </div>
             </div>

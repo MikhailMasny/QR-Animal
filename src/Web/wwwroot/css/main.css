@@ -3,10 +3,13 @@
 }
 
 .container-bg {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 1rem;
     background-color: #FFFFFF;
     border-radius: 0.5rem;
+}
+
+.border-cancel {
+    border: none !important;
 }
 
 .nav-divider {
