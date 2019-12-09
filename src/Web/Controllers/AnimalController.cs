@@ -127,7 +127,18 @@ namespace Masny.QRAnimal.Web.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            return View(model);
+            var animalViewModel = new AnimalViewModel
+            {
+                Id = model.Id,
+                UserId = model.UserId,
+                Nickname = model.Nickname,
+                Passport = model.Passport,
+                Kind = model.Kind,
+                Breed = model.Breed,
+                Features = model.Features
+            };
+
+            return View(animalViewModel);
         }
 
         /// <summary>
@@ -143,13 +154,12 @@ namespace Masny.QRAnimal.Web.Controllers
                 // Создание команды для обновления животного
                 var animalDTO = new AnimalDTO
                 {
+                    Id = model.Id,
                     UserId = userId,
+                    Nickname = model.Nickname,
+                    Passport = model.Passport,
                     Kind = model.Kind,
                     Breed = model.Breed,
-                    Gender = model.Gender, // TODO: Extension
-                    Passport = model.Passport,
-                    BirthDate = model.BirthDate,
-                    Nickname = model.Nickname,
                     Features = model.Features
                 };
 
@@ -224,7 +234,20 @@ namespace Masny.QRAnimal.Web.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            return View(userAnimal);
+            var animalViewModel = new AnimalViewModel
+            {
+                Id = userAnimal.Id,
+                UserId = userAnimal.UserId,
+                Kind = userAnimal.Kind,
+                Breed = userAnimal.Breed,
+                Gender = userAnimal.Gender, // TODO: Extension
+                Passport = userAnimal.Passport,
+                BirthDate = userAnimal.BirthDate,
+                Nickname = userAnimal.Nickname,
+                Features = userAnimal.Features
+            };
+
+            return View(animalViewModel);
         }
     }
 }
