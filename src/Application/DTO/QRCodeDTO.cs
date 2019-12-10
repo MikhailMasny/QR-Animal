@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Masny.QRAnimal.Application.ViewModels
+namespace Masny.QRAnimal.Application.DTO
 {
     /// <summary>
-    /// ViewModel для QRCode.
+    /// DataTransferObject для QRCode.
     /// </summary>
-    public class QRCodeViewModel
+    public class QRCodeDTO
     {
         /// <summary>
         /// Данные для генерации.

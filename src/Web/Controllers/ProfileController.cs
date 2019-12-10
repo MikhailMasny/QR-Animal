@@ -1,13 +1,12 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
-using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Web.Extensions;
+using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,11 +50,39 @@ namespace Masny.QRAnimal.Web.Controllers
                 UserId = userId
             };
 
-            var userAnimals = await _mediator.Send(animalQuery);
+            var userAnimals = (await _mediator.Send(animalQuery)).ToList();
 
             _logger.LogInformation($"{userAnimals.Count()} animals showed for user {User.Identity.Name}.");
 
-            return View(userAnimals);
+            // Формирование ViewModels для представления
+            var animalViewModels = new List<AnimalViewModel>();
+
+            userAnimals.ForEach(a =>
+            {
+                var features = a.Features;
+
+                if (features.Length > 200)
+                {
+                    features = features.Substring(0, 200) + "...";
+                }
+
+                var animal = new AnimalViewModel
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    Kind = a.Kind,
+                    Breed = a.Breed,
+                    Gender = a.Gender.ToLocalString(),
+                    Passport = a.Passport,
+                    BirthDate = a.BirthDate,
+                    Nickname = a.Nickname,
+                    Features = features
+                };
+
+                animalViewModels.Add(animal);
+            });
+
+            return View(animalViewModels);
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Masny.QRAnimal.Domain.Enums;
 using System;
 
-namespace Masny.QRAnimal.Application.ViewModels
+namespace Masny.QRAnimal.Application.DTO
 {
     /// <summary>
-    /// ViewModel для Animal.
+    /// DataTransferObject для Animal.
     /// </summary>
-    public class AnimalViewModel
+    public class AnimalDTO
     {
         /// <summary>
         /// Идентификатор животного.

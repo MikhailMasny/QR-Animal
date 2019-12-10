@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
     /// <summary>
     /// Получить Animal.
     /// </summary>
-    public class GetAnimalQuery : IRequest<AnimalViewModel>
+    public class GetAnimalQuery : IRequest<AnimalDTO>
     {
         /// <summary>
         /// Идентификатор.
@@ -27,7 +27,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
         /// <summary>
         /// Запрос получить данные.
         /// </summary>
-        public class GetAnimalQueryHandler : IRequestHandler<GetAnimalQuery, AnimalViewModel>
+        public class GetAnimalQueryHandler : IRequestHandler<GetAnimalQuery, AnimalDTO>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -47,15 +47,15 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <summary>
             /// Получить данные о животном.
             /// </summary>
-            /// <returns>ViewModel животного.</returns>
-            public async Task<AnimalViewModel> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
+            /// <returns>DTO животного.</returns>
+            public async Task<AnimalDTO> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
                 var entity = await _context.Animals.Where(a => a.Id == request.Id && 
                                                           a.UserId == request.UserId && 
                                                           !a.IsDeleted)
                                                    .SingleOrDefaultAsync();
 
-                var animal = _mapper.Map<AnimalViewModel>(entity);
+                var animal = _mapper.Map<AnimalDTO>(entity);
 
                 return animal;
             }

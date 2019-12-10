@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -14,9 +14,9 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
     public class CreateQRCodeCommand : IRequest<string>
     {
         /// <summary>
-        /// ViewModel QRCode.
+        /// DTO QRCode.
         /// </summary>
-        public QRCodeViewModel Model { get; set; }
+        public QRCodeDTO Model { get; set; }
 
         /// <summary>
         /// Команда добавить.
