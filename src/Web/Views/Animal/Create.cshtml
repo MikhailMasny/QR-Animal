@@ -41,10 +41,8 @@
             </div>
             <div class="form-group col-md-4">
                 <label>Gender</label>
-                <select id="animalGender" class="form-control" asp-for="Gender" required>
-                    <option selected>-1</option>
-                    <option>0</option>
-                    <option>1</option>
+                <select id="animalGender" class="form-control" asp-for="Gender" asp-items="Model.GenderSelectList" required>
+                    <option value="">Select gender</option>
                 </select>
             </div>
         </div>

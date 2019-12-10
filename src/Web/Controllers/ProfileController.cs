@@ -1,12 +1,12 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -72,7 +72,7 @@ namespace Masny.QRAnimal.Web.Controllers
                     UserId = a.UserId,
                     Kind = a.Kind,
                     Breed = a.Breed,
-                    Gender = a.Gender, // TODO: Extension
+                    Gender = a.Gender.ToLocalString(),
                     Passport = a.Passport,
                     BirthDate = a.BirthDate,
                     Nickname = a.Nickname,

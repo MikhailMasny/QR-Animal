@@ -6,12 +6,15 @@ using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 // UNDONE: добавить DTO модели
@@ -51,7 +54,19 @@ namespace Masny.QRAnimal.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new AnimalViewModel()
+            {
+                BirthDate = DateTime.Now,
+                GenderSelectList = new SelectList(new List<string>
+                {
+                    "None",
+                    "Male",
+                    "Female"
+                },
+                "Gender")
+            };
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -71,7 +86,7 @@ namespace Masny.QRAnimal.Web.Controllers
                     UserId = userId,
                     Kind = model.Kind,
                     Breed = model.Breed,
-                    Gender = model.Gender, // TODO: Extension
+                    Gender = model.Gender.ToLocalType(),
                     Passport = model.Passport,
                     BirthDate = model.BirthDate,
                     Nickname = model.Nickname,
@@ -240,7 +255,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 UserId = userAnimal.UserId,
                 Kind = userAnimal.Kind,
                 Breed = userAnimal.Breed,
-                Gender = userAnimal.Gender, // TODO: Extension
+                Gender = userAnimal.Gender.ToLocalString(),
                 Passport = userAnimal.Passport,
                 BirthDate = userAnimal.BirthDate,
                 Nickname = userAnimal.Nickname,

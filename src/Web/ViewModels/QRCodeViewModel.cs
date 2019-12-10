@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Masny.QRAnimal.Web.ViewModels
 {
@@ -10,16 +10,7 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// <summary>
         /// Данные для генерации.
         /// </summary>
+        [Required(ErrorMessage = "Неверный QR code")]
         public string Code { get; set; }
-
-        /// <summary>
-        /// Дата создания.
-        /// </summary>
-        public DateTime Created { get; set; }
-
-        /// <summary>
-        /// Идентификатор животного.
-        /// </summary>
-        public int AnimalId { get; set; }
     }
 }
