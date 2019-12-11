@@ -5,10 +5,13 @@ using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 
 namespace Masny.QRAnimal.Web
@@ -41,7 +44,7 @@ namespace Masny.QRAnimal.Web
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScoped<IApplicationContext, ApplicationContext>();
-            services.AddHealthChecks();
+            services.AddHealthChecks().AddDbContextCheck<ApplicationContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -72,7 +75,7 @@ namespace Masny.QRAnimal.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHealthChecks("/health");
+                endpoints.MapHealthChecks("/health").RequireAuthorization();
             });
         }
     }
