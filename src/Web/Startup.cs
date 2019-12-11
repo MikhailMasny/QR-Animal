@@ -41,6 +41,7 @@ namespace Masny.QRAnimal.Web
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
             services.AddScoped<IApplicationContext, ApplicationContext>();
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -70,6 +71,8 @@ namespace Masny.QRAnimal.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHealthChecks("/health");
             });
         }
     }
