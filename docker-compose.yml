@@ -9,6 +9,14 @@ services:
       - 85:85
     depends_on:
       - db
+  worker:
+    build:
+      context: .
+      dockerfile: src/Worker/Dockerfile
+    ports:
+      - 84:84
+    depends_on:
+      - db
   db:
     image: microsoft/mssql-server-linux
     environment:
