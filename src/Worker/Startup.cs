@@ -5,7 +5,6 @@ using Masny.QRAnimal.Infrastructure.Services;
 using Masny.QRAnimal.Worker.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +15,7 @@ namespace Masny.QRAnimal.Worker
     public class Startup
     {
         public IConfiguration Configuration { get; }
+
         public IWebHostEnvironment Environment { get; }
 
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -36,12 +36,12 @@ namespace Masny.QRAnimal.Worker
             string connectionString = Configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddHostedService<ConsumeScopedServiceHostedService>();
             services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+            services.AddHostedService<ClearDatabaseHostedService>();
+
             services.AddHealthChecks();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -50,11 +50,7 @@ namespace Masny.QRAnimal.Worker
             }
 
             app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHealthChecks("/health");
-            });
+            app.UseEndpoints(endpoints => endpoints.MapHealthChecks("/health"));
         }
     }
 }

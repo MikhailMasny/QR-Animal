@@ -25,10 +25,10 @@ namespace Masny.QRAnimal.Infrastructure.Services
             {
                 executionCount++;
 
-                _logger.LogInformation(
-                    "Scoped Processing Service is working. Count: {Count}", executionCount);
+                _logger.LogInformation("Scoped Processing Service is working. Count: {Count}", executionCount);
 
-                await Task.Delay(10000, stoppingToken);
+                // Выполнение каждый час
+                await Task.Delay(3600000, stoppingToken);
             }
         }
     }
