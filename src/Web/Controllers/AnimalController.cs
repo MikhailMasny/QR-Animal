@@ -3,6 +3,7 @@ using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
 using Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal;
 using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
 using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
@@ -13,8 +14,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 
 // UNDONE: добавить DTO модели
@@ -249,6 +253,15 @@ namespace Masny.QRAnimal.Web.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
+            var qrQuery = new GetQRCodeQuery
+            {
+                AnimalId = userAnimal.Id
+            };
+
+            QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
+
+            var code = CreateQRCode(qrCodeText.Code);
+
             var animalViewModel = new AnimalViewModel
             {
                 Id = userAnimal.Id,
@@ -259,10 +272,30 @@ namespace Masny.QRAnimal.Web.Controllers
                 Passport = userAnimal.Passport,
                 BirthDate = userAnimal.BirthDate,
                 Nickname = userAnimal.Nickname,
-                Features = userAnimal.Features
+                Features = userAnimal.Features,
+                Code = code
             };
 
             return View(animalViewModel);
+        }
+
+        // UNDONE: Перенести в сервисы или отдельный метод
+        private static byte[] CreateQRCode(string text)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            var code = BitmapToBytes(qrCodeImage);
+
+            return code;
+        }
+
+        private static byte[] BitmapToBytes(Bitmap img)
+        {
+            using MemoryStream stream = new MemoryStream();
+            img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            return stream.ToArray();
         }
     }
 }

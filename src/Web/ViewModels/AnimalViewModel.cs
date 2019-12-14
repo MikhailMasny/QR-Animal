@@ -60,6 +60,10 @@ namespace Masny.QRAnimal.Web.ViewModels
         [Required(ErrorMessage = "Неверный Features")]
         public string Features { get; set; }
 
+        /// <summary>
+        /// QR код.
+        /// </summary>
+        public byte[] Code { get; set; }
 
 
         /// <summary>

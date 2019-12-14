@@ -19,3 +19,8 @@
 .hr-divider {
     margin: 2rem 0;
 }
+
+.qr-code {
+    width: 100%;
+    border: 2px dashed #343a40;
+}
