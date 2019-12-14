@@ -6,6 +6,8 @@ using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
 {
@@ -17,7 +19,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public int Id { get; set; }
+        public int AnimalId { get; set; }
 
         /// <summary>
         /// Запрос получить данные.
@@ -45,11 +47,12 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
             /// <returns>DTO QR Code.</returns>
             public async Task<QRCodeDTO> Handle(GetQRCodeQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.QRCodes.FindAsync(request.Id);
+                var entity = await _context.QRCodes.Where(a => a.AnimalId == request.AnimalId)
+                                                   .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(QRCode), request.Id);
+                    throw new NotFoundException(nameof(QRCode), request.AnimalId);
                 }
 
                 var qrcode = _mapper.Map<QRCodeDTO>(entity);
