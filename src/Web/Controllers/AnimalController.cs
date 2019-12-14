@@ -107,7 +107,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 // Создание команды для добавления QR кода для животного
                 var qrCodeDTO = new QRCodeDTO
                 {
-                    Code = Guid.NewGuid().ToString(), // TODO: Реализовать возможность генерации пути ../Public/*номер животного*
+                    Code = $"http://localhost:85/Public/{id}",
                     Created = DateTime.Now,
                     AnimalId = id
                 };
