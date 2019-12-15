@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Masny.QRAnimal.Application.ViewModels
+namespace Masny.QRAnimal.Web.ViewModels
 {
     /// <summary>
     /// ViewModel для входа в систему.

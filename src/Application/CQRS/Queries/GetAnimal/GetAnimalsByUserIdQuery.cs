@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
     /// <summary>
     /// Получить всех Animal для конкретного пользователя.
     /// </summary>
-    public class GetAnimalsByUserIdQuery : IRequest<IEnumerable<AnimalViewModel>>
+    public class GetAnimalsByUserIdQuery : IRequest<IEnumerable<AnimalDTO>>
     {
         /// <summary>
         /// Идентификатор.
@@ -23,7 +23,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
         /// <summary>
         /// Запрос получить данные.
         /// </summary>
-        public class GetAnimalsByUserIdQueryHandler : IRequestHandler<GetAnimalsByUserIdQuery, IEnumerable<AnimalViewModel>>
+        public class GetAnimalsByUserIdQueryHandler : IRequestHandler<GetAnimalsByUserIdQuery, IEnumerable<AnimalDTO>>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -43,14 +43,14 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <summary>
             /// Получить данные о животных.
             /// </summary>
-            /// <returns>ViewModel животного.</returns>
-            public async Task<IEnumerable<AnimalViewModel>> Handle(GetAnimalsByUserIdQuery request, CancellationToken cancellationToken)
+            /// <returns>DTO животного.</returns>
+            public async Task<IEnumerable<AnimalDTO>> Handle(GetAnimalsByUserIdQuery request, CancellationToken cancellationToken)
             {
                 var entites = await _context.Animals.Where(a => a.UserId == request.UserId && 
                                                            !a.IsDeleted)
                                                     .ToListAsync(cancellationToken);
 
-                var animals = _mapper.Map<List<AnimalViewModel>>(entites);
+                var animals = _mapper.Map<List<AnimalDTO>>(entites);
 
                 return animals;
             }

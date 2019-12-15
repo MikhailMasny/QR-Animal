@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,12 +12,12 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
     /// <summary>
     /// Получить всех Animal.
     /// </summary>
-    public class GetAnimalsQuery : IRequest<IEnumerable<AnimalViewModel>>
+    public class GetAnimalsQuery : IRequest<IEnumerable<AnimalDTO>>
     {
         /// <summary>
         /// Запрос получить данные.
         /// </summary>
-        public class GetAnimalsQueryHandler : IRequestHandler<GetAnimalsQuery, IEnumerable<AnimalViewModel>>
+        public class GetAnimalsQueryHandler : IRequestHandler<GetAnimalsQuery, IEnumerable<AnimalDTO>>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -37,12 +37,12 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <summary>
             /// Получить данные о животных.
             /// </summary>
-            /// <returns>ViewModel животного.</returns>
-            public async Task<IEnumerable<AnimalViewModel>> Handle(GetAnimalsQuery request, CancellationToken cancellationToken)
+            /// <returns>DTO животного.</returns>
+            public async Task<IEnumerable<AnimalDTO>> Handle(GetAnimalsQuery request, CancellationToken cancellationToken)
             {
                 var entites = await _context.Animals.ToListAsync(cancellationToken);
 
-                var animals = _mapper.Map<List<AnimalViewModel>>(entites);
+                var animals = _mapper.Map<List<AnimalDTO>>(entites);
 
                 return animals;
             }

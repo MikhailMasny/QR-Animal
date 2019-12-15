@@ -4,11 +4,21 @@
     ViewData["Title"] = $"Animal {@Model.Nickname} - QR Animal";
 }
 
-<h4 class="mb-3">Your animal - @Model.Nickname</h4>
-
-<li class="list-group-item">Kind: <b>@Model.Kind</b></li>
-<li class="list-group-item">Breed: <b>@Model.Breed</b></li>
-<li class="list-group-item">Gender: <b>@Model.Gender</b></li>
-<li class="list-group-item">Passport: <b>@Model.Passport</b></li>
-<li class="list-group-item">BirthDate: <b>@Model.BirthDate</b></li>
-<li class="list-group-item">Features: <b>@Model.Features</b></li>
+<div class="media shadow-sm p-3 bg-white rounded">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
+        <div class="col mt-4">
+            <img class="qr-code mr-2" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Code))" alt="QRCode">
+        </div>
+        <div class="col mt-4">
+            <div class="media-body">
+                <h2 class="mt-0">@Model.Nickname</h2>
+                Kind: <b>@Model.Kind</b><br />
+                Breed: <b>@Model.Breed</b><br />
+                Gender: <b>@Model.Gender</b><br />
+                Passport: <b>@Model.Passport</b><br />
+                BirthDate: <b>@Model.BirthDate</b><br />
+                Features: <b>@Model.Features</b><br />
+            </div>
+        </div>
+    </div>
+</div>

@@ -8,7 +8,7 @@
         /// <summary>
         /// Конвертация на основе окружения приложения.
         /// </summary>
-        /// <param name="environment">окружение приложения.</param>
+        /// <param name="environment">Окружение приложения.</param>
         /// <returns>Секция строки подключения в текстовом формате.</returns>
         public static string ToDbConnectionString(this bool environment)
         {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Entities;
 
 namespace Masny.QRAnimal.Application.Mapping
@@ -14,7 +14,7 @@ namespace Masny.QRAnimal.Application.Mapping
         /// </summary>
         public QRCodeProfile()
         {
-            CreateMap<QRCode, QRCodeViewModel>().ReverseMap();
+            CreateMap<QRCode, QRCodeDTO>().ReverseMap();
         }
     }
 }

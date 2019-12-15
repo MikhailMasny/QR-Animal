@@ -1,28 +1,30 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
 {
     /// <summary>
     /// Получить данные QRCode.
     /// </summary>
-    public class GetQRCodeQuery : IRequest<QRCodeViewModel>
+    public class GetQRCodeQuery : IRequest<QRCodeDTO>
     {
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public int Id { get; set; }
+        public int AnimalId { get; set; }
 
         /// <summary>
         /// Запрос получить данные.
         /// </summary>
-        public class GetQRCodeQueryHandler : IRequestHandler<GetQRCodeQuery, QRCodeViewModel>
+        public class GetQRCodeQueryHandler : IRequestHandler<GetQRCodeQuery, QRCodeDTO>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -42,17 +44,18 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
             /// <summary>
             /// Получить данные о QR Code.
             /// </summary>
-            /// <returns>ViewModel QR Code.</returns>
-            public async Task<QRCodeViewModel> Handle(GetQRCodeQuery request, CancellationToken cancellationToken)
+            /// <returns>DTO QR Code.</returns>
+            public async Task<QRCodeDTO> Handle(GetQRCodeQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.QRCodes.FindAsync(request.Id);
+                var entity = await _context.QRCodes.Where(a => a.AnimalId == request.AnimalId)
+                                                   .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(QRCode), request.Id);
+                    throw new NotFoundException(nameof(QRCode), request.AnimalId);
                 }
 
-                var qrcode = _mapper.Map<QRCodeViewModel>(entity);
+                var qrcode = _mapper.Map<QRCodeDTO>(entity);
 
                 return qrcode;
             }

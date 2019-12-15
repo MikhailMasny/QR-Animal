@@ -1,6 +1,6 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -45,7 +45,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             //await _messageSender.SendMessageAsync("somemail@mail.ru", "Тема письма", "Тест письма: тест!");
 
-            var animalViewModel = new AnimalViewModel
+            var animalDTO = new AnimalDTO
             {
                 UserId = "34f27b3c-aa0d-481d-8750-2c0942a9099a",
                 Kind = "test1",
@@ -59,7 +59,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             CreateAnimalCommand command = new CreateAnimalCommand
             {
-                Model = animalViewModel
+                Model = animalDTO
             };
             var id = await _mediator.Send(command);
 

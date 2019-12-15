@@ -3,18 +3,27 @@ using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
 using Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal;
 using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.ViewModels;
+using Masny.QRAnimal.Web.Extensions;
+using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using QRCoder;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 
 // UNDONE: добавить DTO модели
 // UNDONE: добавить задачу worker для удаления определенных данных
+// UNDONE: добавить возможность при создании животного делать его исключительно приватным
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -49,7 +58,19 @@ namespace Masny.QRAnimal.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new AnimalViewModel()
+            {
+                BirthDate = DateTime.Now,
+                GenderSelectList = new SelectList(new List<string>
+                {
+                    "None",
+                    "Male",
+                    "Female"
+                },
+                "Gender")
+            };
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -64,24 +85,36 @@ namespace Masny.QRAnimal.Web.Controllers
                 model.UserId = userId;
 
                 // Создание команды для добавления нового животного
+                var animalDTO = new AnimalDTO
+                {
+                    UserId = userId,
+                    Kind = model.Kind,
+                    Breed = model.Breed,
+                    Gender = model.Gender.ToLocalType(),
+                    Passport = model.Passport,
+                    BirthDate = model.BirthDate,
+                    Nickname = model.Nickname,
+                    Features = model.Features
+                };
+
                 var animalCommand = new CreateAnimalCommand
                 {
-                    Model = model
+                    Model = animalDTO
                 };
 
                 var id = await _mediator.Send(animalCommand);
 
                 // Создание команды для добавления QR кода для животного
-                var qrCode = new QRCodeViewModel
+                var qrCodeDTO = new QRCodeDTO
                 {
-                    Code = Guid.NewGuid().ToString(),
+                    Code = $"http://localhost:85/Public/{id}",
                     Created = DateTime.Now,
                     AnimalId = id
                 };
 
                 var qrCommand = new CreateQRCodeCommand
                 {
-                    Model = qrCode
+                    Model = qrCodeDTO
                 };
 
                 await _mediator.Send(qrCommand);
@@ -113,7 +146,18 @@ namespace Masny.QRAnimal.Web.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            return View(model);
+            var animalViewModel = new AnimalViewModel
+            {
+                Id = model.Id,
+                UserId = model.UserId,
+                Nickname = model.Nickname,
+                Passport = model.Passport,
+                Kind = model.Kind,
+                Breed = model.Breed,
+                Features = model.Features
+            };
+
+            return View(animalViewModel);
         }
 
         /// <summary>
@@ -125,11 +169,22 @@ namespace Masny.QRAnimal.Web.Controllers
             if (ModelState.IsValid)
             {
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
-                model.UserId = userId;
+
+                // Создание команды для обновления животного
+                var animalDTO = new AnimalDTO
+                {
+                    Id = model.Id,
+                    UserId = userId,
+                    Nickname = model.Nickname,
+                    Passport = model.Passport,
+                    Kind = model.Kind,
+                    Breed = model.Breed,
+                    Features = model.Features
+                };
 
                 var animalCommand = new UpdateAnimalCommand
                 {
-                    Model = model
+                    Model = animalDTO
                 };
 
                 try
@@ -198,7 +253,49 @@ namespace Masny.QRAnimal.Web.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            return View(userAnimal);
+            var qrQuery = new GetQRCodeQuery
+            {
+                AnimalId = userAnimal.Id
+            };
+
+            QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
+
+            var code = CreateQRCode(qrCodeText.Code);
+
+            var animalViewModel = new AnimalViewModel
+            {
+                Id = userAnimal.Id,
+                UserId = userAnimal.UserId,
+                Kind = userAnimal.Kind,
+                Breed = userAnimal.Breed,
+                Gender = userAnimal.Gender.ToLocalString(),
+                Passport = userAnimal.Passport,
+                BirthDate = userAnimal.BirthDate,
+                Nickname = userAnimal.Nickname,
+                Features = userAnimal.Features,
+                Code = code
+            };
+
+            return View(animalViewModel);
+        }
+
+        // UNDONE: Перенести в сервисы или отдельный метод
+        private static byte[] CreateQRCode(string text)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            var code = BitmapToBytes(qrCodeImage);
+
+            return code;
+        }
+
+        private static byte[] BitmapToBytes(Bitmap img)
+        {
+            using MemoryStream stream = new MemoryStream();
+            img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            return stream.ToArray();
         }
     }
 }
