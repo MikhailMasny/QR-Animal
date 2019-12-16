@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Masny.QRAnimal.Application;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
@@ -34,7 +35,7 @@ namespace Masny.QRAnimal.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationContext>());
 
             services.AddInfrastructure();
             services.AddApplication();
