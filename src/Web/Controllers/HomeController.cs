@@ -39,6 +39,12 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         [Authorize]
+        public IActionResult Chat()
+        {
+            return View();
+        }
+
+        [Authorize]
         public async Task<IActionResult> Test()
         {
             _logger.LogInformation("Test");

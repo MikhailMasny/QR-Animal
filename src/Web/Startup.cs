@@ -5,6 +5,7 @@ using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
+using Masny.QRAnimal.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,7 @@ namespace Masny.QRAnimal.Web
             });
 
             services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationContext>());
+            services.AddSignalR();
 
             services.AddInfrastructure();
             services.AddApplication();
@@ -83,6 +85,7 @@ namespace Masny.QRAnimal.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHealthChecks("/health").RequireAuthorization();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
