@@ -102,7 +102,17 @@ namespace Masny.QRAnimal.Web.Controllers
                     Model = animalDTO
                 };
 
-                var id = await _mediator.Send(animalCommand);
+                int id;
+
+                try
+                {
+                    id = await _mediator.Send(animalCommand);
+                }
+                catch
+                {
+                    // UNDONE: Добавить обработчик.
+                    return View(model);
+                }
 
                 // Создание команды для добавления QR кода для животного
                 var qrCodeDTO = new QRCodeDTO
@@ -191,9 +201,10 @@ namespace Masny.QRAnimal.Web.Controllers
                 {
                     await _mediator.Send(animalCommand);
                 }
-                catch (NotFoundException ex)
+                catch
                 {
-                    // UNDONE: Logger
+                    // UNDONE: Добавить обработчик.
+                    return View(model);
                 }
 
                 return RedirectToAction("Index", "Profile");
