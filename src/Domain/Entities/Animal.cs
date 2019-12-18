@@ -59,6 +59,11 @@ namespace Masny.QRAnimal.Domain.Entities
         /// </summary>
         public bool IsDeleted { get; set; }
 
+        /// <summary>
+        /// Доступно всем.
+        /// </summary>
+        public bool IsPublic { get; set; }
+
 
 
         /// <summary>
