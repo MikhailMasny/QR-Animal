@@ -11,7 +11,20 @@
         </div>
         <div class="col mt-4">
             <div class="media-body">
-                <h2 class="mt-0">@Model.Nickname</h2>
+
+                <h2 class="mt-0">@Model.Nickname 
+                
+                @if(@Model.IsPublic)
+                {
+                    <span class="badge badge-danger">Public</span>
+                }
+                else
+                {
+                    <span class="badge badge-success">Private</span>
+                }
+
+                </h2>
+
                 Kind: <b>@Model.Kind</b><br />
                 Breed: <b>@Model.Breed</b><br />
                 Gender: <b>@Model.Gender</b><br />

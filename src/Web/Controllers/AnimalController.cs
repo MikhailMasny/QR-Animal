@@ -94,7 +94,8 @@ namespace Masny.QRAnimal.Web.Controllers
                     Passport = model.Passport,
                     BirthDate = model.BirthDate,
                     Nickname = model.Nickname,
-                    Features = model.Features
+                    Features = model.Features,
+                    IsPublic = model.IsPublic
                 };
 
                 var animalCommand = new CreateAnimalCommand
@@ -164,7 +165,8 @@ namespace Masny.QRAnimal.Web.Controllers
                 Passport = model.Passport,
                 Kind = model.Kind,
                 Breed = model.Breed,
-                Features = model.Features
+                Features = model.Features,
+                IsPublic = model.IsPublic
             };
 
             return View(animalViewModel);
@@ -189,7 +191,8 @@ namespace Masny.QRAnimal.Web.Controllers
                     Passport = model.Passport,
                     Kind = model.Kind,
                     Breed = model.Breed,
-                    Features = model.Features
+                    Features = model.Features,
+                    IsPublic = model.IsPublic
                 };
 
                 var animalCommand = new UpdateAnimalCommand
@@ -284,6 +287,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 BirthDate = userAnimal.BirthDate,
                 Nickname = userAnimal.Nickname,
                 Features = userAnimal.Features,
+                IsPublic = userAnimal.IsPublic,
                 Code = code
             };
 
