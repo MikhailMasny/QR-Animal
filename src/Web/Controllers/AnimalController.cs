@@ -118,7 +118,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 // Создание команды для добавления QR кода для животного
                 var qrCodeDTO = new QRCodeDTO
                 {
-                    Code = $"http://localhost:85/Public/{id}",
+                    Code = $"http://localhost:85/Animal/Public/{id}",
                     Created = DateTime.Now,
                     AnimalId = id
                 };
@@ -147,7 +147,8 @@ namespace Masny.QRAnimal.Web.Controllers
             var animalCommand = new GetAnimalQuery
             {
                 Id = id,
-                UserId = userId
+                UserId = userId,
+                AnotherUser = false
             };
 
             var model = await _mediator.Send(animalCommand);
@@ -255,7 +256,8 @@ namespace Masny.QRAnimal.Web.Controllers
             var animalQuery = new GetAnimalQuery
             {
                 Id = id,
-                UserId = userId
+                UserId = userId,
+                AnotherUser = false
             };
 
             var userAnimal = await _mediator.Send(animalQuery);
@@ -265,6 +267,55 @@ namespace Masny.QRAnimal.Web.Controllers
             if (userAnimal == null)
             {
                 return RedirectToAction("Index", "Profile");
+            }
+
+            var qrQuery = new GetQRCodeQuery
+            {
+                AnimalId = userAnimal.Id
+            };
+
+            QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
+
+            var code = CreateQRCode(qrCodeText.Code);
+
+            var animalViewModel = new AnimalViewModel
+            {
+                Id = userAnimal.Id,
+                UserId = userAnimal.UserId,
+                Kind = userAnimal.Kind,
+                Breed = userAnimal.Breed,
+                Gender = userAnimal.Gender.ToLocalString(),
+                Passport = userAnimal.Passport,
+                BirthDate = userAnimal.BirthDate,
+                Nickname = userAnimal.Nickname,
+                Features = userAnimal.Features,
+                IsPublic = userAnimal.IsPublic,
+                Code = code
+            };
+
+            return View(animalViewModel);
+        }
+
+        /// <summary>
+        /// Получить информацию о выбранном животном (для другого пользователя, Public).
+        /// </summary>
+        /// <param name="id">Идентификатор.</param>
+        /// <returns>Представление публичной страницы с информацией о животном.</returns>
+        public async Task<IActionResult> Public(int id)
+        {
+            var animalQuery = new GetAnimalQuery
+            {
+                Id = id,
+                AnotherUser = true
+            };
+
+            var userAnimal = await _mediator.Send(animalQuery);
+
+            //_logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
+
+            if (userAnimal == null || !userAnimal.IsPublic)
+            {
+                return RedirectToAction("Index", "Home");
             }
 
             var qrQuery = new GetQRCodeQuery

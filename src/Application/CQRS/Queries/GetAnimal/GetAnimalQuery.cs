@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Masny.QRAnimal.Domain.Entities;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
@@ -23,6 +24,11 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
         /// Идентификатор пользователя.
         /// </summary>
         public string UserId { get; set; }
+
+        /// <summary>
+        /// Другой пользователь.
+        /// </summary>
+        public bool AnotherUser { get; set; }
 
         /// <summary>
         /// Запрос получить данные.
@@ -50,10 +56,21 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>DTO животного.</returns>
             public async Task<AnimalDTO> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Animals.Where(a => a.Id == request.Id && 
-                                                          a.UserId == request.UserId && 
+                Animal entity;
+                // UNDONE: Переработать механизм
+                if (request.AnotherUser)
+                {
+                    entity = await _context.Animals.Where(a => a.Id == request.Id &&
                                                           !a.IsDeleted)
                                                    .SingleOrDefaultAsync();
+                }
+                else
+                {
+                    entity = await _context.Animals.Where(a => a.Id == request.Id &&
+                                                          a.UserId == request.UserId &&
+                                                          !a.IsDeleted)
+                                                   .SingleOrDefaultAsync();
+                }
 
                 var animal = _mapper.Map<AnimalDTO>(entity);
 
