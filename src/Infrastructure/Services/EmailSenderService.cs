@@ -44,7 +44,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
             try
             {
                 using var client = new SmtpClient();
-                await client.ConnectAsync(_mailConfig.Server, _mailConfig.Port, false);
+                await client.ConnectAsync(_mailConfig.Server, _mailConfig.Port, true);
                 await client.AuthenticateAsync(_mailConfig.EmailAddress, _mailConfig.Password);
                 await client.SendAsync(message);
 
@@ -52,7 +52,6 @@ namespace Masny.QRAnimal.Infrastructure.Services
             }
             catch (Exception ex)
             {
-
                 _logger.LogError(ex, ex.ToString());
             }
         }
