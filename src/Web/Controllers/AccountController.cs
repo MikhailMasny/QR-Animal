@@ -1,4 +1,5 @@
-﻿using Masny.QRAnimal.Application.Interfaces;
+﻿using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace Masny.QRAnimal.Web.Controllers
     {
         private readonly IIdentityService _identityService;
         private readonly IMessageSender _messageSender;
+        private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
         /// <summary>
         /// Конструктор.
@@ -21,10 +23,12 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
         public AccountController(IIdentityService identityService,
-                                 IMessageSender messageSender)
+                                 IMessageSender messageSender,
+                                 IRazorViewToStringRenderer razorViewToStringRenderer)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
+            _razorViewToStringRenderer = razorViewToStringRenderer ?? throw new ArgumentNullException(nameof(razorViewToStringRenderer));
         }
 
         /// <summary>
@@ -52,7 +56,17 @@ namespace Masny.QRAnimal.Web.Controllers
                 {
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId, code }, protocol: HttpContext.Request.Scheme);
 
-                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+                    var emailModel = new EmailDTO
+                    {
+                        UserName = "User",
+                        SenderName = "Sender",
+                        UserData1 = 1,
+                        UserData2 = 2
+                    };
+
+                    var test = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+
+                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", $"{test} Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
 
                     return RedirectToAction("Index", "Home");
                 }

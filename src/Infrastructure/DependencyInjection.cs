@@ -26,6 +26,7 @@ namespace Masny.QRAnimal.Infrastructure
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddScoped<IMessageSender, EmailSenderService>();
+            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             return services;
         }
