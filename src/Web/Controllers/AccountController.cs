@@ -58,15 +58,13 @@ namespace Masny.QRAnimal.Web.Controllers
 
                     var emailModel = new EmailDTO
                     {
-                        UserName = "User",
-                        SenderName = "Sender",
-                        UserData1 = 1,
-                        UserData2 = 2
+                        UserName = model.UserName,
+                        Code = callbackUrl
                     };
 
-                    var test = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+                    var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
 
-                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", $"{test} Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
+                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", body);
 
                     return RedirectToAction("Index", "Home");
                 }

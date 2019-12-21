@@ -33,7 +33,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         {
             var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("QRAnimalApp", _mailConfig.EmailAddress));
+            message.From.Add(new MailboxAddress("QR Animal App", _mailConfig.EmailAddress));
             message.To.Add(new MailboxAddress("", recipient));
             message.Subject = subject;
             message.Body = new TextPart(MimeKit.Text.TextFormat.Html)

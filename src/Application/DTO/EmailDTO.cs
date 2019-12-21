@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Masny.QRAnimal.Application.DTO
+﻿namespace Masny.QRAnimal.Application.DTO
 {
+    /// <summary>
+    /// DataTransferObject для Email.
+    /// </summary>
     public class EmailDTO
     {
+        /// <summary>
+        /// Имя пользователя.
+        /// </summary>
         public string UserName { get; set; }
 
-        public string SenderName { get; set; }
-
-        public int UserData1 { get; set; }
-
-        public int UserData2 { get; set; }
+        /// <summary>
+        /// Confirmation Token.
+        /// </summary>
+        public string Code { get; set; }
     }
 }
