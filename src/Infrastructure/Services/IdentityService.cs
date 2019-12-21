@@ -39,7 +39,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task<(Result Result, string UserId)> CreateUserAsync(string email, string userName, string password)
+        public async Task<(Result result, string userId, string code)> CreateUserAsync(string email, string userName, string password)
         {
             var user = new ApplicationUser
             {
@@ -48,12 +48,15 @@ namespace Masny.QRAnimal.Infrastructure.Services
             };
 
             var result = await _userManager.CreateAsync(user, password);
+            var code = string.Empty;
+
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
+                code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             }
 
-            return (result.ToApplicationResult(), user.Id);
+            return (result.ToApplicationResult(), user.Id, code);
         }
 
         /// <inheritdoc />
@@ -61,12 +64,12 @@ namespace Masny.QRAnimal.Infrastructure.Services
         {
             var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-            if (user != null)
+            if (user == null)
             {
-                return await DeleteUserAsync(user);
+                return Result.Success();
             }
 
-            return Result.Success();
+            return await DeleteUserAsync(user);
         }
 
         /// <inheritdoc />
@@ -79,7 +82,72 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task SignInUserAsync(string email, string userName)
+        public async Task LogoutUserAsync()
+        {
+            // Удаление аутентификационных куков.
+            await _signInManager.SignOutAsync();
+        }
+
+        /// <inheritdoc />
+        public async Task<(bool result, string message)> EmailConfirmCheckerAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return (false, "Пользователь не найден.");
+            }
+
+            var isConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+
+            if (isConfirmed)
+            {
+                return (true, null);
+            }
+
+            return (false, "Вы не подтвердили свой email.");
+        }
+
+        /// <inheritdoc />
+        public async Task<(Result result, string message)> ConfirmEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return (null, "Пользователь не существует");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                await SignInUserAsync(user.Email, user.UserName);
+
+                return (result.ToApplicationResult(), "Успешно");
+            }
+
+            return (result.ToApplicationResult(), "Проблемы с токеном");
+        }
+
+        /// <summary>
+        /// Удалить пользователя.
+        /// </summary>
+        /// <param name="user">Пользователь.</param>
+        /// <returns>Результат операции.</returns>
+        private async Task<Result> DeleteUserAsync(ApplicationUser user)
+        {
+            var result = await _userManager.DeleteAsync(user);
+
+            return result.ToApplicationResult();
+        }
+
+        /// <summary>
+        /// Вход в систему.
+        /// </summary>
+        /// <param name="email">Электронная почта.</param>
+        /// <param name="userName">Имя пользователя.</param>
+        private async Task SignInUserAsync(string email, string userName)
         {
             var user = new ApplicationUser
             {
@@ -88,20 +156,6 @@ namespace Masny.QRAnimal.Infrastructure.Services
             };
 
             await _signInManager.SignInAsync(user, false);
-        }
-
-        /// <inheritdoc />
-        public async Task LogoutUserAsync()
-        {
-            // Удаление аутентификационных куков.
-            await _signInManager.SignOutAsync();
-        }
-
-        private async Task<Result> DeleteUserAsync(ApplicationUser user)
-        {
-            var result = await _userManager.DeleteAsync(user);
-
-            return result.ToApplicationResult();
         }
     }
 }
