@@ -19,6 +19,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
             RuleFor(a => a.Model.Passport).MaximumLength(50);
             RuleFor(a => a.Model.BirthDate).NotEmpty();
             RuleFor(a => a.Model.Nickname).MaximumLength(100).NotEmpty();
+            RuleFor(a => a.Model.IsPublic).Must(x => !x || x);
             RuleFor(a => a.Model.Features).MaximumLength(256);
         }
     }

@@ -18,16 +18,17 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <summary>
         /// Создать пользователя.
         /// </summary>
+        /// <param name="email">Почта.</param>
         /// <param name="userName">Имя пользователя.</param>
         /// <param name="password">Пароль.</param>
-        /// <returns>Результат операции и Id пользователя.</returns>
-        Task<(Result Result, string UserId)> CreateUserAsync(string email, string userName, string password);
+        /// <returns>Результат операции, Id пользователя и confirmation Token.</returns>
+        Task<(Result result, string userId, string code)> CreateUserAsync(string email, string userName, string password);
 
         /// <summary>
         /// Удалить пользователя.
         /// </summary>
         /// <param name="userId">Id пользователя.</param>
-        /// <returns>Результат операции</returns>
+        /// <returns>Результат операции.</returns>
         Task<Result> DeleteUserAsync(string userId);
 
         /// <summary>
@@ -37,18 +38,27 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <param name="password">Пароль.</param>
         /// <param name="isPersistent">Запомнить меня.</param>
         /// <param name="lockoutOnFailure">Блокировка.</param>
+        /// <returns>Результат операции.</returns>
         Task<Result> LoginUserAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure);
-
-        /// <summary>
-        /// Вход в систему.
-        /// </summary>
-        /// <param name="email">Электронная почта.</param>
-        /// <param name="userName">Имя пользователя.</param>
-        Task SignInUserAsync(string email, string userName);
 
         /// <summary>
         /// Выход из системы.
         /// </summary>
         Task LogoutUserAsync();
+
+        /// <summary>
+        /// Проверить подвержденность email.
+        /// </summary>
+        /// <param name="userName">Имя пользователя.</param>
+        /// <returns>Результат и сообщение.</returns>
+        Task<(bool result, string message)> EmailConfirmCheckerAsync(string userName);
+
+        /// <summary>
+        /// Подтвердить email.
+        /// </summary>
+        /// <param name="userId">Id пользователя.</param>
+        /// <param name="code">Confirmation Token.</param>
+        /// <returns>Результат операции и сообщение.</returns>
+        Task<(Result result, string message)> ConfirmEmail(string userId, string code);
     }
 }

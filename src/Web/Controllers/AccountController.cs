@@ -1,5 +1,7 @@
-﻿using Masny.QRAnimal.Application.Interfaces;
+﻿using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -12,15 +14,21 @@ namespace Masny.QRAnimal.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IIdentityService _identityService;
+        private readonly IMessageSender _messageSender;
+        private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="logger">Логгер.</param>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
-        public AccountController(IIdentityService identityService)
+        /// <param name="messageSender">Cервис работы с почтой.</param>
+        public AccountController(IIdentityService identityService,
+                                 IMessageSender messageSender,
+                                 IRazorViewToStringRenderer razorViewToStringRenderer)
         {
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
+            _razorViewToStringRenderer = razorViewToStringRenderer ?? throw new ArgumentNullException(nameof(razorViewToStringRenderer));
         }
 
         /// <summary>
@@ -42,11 +50,21 @@ namespace Masny.QRAnimal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var (result, _) = await _identityService.CreateUserAsync(model.Email, model.UserName, model.Password);
+                var (result, userId, code) = await _identityService.CreateUserAsync(model.Email, model.UserName, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await _identityService.SignInUserAsync(model.Email, model.UserName);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId, code }, protocol: HttpContext.Request.Scheme);
+
+                    var emailModel = new EmailDTO
+                    {
+                        UserName = model.UserName,
+                        Code = callbackUrl
+                    };
+
+                    var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+
+                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", body);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -85,9 +103,18 @@ namespace Masny.QRAnimal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _identityService.LoginUserAsync(model.UserName, model.Password, model.RememberMe, true);
+                var (result, message) = await _identityService.EmailConfirmCheckerAsync(model.UserName);
 
-                if (result.Succeeded)
+                if (!result)
+                {
+                    ModelState.AddModelError(string.Empty, message);
+
+                    return View(model);
+                }
+
+                var isSignIn = await _identityService.LoginUserAsync(model.UserName, model.Password, model.RememberMe, true);
+
+                if (isSignIn.Succeeded)
                 {
                     // Проверка на принадлежность URL приложению.
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
@@ -97,9 +124,9 @@ namespace Masny.QRAnimal.Web.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-
-                ModelState.AddModelError("", "InvalidData");
             }
+
+            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
 
             return View(model);
         }
@@ -109,12 +136,37 @@ namespace Masny.QRAnimal.Web.Controllers
         /// </summary>
         /// <returns>Перенаправление на определенную страницу.</returns>
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutAsync()
         {
             await _identityService.LogoutUserAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        /// <summary>
+        /// Подтвердить email.
+        /// </summary>
+        /// <param name="userId">Id пользователя.</param>
+        /// <param name="code">Confirmation Token.</param>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+
+            var (result, _) = await _identityService.ConfirmEmail(userId, code);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View("Error");
         }
     }
 }

@@ -52,5 +52,10 @@ namespace Masny.QRAnimal.Application.DTO
         /// Особенности.
         /// </summary>
         public string Features { get; set; }
+
+        /// <summary>
+        /// Доступно всем.
+        /// </summary>
+        public bool IsPublic { get; set; }
     }
 }

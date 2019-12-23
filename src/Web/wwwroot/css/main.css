@@ -24,3 +24,7 @@
     width: 100%;
     border: 2px dashed #343a40;
 }
+
+.li-without-dot {
+    list-style: none;
+}

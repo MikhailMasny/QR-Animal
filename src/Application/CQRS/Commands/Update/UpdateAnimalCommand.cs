@@ -62,6 +62,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
                 entity.Passport = request.Model.Passport;
                 entity.Nickname = request.Model.Nickname;
                 entity.Features = request.Model.Features;
+                entity.IsPublic = request.Model.IsPublic;
 
                 await _context.SaveChangesAsync(cancellationToken);
 
