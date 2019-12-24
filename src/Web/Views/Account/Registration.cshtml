@@ -11,22 +11,21 @@
 <form class="form-account form-bg" method="post" asp-controller="Account" asp-action="Registration" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
+
     @*Place for logo*@
     @*<img class="mb-4" src="" alt="" width="72" height="72">*@
 
     <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
 
     <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="Username" required autofocus />
-    <span asp-validation-for="UserName"></span>
-
     <input id="email" type="email" class="form-control" asp-for="Email" placeholder="Youremail@example.com" required />
-    <span asp-validation-for="Email"></span>
-
     <input id="passWithoutBorder" type="password" class="form-control" asp-for="Password" placeholder="Password" required />
-    <span asp-validation-for="Password"></span>
-
     <input id="passWithBorder" type="password" class="form-control mb-3" asp-for="PasswordConfirm" placeholder="Confirm Password" required />
-    <span asp-validation-for="PasswordConfirm"></span>
+
+    <p><span asp-validation-for="UserName"></span></p>
+    <p><span asp-validation-for="Email"></span></p>
+    <p><span asp-validation-for="Password"></span></p>
+    <p><span asp-validation-for="PasswordConfirm"></span></p>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
 
