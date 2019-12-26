@@ -14,43 +14,51 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 </head>
 <body class="text-center">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="masthead mb-auto">
+    <div class="main-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="head-wrapper mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">QR Animal</h3>
-                <nav class="nav nav-masthead justify-content-center">
+                <h3 class="logo-wrapper">QR Animal</h3>
+                <nav class="nav nav-wrapper justify-content-center">
                     @*<a class="nav-link active" href="#">Home</a>*@
 
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input class="btn btn-outline-secondary btn-sm" type="submit" value="Sign Out" />
+                            <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
                         </form>
                     }
                     else
                     {
-                        <a class="nav-link" asp-controller="Account" asp-action="Login">Sign In</a>
-                        <a class="nav-link" asp-controller="Account" asp-action="Registration">Sign Up</a>
+                        <a class="btn btn-outline-light btn-sm mr-2" asp-controller="Account" asp-action="Login">Sign In</a>
+                        <a class="btn btn-outline-warning btn-sm" asp-controller="Account" asp-action="Registration">Sign Up</a>
                     }
                 </nav>
             </div>
         </header>
 
-        <main role="main" class="inner cover">
+        <main role="main" class="inner middle-wrapper">
             <h1 class="cover-heading">Text.</h1>
             <p class="lead">Text.</p>
             <p class="lead">
-                <a class="btn btn-lg btn-secondary" asp-controller="Profile" asp-action="Index">Profile</a>
-                <a class="btn btn-lg btn-secondary" asp-controller="Home" asp-action="Chat">Online chat</a>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">Profile</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">Online chat</a>
+                }
+                else
+                {
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Account" asp-action="Registration">Join us</a>
+                }
+
             </p>
         </main>
 
-        <footer class="mastfoot mt-auto">
+        <footer class="mt-auto">
             <div class="inner">
-                <p>Some text</p>
+                <p>QR Animals &copy; 2019</p>
             </div>
         </footer>
     </div>
