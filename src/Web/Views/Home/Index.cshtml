@@ -2,36 +2,65 @@
     ViewData["Title"] = "Home - QR Animal";
 }
 
-<div class="row">
-    <div class="col-md-7">
-        <h2>First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-    </div>
-</div>
+@{
+    Layout = null;
+}
 
-<hr class="hr-divider">
+<!DOCTYPE html>
 
-<div class="row">
-    <div class="col-md-7 order-md-2">
-        <h2>Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-    </div>
-</div>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
+</head>
+<body class="text-center">
+    <div class="main-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="head-wrapper mb-auto">
+            <div class="inner">
+                <h3 class="logo-wrapper">QR Animal</h3>
+                <nav class="nav nav-wrapper justify-content-center">
+                    @*<a class="nav-link active" href="#">Home</a>*@
 
-<hr class="hr-divider">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-light btn-sm mr-2" asp-controller="Account" asp-action="Login">Sign In</a>
+                        <a class="btn btn-outline-warning btn-sm" asp-controller="Account" asp-action="Registration">Sign Up</a>
+                    }
+                </nav>
+            </div>
+        </header>
 
-<div class="row">
-    <div class="col-md-7">
-        <h2>And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        <main role="main" class="inner middle-wrapper">
+            <h1 class="cover-heading">Text.</h1>
+            <p class="lead">Text.</p>
+            <p class="lead">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">Profile</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">Online chat</a>
+                }
+                else
+                {
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Account" asp-action="Registration">Join us</a>
+                }
+
+            </p>
+        </main>
+
+        <footer class="mt-auto">
+            <div class="inner">
+                <p>QR Animals &copy; 2019</p>
+            </div>
+        </footer>
     </div>
-    <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-    </div>
-</div>
+</body>
+</html>

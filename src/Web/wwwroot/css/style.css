@@ -1,0 +1,35 @@
+﻿body {
+    background-color: #F5F5F5;
+}
+
+.chat-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.container-bg {
+    padding: 1rem;
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+}
+
+.border-cancel {
+    border: none !important;
+}
+
+.nav-divider {
+    margin: 0 0 2rem 0;
+}
+
+.hr-divider {
+    margin: 2rem 0;
+}
+
+.qr-code {
+    width: 100%;
+    border: 2px dashed #343a40;
+}
+
+.li-without-dot {
+    list-style: none;
+}

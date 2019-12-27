@@ -1,30 +1,38 @@
-﻿body {
-    background-color: #F5F5F5;
+﻿html,
+body {
+    height: 100%;
 }
 
-.container-bg {
-    padding: 1rem;
-    background-color: #FFFFFF;
-    border-radius: 0.5rem;
+body {
+    display: -ms-flexbox;
+    display: flex;
+    color: #FFFFFF;
+    background-image: url("/images/background.jpg"); /* Photo by Febiyan on Unsplash */
+    background-size: cover;
 }
 
-.border-cancel {
-    border: none !important;
+.main-container {
+    max-width: 42em;
 }
 
-.nav-divider {
-    margin: 0 0 2rem 0;
+.head-wrapper {
+    margin-bottom: 2rem;
 }
 
-.hr-divider {
-    margin: 2rem 0;
+@media (min-width: 48em) {
+    .logo-wrapper {
+        float: left;
+    }
+
+    .nav-wrapper {
+        float: right;
+    }
 }
 
-.qr-code {
-    width: 100%;
-    border: 2px dashed #343a40;
+.middle-wrapper {
+    padding: 0 1.5rem;
 }
 
-.li-without-dot {
-    list-style: none;
-}
+    .middle-wrapper .btn-lg {
+        font-weight: 700;
+    }

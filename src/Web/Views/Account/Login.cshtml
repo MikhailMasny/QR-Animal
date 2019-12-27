@@ -17,15 +17,15 @@
     <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
 
     <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="Username" required autofocus />
-    <span asp-validation-for="UserName"></span>
-
     <input id="passWithBorder" type="password" class="form-control mb-3" asp-for="Password" placeholder="Password" required />
-    <span asp-validation-for="Password"></span>
 
     <div class="checkbox mb-2">
         <input asp-for="RememberMe" />
         <label asp-for="RememberMe">Remember me</label>
     </div>
+
+    <p><span asp-validation-for="UserName"></span></p>
+    <p><span asp-validation-for="Password"></span></p>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
 
