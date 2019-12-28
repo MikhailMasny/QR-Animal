@@ -131,12 +131,18 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task<(bool result, string userId, string userName, string code)> ResetPassword(string email)
+        public async Task<(bool result, string userId, string userName, string code)> ForgotPassword(string email)
         {
-            var user = await _userManager.FindByNameAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return (false, null, null, null);
+            }
+
             var result = await _userManager.IsEmailConfirmedAsync(user);
 
-            if (user == null || !result)
+            if (!result)
             {
                 return (false, null, null, null);
             }
@@ -144,6 +150,21 @@ namespace Masny.QRAnimal.Infrastructure.Services
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             return (true, user.Id, user.UserName, code);
+        }
+
+        /// <inheritdoc />
+        public async Task<Result> ResetPassword(string userId, string password, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, code, password);
+
+            return result.ToApplicationResult();
         }
 
         /// <summary>

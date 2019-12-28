@@ -62,10 +62,12 @@ namespace Masny.QRAnimal.Application.Interfaces
         Task<(Result result, string message)> ConfirmEmail(string userId, string code);
 
         /// <summary>
-        /// Сбросить пароль.
+        /// Восстановить пароль.
         /// </summary>
         /// <param name="email">Почта.</param>
         /// <returns>Результат операции, Id пользователя, имя пользователя и confirmation Token.</returns>
-        Task<(bool result, string userId, string userName, string code)> ResetPassword(string email);
+        Task<(bool result, string userId, string userName, string code)> ForgotPassword(string email);
+
+        Task<Result> ResetPassword(string userId, string password, string code);
     }
 }

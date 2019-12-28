@@ -8,13 +8,6 @@ namespace Masny.QRAnimal.Web.ViewModels
     public class ResetPasswordViewModel
     {
         /// <summary>
-        /// Электронный адрес.
-        /// </summary>
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        /// <summary>
         /// Пароль.
         /// </summary>
         [Required]
@@ -34,5 +27,7 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// Верификационный код.
         /// </summary>
         public string Code { get; set; }
+
+        public string UserId { get; set; }
     }
 }

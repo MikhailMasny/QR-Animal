@@ -1,7 +1,6 @@
 ﻿using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
-using Masny.QRAnimalWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -182,7 +181,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Сбросить пароль.
+        /// Восстановить пароль.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -193,7 +192,7 @@ namespace Masny.QRAnimal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var (result, userId, userName, code) = await _identityService.ResetPassword(model.Email);
+                var (result, userId, userName, code) = await _identityService.ForgotPassword(model.Email);
 
                 if(!result)
                 {
@@ -215,6 +214,56 @@ namespace Masny.QRAnimal.Web.Controllers
                 return View("ForgotPasswordConfirmation");
             }
 
+            return View(model);
+        }
+
+        /// <summary>
+        /// Страница для сброса пароля.
+        /// </summary>
+        /// <param name="code">Confirmation Token</param>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string userId = null, string code = null)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// Сбросить пароль.
+        /// </summary>
+        /// <param name="model">Модель сброса пароля.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await _identityService.ResetPassword(model.UserId, model.Password, model.Code);
+
+            if (result == null)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+
+            if (result.Succeeded)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
             return View(model);
         }
     }
