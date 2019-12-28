@@ -1,6 +1,7 @@
 ﻿using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
+using Masny.QRAnimalWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -167,6 +168,54 @@ namespace Masny.QRAnimal.Web.Controllers
             }
 
             return View("Error");
+        }
+
+        /// <summary>
+        /// Страница для восстановления пароля.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Сбросить пароль.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var (result, userId, userName, code) = await _identityService.ResetPassword(model.Email);
+
+                if(!result)
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId, code }, protocol: HttpContext.Request.Scheme);
+
+                var emailModel = new EmailDTO
+                {
+                    UserName = userName,
+                    Code = callbackUrl
+                };
+
+                var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+
+                await _messageSender.SendMessageAsync(model.Email, "Reset password", body);
+
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View(model);
         }
     }
 }

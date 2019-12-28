@@ -130,6 +130,22 @@ namespace Masny.QRAnimal.Infrastructure.Services
             return (result.ToApplicationResult(), "Проблемы с токеном");
         }
 
+        /// <inheritdoc />
+        public async Task<(bool result, string userId, string userName, string code)> ResetPassword(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            var result = await _userManager.IsEmailConfirmedAsync(user);
+
+            if (user == null || !result)
+            {
+                return (false, null, null, null);
+            }
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return (true, user.Id, user.UserName, code);
+        }
+
         /// <summary>
         /// Удалить пользователя.
         /// </summary>
