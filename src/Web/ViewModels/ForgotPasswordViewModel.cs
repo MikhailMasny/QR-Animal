@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Masny.QRAnimalWeb.ViewModels
+namespace Masny.QRAnimal.Web.ViewModels
 {
     /// <summary>
     /// ViewModel для ForgotPassword.
