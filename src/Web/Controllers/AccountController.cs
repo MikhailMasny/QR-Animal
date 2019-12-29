@@ -168,5 +168,103 @@ namespace Masny.QRAnimal.Web.Controllers
 
             return View("Error");
         }
+
+        /// <summary>
+        /// Страница для восстановления пароля.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Восстановить пароль.
+        /// </summary>
+        /// <param name="model">Модель для восстановления пароля.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var (result, userId, userName, code) = await _identityService.ForgotPassword(model.Email);
+
+                if(!result)
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userName, code }, protocol: HttpContext.Request.Scheme);
+
+                var emailModel = new EmailDTO
+                {
+                    UserName = userName,
+                    Code = callbackUrl
+                };
+
+                var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+
+                await _messageSender.SendMessageAsync(model.Email, "Reset password", body);
+
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Страница для сброса пароля.
+        /// </summary>
+        /// <param name="userName">Имя пользователя.</param>
+        /// <param name="code">Confirmation Token</param>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string userName = null, string code = null)
+        {
+            if (userName == null || code == null)
+            {
+                return View("Error");
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// Сбросить пароль.
+        /// </summary>
+        /// <param name="model">Модель сброса пароля.</param>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await _identityService.ResetPassword(model.UserName, model.Password, model.Code);
+
+            if (result == null)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+
+            if (result.Succeeded)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return View(model);
+        }
     }
 }
