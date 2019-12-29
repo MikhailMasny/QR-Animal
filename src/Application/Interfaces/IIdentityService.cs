@@ -60,5 +60,21 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <param name="code">Confirmation Token.</param>
         /// <returns>Результат операции и сообщение.</returns>
         Task<(Result result, string message)> ConfirmEmail(string userId, string code);
+
+        /// <summary>
+        /// Восстановить пароль.
+        /// </summary>
+        /// <param name="email">Почта.</param>
+        /// <returns>Результат операции, Id пользователя, имя пользователя и confirmation Token.</returns>
+        Task<(bool result, string userId, string userName, string code)> ForgotPassword(string email);
+
+        /// <summary>
+        /// Сбросить пароль.
+        /// </summary>
+        /// <param name="userName">Имя пользователя.</param>
+        /// <param name="password">Пароль.</param>
+        /// <param name="code">Confirmation Token.</param>
+        /// <returns>Результат операции.</returns>
+        Task<Result> ResetPassword(string userName, string password, string code);
     }
 }
