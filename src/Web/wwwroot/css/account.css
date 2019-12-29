@@ -36,7 +36,8 @@ body {
             z-index: 2;
         }
 
-    .form-account input#username {
+    .form-account input#username,
+    .form-account input#forgotPassTopFrame {
         margin-bottom: -1px;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
@@ -49,7 +50,8 @@ body {
         border-radius: 0;
     }
 
-    .form-account input#passWithBorder {
+    .form-account input#passWithBorder,
+    .form-account input#forgotPassBottomFrame {
         margin-top: -1px;
         border-top-right-radius: 0;
         border-top-left-radius: 0;
