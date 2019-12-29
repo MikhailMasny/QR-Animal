@@ -183,7 +183,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Восстановить пароль.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">Модель для восстановления пароля.</param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
@@ -199,7 +199,7 @@ namespace Masny.QRAnimal.Web.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId, code }, protocol: HttpContext.Request.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userName, code }, protocol: HttpContext.Request.Scheme);
 
                 var emailModel = new EmailDTO
                 {
@@ -220,12 +220,13 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Страница для сброса пароля.
         /// </summary>
+        /// <param name="userName">Имя пользователя.</param>
         /// <param name="code">Confirmation Token</param>
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string userId = null, string code = null)
+        public IActionResult ResetPassword(string userName = null, string code = null)
         {
-            if (userId == null || code == null)
+            if (userName == null || code == null)
             {
                 return View("Error");
             }
@@ -237,7 +238,6 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Сбросить пароль.
         /// </summary>
         /// <param name="model">Модель сброса пароля.</param>
-        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -248,7 +248,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 return View(model);
             }
 
-            var result = await _identityService.ResetPassword(model.UserId, model.Password, model.Code);
+            var result = await _identityService.ResetPassword(model.UserName, model.Password, model.Code);
 
             if (result == null)
             {

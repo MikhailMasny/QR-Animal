@@ -68,6 +68,13 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <returns>Результат операции, Id пользователя, имя пользователя и confirmation Token.</returns>
         Task<(bool result, string userId, string userName, string code)> ForgotPassword(string email);
 
-        Task<Result> ResetPassword(string userId, string password, string code);
+        /// <summary>
+        /// Сбросить пароль.
+        /// </summary>
+        /// <param name="userName">Имя пользователя.</param>
+        /// <param name="password">Пароль.</param>
+        /// <param name="code">Confirmation Token.</param>
+        /// <returns>Результат операции.</returns>
+        Task<Result> ResetPassword(string userName, string password, string code);
     }
 }

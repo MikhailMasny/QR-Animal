@@ -28,6 +28,9 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// </summary>
         public string Code { get; set; }
 
-        public string UserId { get; set; }
+        /// <summary>
+        /// Имя пользователя.
+        /// </summary>
+        public string UserName { get; set; }
     }
 }

@@ -153,9 +153,9 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task<Result> ResetPassword(string userId, string password, string code)
+        public async Task<Result> ResetPassword(string userName, string password, string code)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByNameAsync(userName);
 
             if (user == null)
             {
