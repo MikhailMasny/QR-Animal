@@ -33,7 +33,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteQRCode
             /// <param name="context">Контекст.</param>
             public DeleteQRCodeCommandHandler(IApplicationContext context)
             {
-                _context = context;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
             }
 
             /// <summary>

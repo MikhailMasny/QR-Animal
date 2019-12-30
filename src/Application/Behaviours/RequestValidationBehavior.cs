@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace Masny.QRAnimal.Application.Application.Behaviours
         /// <param name="validators">Обработчики от FluentValidation.</param>
         public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators;
+            _validators = validators ?? throw new ArgumentNullException(nameof(validators));
         }
 
         /// <summary>

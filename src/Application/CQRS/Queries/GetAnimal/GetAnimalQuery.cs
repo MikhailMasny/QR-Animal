@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Masny.QRAnimal.Domain.Entities;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
@@ -46,8 +47,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             public GetAnimalQueryHandler(IApplicationContext context,
                                          IMapper mapper)
             {
-                _context = context;
-                _mapper = mapper;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>
