@@ -1,20 +1,15 @@
-using AutoMapper;
-using Masny.QRAnimal.Application;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
-using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
 using Masny.QRAnimal.Infrastructure.Services;
 using Masny.QRAnimal.Worker.Services;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Reflection;
 
 namespace Masny.QRAnimal.Worker
 {

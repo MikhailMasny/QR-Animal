@@ -38,9 +38,9 @@ namespace Masny.QRAnimal.Infrastructure.Services
                                          ITempDataProvider tempDataProvider,
                                          IServiceProvider serviceProvider)
         {
-            _viewEngine = viewEngine;
-            _tempDataProvider = tempDataProvider;
-            _serviceProvider = serviceProvider;
+            _viewEngine = viewEngine ?? throw new ArgumentNullException(nameof(viewEngine));
+            _tempDataProvider = tempDataProvider ?? throw new ArgumentNullException(nameof(tempDataProvider));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
         /// <inheritdoc />
@@ -89,9 +89,9 @@ namespace Masny.QRAnimal.Infrastructure.Services
             var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
             var errorMessage = string.Join(
                 Environment.NewLine,
-                new[] 
-                { 
-                    $"Unable to find view '{viewName}'. The following locations were searched:" 
+                new[]
+                {
+                    $"Unable to find view '{viewName}'. The following locations were searched:"
                 }
                 .Concat(searchedLocations));
 

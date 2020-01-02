@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
+using Masny.QRAnimal.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ValidationException = Masny.QRAnimal.Application.Exceptions.ValidationException;
 
 namespace Masny.QRAnimal.Application.Application.Behaviours
 {
@@ -46,7 +46,7 @@ namespace Masny.QRAnimal.Application.Application.Behaviours
 
             if (failures.Any())
             {
-                throw new ValidationException(failures);
+                throw new RequestValidationException(failures);
             }
 
             return next();

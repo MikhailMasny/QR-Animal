@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Masny.QRAnimal.Application.DTO;
+﻿using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Domain.Entities;
@@ -28,18 +27,15 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
         public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand>
         {
             private readonly IApplicationContext _context;
-            private readonly IMapper _mapper;
 
             /// <summary>
             /// Конструктор с параметрами.
             /// </summary>
             /// <param name="context">Контекст.</param>
             /// <param name="mapper">Маппер.</param>
-            public UpdateAnimalCommandHandler(IApplicationContext context,
-                                              IMapper mapper)
+            public UpdateAnimalCommandHandler(IApplicationContext context)
             {
                 _context = context ?? throw new ArgumentNullException(nameof(context));
-                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>

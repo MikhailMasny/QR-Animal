@@ -40,7 +40,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
             }
 
             /// <summary>
-            /// Добавить новое QR код.
+            /// Добавить новый QR код.
             /// </summary>
             /// <returns>QR код.</returns>
             public async Task<string> Handle(CreateQRCodeCommand request, CancellationToken cancellationToken)

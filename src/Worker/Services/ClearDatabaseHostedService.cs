@@ -1,5 +1,4 @@
 ﻿using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

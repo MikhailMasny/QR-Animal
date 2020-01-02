@@ -5,7 +5,6 @@ using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
 using Masny.QRAnimal.Application.DTO;
-using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
@@ -229,14 +228,15 @@ namespace Masny.QRAnimal.Web.Controllers
             var animalCommand = new MarkAsDeletedAnimalCommand
             {
                 Id = id,
-                UserId = userId 
+                UserId = userId
             };
 
             try
             {
                 await _mediator.Send(animalCommand);
             }
-            catch (NotFoundException ex)
+            catch
+            //(NotFoundException ex)
             {
                 // UNDONE: Logger
             }

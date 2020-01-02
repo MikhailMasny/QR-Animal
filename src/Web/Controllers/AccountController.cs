@@ -22,6 +22,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// </summary>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
+        /// <param name="razorViewToStringRenderer">Cервис для генерации HTML документов.</param>
         public AccountController(IIdentityService identityService,
                                  IMessageSender messageSender,
                                  IRazorViewToStringRenderer razorViewToStringRenderer)
@@ -32,7 +33,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Страница для входа в систему.
+        /// Страница для регистрации нового пользователя.
         /// </summary>
         [HttpGet]
         public IActionResult Registration()
@@ -94,7 +95,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Выполнение входа.
+        /// Вход в систему.
         /// </summary>
         /// <param name="model">Модель пользовательских данных.</param>
         [HttpPost]
@@ -146,7 +147,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Подтвердить email.
+        /// Подтверждение почты.
         /// </summary>
         /// <param name="userId">Id пользователя.</param>
         /// <param name="code">Confirmation Token.</param>
@@ -181,7 +182,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Восстановить пароль.
+        /// Восстановление пароля.
         /// </summary>
         /// <param name="model">Модель для восстановления пароля.</param>
         /// <returns></returns>
@@ -194,7 +195,7 @@ namespace Masny.QRAnimal.Web.Controllers
             {
                 var (result, userId, userName, code) = await _identityService.ForgotPassword(model.Email);
 
-                if(!result)
+                if (!result)
                 {
                     return View("ForgotPasswordConfirmation");
                 }
@@ -235,7 +236,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Сбросить пароль.
+        /// Сброс пароля.
         /// </summary>
         /// <param name="model">Модель сброса пароля.</param>
         [HttpPost]

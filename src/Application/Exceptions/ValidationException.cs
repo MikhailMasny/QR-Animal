@@ -8,12 +8,12 @@ namespace Masny.QRAnimal.Application.Exceptions
     /// <summary>
     /// Ошибка валидации.
     /// </summary>
-    public class ValidationException : Exception
+    public class RequestValidationException : Exception
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public ValidationException()
+        public RequestValidationException()
             : base("One or more validation failures have occurred.")
         {
             Failures = new Dictionary<string, string[]>();
@@ -23,7 +23,7 @@ namespace Masny.QRAnimal.Application.Exceptions
         /// Конструктор с параметрами.
         /// </summary>
         /// <param name="failures">Ошибки.</param>
-        public ValidationException(List<ValidationFailure> failures)
+        public RequestValidationException(List<ValidationFailure> failures)
             : this()
         {
             var propertyNames = failures
