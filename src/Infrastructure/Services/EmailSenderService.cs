@@ -56,7 +56,6 @@ namespace Masny.QRAnimal.Infrastructure.Services
             }
         }
 
-        // UNDONE: Перенести в сервисы DI.
         private MailSettings MailKitConfiguration()
         {
             var configuration = new ConfigurationBuilder()

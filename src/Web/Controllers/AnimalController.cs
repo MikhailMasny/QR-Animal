@@ -262,8 +262,6 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var userAnimal = await _mediator.Send(animalQuery);
 
-            //_logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
-
             if (userAnimal == null)
             {
                 return RedirectToAction("Index", "Profile");
@@ -310,8 +308,6 @@ namespace Masny.QRAnimal.Web.Controllers
             };
 
             var userAnimal = await _mediator.Send(animalQuery);
-
-            //_logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
 
             if (userAnimal == null || !userAnimal.IsPublic)
             {
