@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
 {
@@ -37,8 +38,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
             public GetQRCodeQueryHandler(IApplicationContext context,
                                          IMapper mapper)
             {
-                _context = context;
-                _mapper = mapper;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>
@@ -47,6 +48,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
             /// <returns>DTO QR Code.</returns>
             public async Task<QRCodeDTO> Handle(GetQRCodeQuery request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = await _context.QRCodes.Where(a => a.AnimalId == request.AnimalId)
                                                    .SingleOrDefaultAsync();
 

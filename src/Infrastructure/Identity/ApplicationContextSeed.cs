@@ -9,7 +9,7 @@ namespace Masny.QRAnimal.Infrastructure.Identity
     /// <summary>
     /// Класс для заполнения контекста.
     /// </summary>
-    public class ApplicationContextSeed
+    public static class ApplicationContextSeed
     {
         /// <summary>
         /// Заполнение базы данных начальными данными.

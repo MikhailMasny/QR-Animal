@@ -10,7 +10,7 @@ namespace Masny.QRAnimal.Infrastructure
     /// <summary>
     /// Метод расширения для добавления сервисов уровня Infrastructure.
     /// </summary>
-    public static class DependencyInjection
+    public static class InfrastructureDependencyInjection
     {
         /// <summary>
         /// Добавить определенные сервисы.
@@ -24,9 +24,11 @@ namespace Masny.QRAnimal.Infrastructure
                     .AddDefaultTokenProviders();
 
             services.AddScoped<IIdentityService, IdentityService>();
-            services.AddTransient<IDateTime, DateTimeService>();
             services.AddScoped<IMessageSender, EmailSenderService>();
             services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
+
+            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IQRCodeGeneratorService, QRCodeGeneratorService>();
 
             return services;
         }

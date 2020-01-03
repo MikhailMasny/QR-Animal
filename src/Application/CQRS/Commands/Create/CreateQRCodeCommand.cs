@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,16 +35,18 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
             public CreateQRCodeCommandHandler(IApplicationContext context,
                                               IMapper mapper)
             {
-                _context = context;
-                _mapper = mapper;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>
-            /// Добавить новое QR код.
+            /// Добавить новый QR код.
             /// </summary>
             /// <returns>QR код.</returns>
             public async Task<string> Handle(CreateQRCodeCommand request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = _mapper.Map<QRCode>(request.Model);
 
                 _context.QRCodes.Add(entity);

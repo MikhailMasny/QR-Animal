@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Masny.QRAnimal.Domain.Entities;
 
 namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
 {
@@ -46,8 +47,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             public GetAnimalQueryHandler(IApplicationContext context,
                                          IMapper mapper)
             {
-                _context = context;
-                _mapper = mapper;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>
@@ -56,8 +57,19 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>DTO животного.</returns>
             public async Task<AnimalDTO> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
+                var entity = await GetAnimal(request);
+
+                var animal = _mapper.Map<AnimalDTO>(entity);
+
+                return animal;
+            }
+
+            private async Task<Animal> GetAnimal(GetAnimalQuery request)
+            {
                 Animal entity;
-                // UNDONE: Переработать механизм
+
                 if (request.AnotherUser)
                 {
                     entity = await _context.Animals.Where(a => a.Id == request.Id &&
@@ -72,9 +84,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
                                                    .SingleOrDefaultAsync();
                 }
 
-                var animal = _mapper.Map<AnimalDTO>(entity);
-
-                return animal;
+                return entity;
             }
         }
     }

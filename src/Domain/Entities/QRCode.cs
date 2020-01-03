@@ -22,12 +22,12 @@ namespace Masny.QRAnimal.Domain.Entities
         /// </summary>
         public DateTime Created { get; set; }
 
-
-
         /// <summary>
         /// Идентификатор животного.
         /// </summary>
         public int AnimalId { get; set; }
+
+
 
         /// <summary>
         /// Навигация для животного.

@@ -14,7 +14,7 @@ namespace Masny.QRAnimal.Web
 {
     public class Program
     {
-        private static readonly string url = "http://*:85";
+        private const string url = "http://*:85";
 
         public async static Task Main(string[] args)
         {

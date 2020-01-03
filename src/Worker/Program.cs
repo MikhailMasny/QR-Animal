@@ -6,9 +6,9 @@ using System;
 
 namespace Masny.QRAnimal.Worker
 {
-    public class Program
+    public static class Program
     {
-        private static readonly string url = "http://*:84";
+        private const string url = "http://*:84";
 
         public static void Main(string[] args)
         {

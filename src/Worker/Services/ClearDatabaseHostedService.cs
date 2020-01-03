@@ -1,5 +1,4 @@
 ﻿using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -52,12 +51,14 @@ namespace Masny.QRAnimal.Worker.Services
         {
             _logger.LogInformation("Clear database service is working.");
 
-            using var scope = Services.CreateScope();
-            var scopedProcessingService =
-                scope.ServiceProvider
-                     .GetRequiredService<IClearDatabaseService>();
+            using (var scope = Services.CreateScope())
+            {
+                var scopedProcessingService =
+                    scope.ServiceProvider
+                         .GetRequiredService<IClearDatabaseService>();
 
-            await scopedProcessingService.DoWork(stoppingToken);
+                await scopedProcessingService.DoWork(stoppingToken);
+            }
         }
 
         /// <summary>

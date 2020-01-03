@@ -8,13 +8,15 @@ namespace Masny.QRAnimal.Application.Exceptions
     /// <summary>
     /// Ошибка валидации.
     /// </summary>
-    public class ValidationException : Exception
+    public class RequestValidationException : Exception
     {
+        private const string _error = "One or more validation failures have occurred.";
+
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public ValidationException()
-            : base("One or more validation failures have occurred.")
+        public RequestValidationException()
+            : base(_error)
         {
             Failures = new Dictionary<string, string[]>();
         }
@@ -22,8 +24,21 @@ namespace Masny.QRAnimal.Application.Exceptions
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
+        /// <param name="message">Сообщение.</param>
+        public RequestValidationException(string message) : base(message) { }
+
+        /// <summary>
+        /// Конструктор с параметрами.
+        /// </summary>
+        /// <param name="message">Сообщение.</param>
+        /// <param name="innerException">Ошибка.</param>
+        public RequestValidationException(string message, Exception innerException) : base(message, innerException) { }
+
+        /// <summary>
+        /// Конструктор с параметрами.
+        /// </summary>
         /// <param name="failures">Ошибки.</param>
-        public ValidationException(List<ValidationFailure> failures)
+        public RequestValidationException(List<ValidationFailure> failures)
             : this()
         {
             var propertyNames = failures
@@ -45,5 +60,7 @@ namespace Masny.QRAnimal.Application.Exceptions
         /// Словарь ошибок.
         /// </summary>
         public IDictionary<string, string[]> Failures { get; }
+
+        
     }
 }

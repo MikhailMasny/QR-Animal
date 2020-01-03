@@ -8,8 +8,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-// UNDONE: Переработать возможность удаления животных = помечать, что удалены
-
 namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
 {
     /// <summary>
@@ -40,7 +38,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
             /// <param name="context">Контекст.</param>
             public MarkAsDeletedAnimalCommandHandler(IApplicationContext context)
             {
-                _context = context;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
             }
 
             /// <summary>

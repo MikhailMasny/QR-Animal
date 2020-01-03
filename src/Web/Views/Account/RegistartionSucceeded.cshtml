@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "_Account";
+}
+
+@{
+    ViewData["Title"] = "Registartion succeeded - QR Animal";
+}
+
+<script>
+    var timeout = 5;
+    window.onload = function RedirectPage()
+    {
+        timeout--;
+
+        if (timeout <= 0)
+        {
+            location.replace(document.location.origin)
+        }
+        else
+        {
+            setTimeout(RedirectPage, 1000)
+        }
+    }
+</script>
+
+<div class="form-account form-bg">
+    <h2>Спасибо за регистрацию!</h2>
+    <p>Письмо успешно отправлено. Пожалуйста, проверьте Вашу почту для продолжения регистрации.</p>
+</div>

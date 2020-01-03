@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Domain.Entities;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,8 +35,8 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
             public CreateTodoItemCommandHandler(IApplicationContext context,
                                                 IMapper mapper)
             {
-                _context = context;
-                _mapper = mapper;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>
@@ -44,6 +45,8 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
             /// <returns>Id нового животного.</returns>
             public async Task<int> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = _mapper.Map<Animal>(request.Model);
 
                 _context.Animals.Add(entity);

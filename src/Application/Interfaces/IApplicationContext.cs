@@ -10,12 +10,21 @@ namespace Masny.QRAnimal.Application.Interfaces
     /// </summary>
     public interface IApplicationContext
     {
-        // QRCode entities.
-        public DbSet<QRCode> QRCodes { get; set; }
+        /// <summary>
+        /// DbSet QRCodes.
+        /// </summary>
+        DbSet<QRCode> QRCodes { get; set; }
 
-        // Animal entities.
-        public DbSet<Animal> Animals { get; set; }
+        /// <summary>
+        /// DbSet Animals.
+        /// </summary>
+        DbSet<Animal> Animals { get; set; }
 
+        /// <summary>
+        /// Сохранить данные (переопределенный метод).
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Результат сохранения.</returns>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
