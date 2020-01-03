@@ -318,7 +318,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             if (userAnimal == null || !userAnimal.IsPublic)
             {
-                return RedirectToAction("Index", "Home");
+                return View("PermissionDenied");
             }
 
             var qrQuery = new GetQRCodeQuery
