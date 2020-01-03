@@ -43,12 +43,14 @@ namespace Masny.QRAnimal.Infrastructure.Services
 
             try
             {
-                using var client = new SmtpClient();
-                await client.ConnectAsync(_mailConfig.Server, _mailConfig.Port, true);
-                await client.AuthenticateAsync(_mailConfig.EmailAddress, _mailConfig.Password);
-                await client.SendAsync(message);
+                using (var client = new SmtpClient())
+                {
+                    await client.ConnectAsync(_mailConfig.Server, _mailConfig.Port, true);
+                    await client.AuthenticateAsync(_mailConfig.EmailAddress, _mailConfig.Password);
+                    await client.SendAsync(message);
 
-                await client.DisconnectAsync(true);
+                    await client.DisconnectAsync(true);
+                }
             }
             catch (Exception ex)
             {

@@ -13,12 +13,12 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <summary>
         /// DbSet QRCodes.
         /// </summary>
-        public DbSet<QRCode> QRCodes { get; set; }
+        DbSet<QRCode> QRCodes { get; set; }
 
         /// <summary>
         /// DbSet Animals.
         /// </summary>
-        public DbSet<Animal> Animals { get; set; }
+        DbSet<Animal> Animals { get; set; }
 
         /// <summary>
         /// Сохранить данные (переопределенный метод).

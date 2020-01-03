@@ -24,9 +24,11 @@ namespace Masny.QRAnimal.Infrastructure.Services
 
         private byte[] BitmapToBytes(Bitmap img)
         {
-            using MemoryStream stream = new MemoryStream();
-            img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            return stream.ToArray();
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
         }
     }
 }
