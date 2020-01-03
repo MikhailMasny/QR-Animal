@@ -35,6 +35,7 @@ namespace Masny.QRAnimal.Web.Controllers
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
         private readonly IIdentityService _identityService;
+        private readonly IQRCodeGeneratorService _QRCodeGeneratorService;
 
         /// <summary>
         /// Конструктор.
@@ -44,11 +45,13 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         public AnimalController(ILogger<AnimalController> logger,
                                 IMediator mediator,
-                                IIdentityService identityService)
+                                IIdentityService identityService,
+                                IQRCodeGeneratorService QRCodeGeneratorService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _QRCodeGeneratorService = QRCodeGeneratorService ?? throw new ArgumentNullException(nameof(QRCodeGeneratorService));
         }
 
         /// <summary>
@@ -274,7 +277,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
 
-            var code = CreateQRCode(qrCodeText.Code);
+            var code = _QRCodeGeneratorService.CreateQRCode(qrCodeText.Code);
 
             var animalViewModel = new AnimalViewModel
             {
@@ -321,7 +324,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
 
-            var code = CreateQRCode(qrCodeText.Code);
+            var code = _QRCodeGeneratorService.CreateQRCode(qrCodeText.Code);
 
             var animalViewModel = new AnimalViewModel
             {
@@ -339,25 +342,6 @@ namespace Masny.QRAnimal.Web.Controllers
             };
 
             return View(animalViewModel);
-        }
-
-        // UNDONE: Перенести в сервисы или отдельный метод
-        private static byte[] CreateQRCode(string text)
-        {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            var code = BitmapToBytes(qrCodeImage);
-
-            return code;
-        }
-
-        private static byte[] BitmapToBytes(Bitmap img)
-        {
-            using MemoryStream stream = new MemoryStream();
-            img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            return stream.ToArray();
         }
     }
 }
