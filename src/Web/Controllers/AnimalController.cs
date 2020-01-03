@@ -7,6 +7,7 @@ using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
 using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,6 +32,7 @@ namespace Masny.QRAnimal.Web.Controllers
         private readonly IMediator _mediator;
         private readonly IIdentityService _identityService;
         private readonly IQRCodeGeneratorService _QRCodeGeneratorService;
+        private readonly IOptions<AppSettings> _options;
 
         /// <summary>
         /// Конструктор.
@@ -41,12 +44,14 @@ namespace Masny.QRAnimal.Web.Controllers
         public AnimalController(ILogger<AnimalController> logger,
                                 IMediator mediator,
                                 IIdentityService identityService,
-                                IQRCodeGeneratorService QRCodeGeneratorService)
+                                IQRCodeGeneratorService QRCodeGeneratorService,
+                                IOptions<AppSettings> options)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _QRCodeGeneratorService = QRCodeGeneratorService ?? throw new ArgumentNullException(nameof(QRCodeGeneratorService));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -122,7 +127,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 // Создание команды для добавления QR кода для животного
                 var qrCodeDTO = new QRCodeDTO
                 {
-                    Code = $"http://localhost:85/Animal/Public/{id}",
+                    Code = _options.Value.QRGeneratorCode + id,
                     Created = DateTime.Now,
                     AnimalId = id
                 };
@@ -133,6 +138,8 @@ namespace Masny.QRAnimal.Web.Controllers
                 };
 
                 await _mediator.Send(qrCommand);
+
+                _logger.LogInformation($"{User.Identity.Name} successfully created animal with id: {id}.");
 
                 return RedirectToAction("Index", "Profile");
             }
@@ -223,6 +230,8 @@ namespace Masny.QRAnimal.Web.Controllers
                     return View(model);
                 }
 
+                _logger.LogInformation($"{User.Identity.Name} successfully edited animal with id: {model.Id}.");
+
                 return RedirectToAction("Index", "Profile");
             }
 
@@ -250,8 +259,10 @@ namespace Masny.QRAnimal.Web.Controllers
             }
             catch
             {
-                // UNDONE: Logger
+                _logger.LogInformation($"{User.Identity.Name} can't delete animal with id: {id}.");
             }
+
+            _logger.LogInformation($"{User.Identity.Name} successfully deleted animal with id: {id}.");
 
             return RedirectToAction("Index", "Profile");
         }
@@ -303,6 +314,8 @@ namespace Masny.QRAnimal.Web.Controllers
                 Code = code
             };
 
+            _logger.LogInformation($"For {User.Identity.Name} successfully showed animal with id: {userAnimal.Id}.");
+
             return View(animalViewModel);
         }
 
@@ -350,6 +363,8 @@ namespace Masny.QRAnimal.Web.Controllers
                 IsPublic = userAnimal.IsPublic,
                 Code = code
             };
+
+            _logger.LogInformation($"Animal with id: {userAnimal.Id}, successfully showed on public request.");
 
             return View(animalViewModel);
         }

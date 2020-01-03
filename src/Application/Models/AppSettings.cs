@@ -11,5 +11,10 @@
         /// true - Docker
         /// </summary>
         public bool IsDockerSupport { get; set; }
+
+        /// <summary>
+        /// Данные для формирования QR кода.
+        /// </summary>
+        public string QRGeneratorCode { get; set; }
     }
 }
