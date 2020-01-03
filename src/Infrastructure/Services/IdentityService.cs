@@ -83,7 +83,6 @@ namespace Masny.QRAnimal.Infrastructure.Services
         /// <inheritdoc />
         public async Task<Result> LoginUserAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
         {
-            // UNDONE: Реализовать корректное поведение RememberMe
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
 
             return result.ToApplicationResult();

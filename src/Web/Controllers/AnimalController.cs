@@ -13,16 +13,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using QRCoder;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
 
-// UNDONE: добавить DTO модели
 // UNDONE: добавить задачу worker для удаления определенных данных
-// UNDONE: добавить возможность при создании животного делать его исключительно приватным
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -76,8 +71,9 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Добавить нового животного.
+        /// Добавление нового животного.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(AnimalViewModel model)
         {
@@ -141,6 +137,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Страница для обновления данных животного.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -176,8 +173,9 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Обновить животное.
+        /// Обновление животного.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(AnimalViewModel model)
         {
@@ -220,10 +218,10 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Удалить выбранное животное (пометить для удаления).
+        /// Удаление выбранного животного (пометить для удаления).
         /// </summary>
         /// <param name="id">Идентификатор.</param>
-        /// <returns>Представление главной страницы.</returns>
+        /// <returns>Определенное представление.</returns>
         public async Task<IActionResult> Delete(int id)
         {
             var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -248,10 +246,10 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Получить информацию о выбранном животном.
+        /// Страница для получения информации о выбранном животном.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
-        /// <returns>Представление страницы с информацией о животном.</returns>
+        /// <returns>Определенное представление.</returns>
         public async Task<IActionResult> Info(int id)
         {
             var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -298,7 +296,7 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Получить информацию о выбранном животном (для другого пользователя, Public).
+        /// Страница для получения информации о выбранном животном (для другого пользователя, Public).
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <returns>Представление публичной страницы с информацией о животном.</returns>

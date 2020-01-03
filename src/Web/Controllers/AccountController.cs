@@ -39,6 +39,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Страница для регистрации нового пользователя.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         public IActionResult Registration()
         {
@@ -49,6 +50,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Регистрация нового пользователя.
         /// </summary>
         /// <param name="model">Модель пользовательских данных.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
@@ -94,6 +96,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Страница для входа в систему.
         /// </summary>
         /// <param name="returnUrl">Возврат по определенному адресу.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -109,6 +112,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Вход в систему.
         /// </summary>
         /// <param name="model">Модель пользовательских данных.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
@@ -166,6 +170,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// </summary>
         /// <param name="userId">Id пользователя.</param>
         /// <param name="code">Confirmation Token.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -190,7 +195,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Страница для восстановления пароля.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -202,7 +207,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Восстановление пароля.
         /// </summary>
         /// <param name="model">Модель для восстановления пароля.</param>
-        /// <returns></returns>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -240,6 +245,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// </summary>
         /// <param name="userName">Имя пользователя.</param>
         /// <param name="code">Confirmation Token</param>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string userName = null, string code = null)
@@ -256,6 +262,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Сброс пароля.
         /// </summary>
         /// <param name="model">Модель сброса пароля.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
