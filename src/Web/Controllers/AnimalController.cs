@@ -38,6 +38,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
+        /// <param name="QRCodeGeneratorService">Сервис для формирования QR кода.</param>
         public AnimalController(ILogger<AnimalController> logger,
                                 IMediator mediator,
                                 IIdentityService identityService,
@@ -77,6 +78,8 @@ namespace Masny.QRAnimal.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AnimalViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -179,6 +182,8 @@ namespace Masny.QRAnimal.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AnimalViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);

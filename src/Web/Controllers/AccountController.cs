@@ -55,6 +55,8 @@ namespace Masny.QRAnimal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var (result, userId, code) = await _identityService.CreateUserAsync(model.Email, model.UserName, model.Password);
@@ -117,6 +119,8 @@ namespace Masny.QRAnimal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var (result, message) = await _identityService.EmailConfirmCheckerAsync(model.UserName);
@@ -213,9 +217,11 @@ namespace Masny.QRAnimal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
-                var (result, userId, userName, code) = await _identityService.ForgotPassword(model.Email);
+                var (result, _, userName, code) = await _identityService.ForgotPassword(model.Email);
 
                 if (!result)
                 {
@@ -268,6 +274,8 @@ namespace Masny.QRAnimal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (!ModelState.IsValid)
             {
                 return View(model);

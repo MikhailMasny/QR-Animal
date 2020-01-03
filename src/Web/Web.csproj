@@ -8,6 +8,10 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;AD0001;CA2007;</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="HealthChecks\**" />
     <Compile Remove="Middlewares\**" />
