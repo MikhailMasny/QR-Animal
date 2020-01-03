@@ -10,7 +10,7 @@ namespace Masny.QRAnimal.Infrastructure
     /// <summary>
     /// Метод расширения для добавления сервисов уровня Infrastructure.
     /// </summary>
-    public static class DependencyInjection
+    public static class InfrastructureDependencyInjection
     {
         /// <summary>
         /// Добавить определенные сервисы.
