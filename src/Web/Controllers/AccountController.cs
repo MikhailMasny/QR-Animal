@@ -3,6 +3,7 @@ using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Masny.QRAnimal.Web.Controllers
     /// </summary>
     public class AccountController : Controller
     {
+        private readonly ILogger _logger;
         private readonly IIdentityService _identityService;
         private readonly IMessageSender _messageSender;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
@@ -23,10 +25,12 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
         /// <param name="razorViewToStringRenderer">Cервис для генерации HTML документов.</param>
-        public AccountController(IIdentityService identityService,
+        public AccountController(ILogger<ProfileController> logger,
+                                 IIdentityService identityService,
                                  IMessageSender messageSender,
                                  IRazorViewToStringRenderer razorViewToStringRenderer)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
             _razorViewToStringRenderer = razorViewToStringRenderer ?? throw new ArgumentNullException(nameof(razorViewToStringRenderer));
@@ -53,6 +57,13 @@ namespace Masny.QRAnimal.Web.Controllers
             {
                 var (result, userId, code) = await _identityService.CreateUserAsync(model.Email, model.UserName, model.Password);
 
+                if (result == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Email is already existed.");
+
+                    return View(model);
+                }
+
                 if (result.Succeeded)
                 {
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId, code }, protocol: HttpContext.Request.Scheme);
@@ -63,11 +74,11 @@ namespace Masny.QRAnimal.Web.Controllers
                         Code = callbackUrl
                     };
 
-                    var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+                    var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailConfirm.cshtml", emailModel);
 
                     await _messageSender.SendMessageAsync(model.Email, "Confirm your account", body);
 
-                    return RedirectToAction("Index", "Home");
+                    return View("RegistartionSucceeded");
                 }
 
                 foreach (var error in result.Errors)
@@ -123,6 +134,8 @@ namespace Masny.QRAnimal.Web.Controllers
                         return Redirect(model.ReturnUrl);
                     }
 
+                    _logger.LogInformation($"{User.Identity.Name} successfully logged in.");
+
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -142,6 +155,8 @@ namespace Masny.QRAnimal.Web.Controllers
         public async Task<IActionResult> LogoutAsync()
         {
             await _identityService.LogoutUserAsync();
+
+            _logger.LogInformation($"{User.Identity.Name} successfully logged out.");
 
             return RedirectToAction("Index", "Home");
         }
@@ -164,6 +179,8 @@ namespace Masny.QRAnimal.Web.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation($"{User.Identity.Name} successfully confirmed email.");
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -208,7 +225,7 @@ namespace Masny.QRAnimal.Web.Controllers
                     Code = callbackUrl
                 };
 
-                var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+                var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailForgotPassword.cshtml", emailModel);
 
                 await _messageSender.SendMessageAsync(model.Email, "Reset password", body);
 
@@ -258,6 +275,8 @@ namespace Masny.QRAnimal.Web.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation($"{User.Identity.Name} successfully reseted the password.");
+
                 return View("ResetPasswordConfirmation");
             }
 

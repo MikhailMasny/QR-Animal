@@ -52,7 +52,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var userAnimals = (await _mediator.Send(animalQuery)).ToList();
 
-            _logger.LogInformation($"{userAnimals.Count()} animals showed for user {User.Identity.Name}.");
+            _logger.LogInformation($"{userAnimals.Count} animals showed for user {User.Identity.Name}.");
 
             // Формирование ViewModels для представления
             var animalViewModels = new List<AnimalViewModel>();
