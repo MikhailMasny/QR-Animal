@@ -30,8 +30,6 @@ namespace Masny.QRAnimal.Worker
             var appSettingSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingSection);
 
-            // UNDONE: Рефакторинг
-
             // Добавлен Identity контекст.
             var isDockerSupport = appSettingSection.Get<AppSettings>().IsDockerSupport;
             string connectionString = Configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());

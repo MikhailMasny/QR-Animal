@@ -5,6 +5,7 @@ using Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
 using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
@@ -16,8 +17,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-// UNDONE: добавить задачу worker для удаления определенных данных
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -110,9 +109,13 @@ namespace Masny.QRAnimal.Web.Controllers
                 {
                     id = await _mediator.Send(animalCommand);
                 }
-                catch
+                catch (RequestValidationException failures)
                 {
-                    // UNDONE: Добавить обработчик.
+                    foreach (var error in failures.Failures)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Value[0]);
+                    }
+
                     return View(model);
                 }
 
@@ -210,9 +213,13 @@ namespace Masny.QRAnimal.Web.Controllers
                 {
                     await _mediator.Send(animalCommand);
                 }
-                catch
+                catch (RequestValidationException failures)
                 {
-                    // UNDONE: Добавить обработчик.
+                    foreach (var error in failures.Failures)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Value[0]);
+                    }
+
                     return View(model);
                 }
 
@@ -242,7 +249,6 @@ namespace Masny.QRAnimal.Web.Controllers
                 await _mediator.Send(animalCommand);
             }
             catch
-            //(NotFoundException ex)
             {
                 // UNDONE: Logger
             }
