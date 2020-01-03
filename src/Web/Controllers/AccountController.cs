@@ -3,7 +3,6 @@ using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -14,7 +13,6 @@ namespace Masny.QRAnimal.Web.Controllers
     /// </summary>
     public class AccountController : Controller
     {
-        private readonly ILogger _logger;
         private readonly IIdentityService _identityService;
         private readonly IMessageSender _messageSender;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
@@ -25,12 +23,10 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
         /// <param name="razorViewToStringRenderer">Cервис для генерации HTML документов.</param>
-        public AccountController(ILogger<ProfileController> logger,
-                                 IIdentityService identityService,
+        public AccountController(IIdentityService identityService,
                                  IMessageSender messageSender,
                                  IRazorViewToStringRenderer razorViewToStringRenderer)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
             _razorViewToStringRenderer = razorViewToStringRenderer ?? throw new ArgumentNullException(nameof(razorViewToStringRenderer));
@@ -142,8 +138,6 @@ namespace Masny.QRAnimal.Web.Controllers
                         return Redirect(model.ReturnUrl);
                     }
 
-                    _logger.LogInformation($"{User.Identity.Name} successfully logged in.");
-
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -163,8 +157,6 @@ namespace Masny.QRAnimal.Web.Controllers
         public async Task<IActionResult> LogoutAsync()
         {
             await _identityService.LogoutUserAsync();
-
-            _logger.LogInformation($"{User.Identity.Name} successfully logged out.");
 
             return RedirectToAction("Index", "Home");
         }
@@ -188,8 +180,6 @@ namespace Masny.QRAnimal.Web.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation($"{User.Identity.Name} successfully confirmed email.");
-
                 return RedirectToAction("Index", "Home");
             }
 
@@ -290,8 +280,6 @@ namespace Masny.QRAnimal.Web.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation($"{User.Identity.Name} successfully reseted the password.");
-
                 return View("ResetPasswordConfirmation");
             }
 
