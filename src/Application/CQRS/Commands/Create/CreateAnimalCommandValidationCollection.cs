@@ -5,12 +5,12 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
     /// <summary>
     /// Валидация данных для Animal.
     /// </summary>
-    public class CreateAnimalCommandValidation : AbstractValidator<CreateAnimalCommand>
+    public class CreateAnimalCommandValidationCollection : AbstractValidator<CreateAnimalCommand>
     {
         /// <summary>
         /// Пустой конструктор.
         /// </summary>
-        public CreateAnimalCommandValidation()
+        public CreateAnimalCommandValidationCollection()
         {
             RuleFor(a => a.Model.UserId).NotEmpty();
             RuleFor(a => a.Model.Kind).MaximumLength(50);

@@ -45,6 +45,8 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
             /// <returns>QR код.</returns>
             public async Task<string> Handle(CreateQRCodeCommand request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = _mapper.Map<QRCode>(request.Model);
 
                 _context.QRCodes.Add(entity);

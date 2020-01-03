@@ -57,6 +57,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>DTO животного.</returns>
             public async Task<AnimalDTO> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 Animal entity;
                 // UNDONE: Переработать механизм
                 if (request.AnotherUser)

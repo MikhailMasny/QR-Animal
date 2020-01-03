@@ -37,6 +37,8 @@ namespace Masny.QRAnimal.Application.Application.Behaviours
         /// <returns></returns>
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            next = next ?? throw new ArgumentNullException(nameof(next));
+
             var context = new ValidationContext(request);
 
             var failures = _validators.Select(v => v.Validate(context))

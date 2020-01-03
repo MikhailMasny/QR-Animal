@@ -45,6 +45,8 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
             /// <returns>Id нового животного.</returns>
             public async Task<int> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = _mapper.Map<Animal>(request.Model);
 
                 _context.Animals.Add(entity);

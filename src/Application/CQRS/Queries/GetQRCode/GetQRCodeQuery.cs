@@ -48,6 +48,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetQRCode
             /// <returns>DTO QR Code.</returns>
             public async Task<QRCodeDTO> Handle(GetQRCodeQuery request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = await _context.QRCodes.Where(a => a.AnimalId == request.AnimalId)
                                                    .SingleOrDefaultAsync();
 

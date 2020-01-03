@@ -44,6 +44,8 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.UpdateAnimal
             /// <returns>Id нового животного.</returns>
             public async Task<Unit> Handle(UpdateAnimalCommand request, CancellationToken cancellationToken)
             {
+                request = request ?? throw new ArgumentNullException(nameof(request));
+
                 var entity = await _context.Animals.Where(a => a.Id == request.Model.Id &&
                                                           a.UserId == request.Model.UserId &&
                                                           !a.IsDeleted)
