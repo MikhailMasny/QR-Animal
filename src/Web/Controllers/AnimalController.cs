@@ -139,6 +139,8 @@ namespace Masny.QRAnimal.Web.Controllers
 
                 await _mediator.Send(qrCommand);
 
+                _logger.LogInformation($"{User.Identity.Name} successfully created animal with id: {id}.");
+
                 return RedirectToAction("Index", "Profile");
             }
 
@@ -228,6 +230,8 @@ namespace Masny.QRAnimal.Web.Controllers
                     return View(model);
                 }
 
+                _logger.LogInformation($"{User.Identity.Name} successfully edited animal with id: {model.Id}.");
+
                 return RedirectToAction("Index", "Profile");
             }
 
@@ -255,8 +259,10 @@ namespace Masny.QRAnimal.Web.Controllers
             }
             catch
             {
-                // UNDONE: Logger
+                _logger.LogInformation($"{User.Identity.Name} can't delete animal with id: {id}.");
             }
+
+            _logger.LogInformation($"{User.Identity.Name} successfully deleted animal with id: {id}.");
 
             return RedirectToAction("Index", "Profile");
         }
@@ -308,6 +314,8 @@ namespace Masny.QRAnimal.Web.Controllers
                 Code = code
             };
 
+            _logger.LogInformation($"For {User.Identity.Name} successfully showed animal with id: {userAnimal.Id}.");
+
             return View(animalViewModel);
         }
 
@@ -355,6 +363,8 @@ namespace Masny.QRAnimal.Web.Controllers
                 IsPublic = userAnimal.IsPublic,
                 Code = code
             };
+
+            _logger.LogInformation($"Animal with id: {userAnimal.Id}, successfully showed on public request.");
 
             return View(animalViewModel);
         }
