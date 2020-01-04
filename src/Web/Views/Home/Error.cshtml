@@ -1,0 +1,15 @@
+﻿@model ErrorCodeViewModel
+
+@{
+    Layout = "_Account";
+}
+
+@{
+    ViewData["Title"] = $"OOPS! - QR Animal";
+}
+
+<div class="form-account form-bg">
+    <h2>Error @Model.Number</h2>
+    <p>@Model.Message</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-sm" role="button">Go home</a>
+</div>
