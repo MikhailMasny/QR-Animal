@@ -22,16 +22,20 @@
                 <h3 class="logo-wrapper">QR Animal</h3>
                 <nav class="nav nav-wrapper justify-content-center">
 
+                    <div class="mr-2">
+                        <partial name="_SelectLanguagePartial" />
+                    </div>
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input class="btn btn-outline-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
+                            <input class="btn btn-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
                         </form>
                     }
                     else
                     {
-                        <a class="btn btn-outline-light btn-sm mr-2" asp-controller="Account" asp-action="Login">@Localizer["SignIn"]</a>
-                        <a class="btn btn-outline-warning btn-sm" asp-controller="Account" asp-action="Registration">@Localizer["SignUp"]</a>
+                        <a class="btn btn-light btn-sm mr-2" asp-controller="Account" asp-action="Login">@Localizer["SignIn"]</a>
+                        <a class="btn btn-warning btn-sm" asp-controller="Account" asp-action="Registration">@Localizer["SignUp"]</a>
                     }
 
                 </nav>

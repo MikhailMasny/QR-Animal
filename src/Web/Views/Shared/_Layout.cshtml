@@ -29,6 +29,10 @@
                         <a class="nav-link" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
                     </li>
                 </ul>
+
+                <div class="mr-2">
+                    <partial name="_SelectLanguagePartial" />
+                </div>
                 <form method="post" asp-controller="Account" asp-action="Logout">
                     <input class="btn btn-outline-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
                 </form>
@@ -46,13 +50,6 @@
         <hr class="hr-divider">
         <p>QR Animal &copy; 2019</p>
     </footer>
-
-    <div class="col-6 col-md">
-        <h5>@Localizer["Language"]</h5>
-        <ul class="list-unstyled text-small">
-            <partial name="_SelectLanguagePartial" />
-        </ul>
-    </div>
 
     @RenderSection("Scripts", required: false)
 
