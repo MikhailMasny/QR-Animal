@@ -3,27 +3,12 @@
 }
 
 @{
-    ViewData["Title"] = "Registartion succeeded - QR Animal";
+    ViewData["Title"] = Localizer["Title"];
 }
 
-<script>
-    var timeout = 5;
-    window.onload = function RedirectPage()
-    {
-        timeout--;
+    <script src="~/js/redirect.js"></script>
 
-        if (timeout <= 0)
-        {
-            location.replace(document.location.origin)
-        }
-        else
-        {
-            setTimeout(RedirectPage, 1000)
-        }
-    }
-</script>
-
-<div class="form-account form-bg shadow-sm">
-    <h2>Спасибо за регистрацию!</h2>
-    <p>Письмо успешно отправлено. Пожалуйста, проверьте Вашу почту для продолжения регистрации.</p>
-</div>
+    <div class="form-account form-bg shadow-sm">
+        <h2>@Localizer["Header"]</h2>
+        <p>@Localizer["Message"]</p>
+    </div>

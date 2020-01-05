@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Header" xml:space="preserve">
-    <value>Проверьте эл. почту</value>
+    <value>Thank you for registering!</value>
   </data>
   <data name="Message" xml:space="preserve">
-    <value>Для сброса пароля перейдите по ссылке в письме, отправленном на ваш email.</value>
+    <value>Email successfully sent. Please check your mail to continue registration.</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Письмо отправлено - QR Animal</value>
+    <value>Registartion succeeded - QR Animal</value>
   </data>
 </root>
