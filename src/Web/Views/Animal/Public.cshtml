@@ -1,18 +1,25 @@
 ﻿@model AnimalViewModel
 
 @{
+    Layout = "_Account";
+}
+
+@{
     ViewData["Title"] = @Localizer["Title", Model.Nickname];
 }
 
-<div class="card">
-    <h5 class="card-header">@Model.Nickname</h5>
-    <div class="card-body">
-        <h5 class="card-title">@Localizer["Kind"]: @Model.Kind</h5>
-        <h5 class="card-title">@Localizer["Breed"]: @Model.Breed</h5>
-        <h5 class="card-title">@Localizer["Gender"]: @Model.Gender</h5>
-        <h5 class="card-title">@Localizer["Passport"]: @Model.Passport</h5>
-        <h5 class="card-title">@Localizer["BirthDate"]: @Model.BirthDate.ToShortDateString()</h5>
-        <p class="card-text">@Localizer["Features"]: <b>@Model.Features</b></p>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">@Localizer["ToIndex"]</a>
-    </div>
+<div class="form-account form-bg shadow-sm">
+    <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Code))" alt="QRCode" width="225" height="225">
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><h2>@Model.Nickname</h2></li>
+        <li class="list-group-item">@Model.Kind</li>
+        <li class="list-group-item">@Model.Breed</li>
+        <li class="list-group-item">@Model.Gender</li>
+        <li class="list-group-item">@Model.Passport</li>
+        <li class="list-group-item">@Model.BirthDate.ToShortDateString()</li>
+        <li class="list-group-item">@Model.Features</li>
+    </ul>
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-4">@Localizer["ToIndex"]</a>
 </div>
