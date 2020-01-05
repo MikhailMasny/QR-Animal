@@ -3,12 +3,12 @@
 }
 
 @{
-    ViewData["Title"] = "Permission denied - QR Animal";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <script src="~/js/redirect.js"></script>
 
 <div class="form-account form-bg">
-    <h2>Отказано в доступе</h2>
-    <p>К сожалению пользователь ограничил видимость своего питомца. Повторите попытку позже.</p>
+    <h2>@Localizer["Header"]</h2>
+    <p>@Localizer["Text"]</p>
 </div>
