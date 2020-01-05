@@ -21,34 +21,17 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarqranimal">
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Profile" asp-action="Index">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Chat">Online chat</a>
-                        </li>
-                    </ul>
-
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
-                    </form>
-                }
-                else
-                {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Chat">Online chat</a>
-                        </li>
-                    </ul>
-
-                    <a asp-controller="Account" asp-action="Login" class="btn text-white btn-link btn-sm mr-2" role="button">Sign In</a>
-                    <a asp-controller="Account" asp-action="Registration" class="btn btn-outline-light btn-sm" role="button">Sign Up</a>
-                }
-
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
+                    </li>
+                </ul>
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <input class="btn btn-outline-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
+                </form>
             </div>
         </div>
     </nav>
@@ -65,7 +48,7 @@
     </footer>
 
     <div class="col-6 col-md">
-        <h5>Lang</h5>
+        <h5>@Localizer["Language"]</h5>
         <ul class="list-unstyled text-small">
             <partial name="_SelectLanguagePartial" />
         </ul>
