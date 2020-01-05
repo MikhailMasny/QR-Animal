@@ -117,37 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Добавить новое животное</value>
-  </data>
-  <data name="BirthDate" xml:space="preserve">
-    <value>Дата рождения</value>
-  </data>
   <data name="Breed" xml:space="preserve">
-    <value>Порода</value>
+    <value>Breed</value>
   </data>
   <data name="Features" xml:space="preserve">
-    <value>Особенности</value>
-  </data>
-  <data name="Gender" xml:space="preserve">
-    <value>Пол</value>
+    <value>Features</value>
   </data>
   <data name="Kind" xml:space="preserve">
-    <value>Вид</value>
+    <value>Kind</value>
   </data>
   <data name="Nickname" xml:space="preserve">
-    <value>Кличка</value>
+    <value>Nickname</value>
   </data>
   <data name="Passport" xml:space="preserve">
-    <value>Паспорт</value>
+    <value>Passport</value>
   </data>
   <data name="Public" xml:space="preserve">
-    <value>Каждый может увидеть ваше животное</value>
-  </data>
-  <data name="SelectGender" xml:space="preserve">
-    <value>Выбрать пол</value>
+    <value>Everyone can see your animal</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Добавить новое животное - QR Animal</value>
+    <value>Edit {0} - QR Animal</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>
