@@ -5,30 +5,27 @@
 }
 
 @{
-    ViewData["Title"] = "Sign In - QR Animal";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <form class="form-account form-bg shadow-sm" method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
-    @*Place for logo*@
-    @*<img class="mb-4" src="" alt="" width="72" height="72">*@
+    <h1 class="h3 mb-3 font-weight-normal">@Localizer["SignIn"]</h1>
 
-    <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
-
-    <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="Username" required autofocus />
-    <input id="passWithBorder" type="password" class="form-control mb-3" asp-for="Password" placeholder="Password" required />
+    <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="@Localizer["Username"]" required autofocus />
+    <input id="passWithBorder" type="password" class="form-control mb-3" asp-for="Password" placeholder="@Localizer["Password"]" required />
 
     <div class="checkbox mb-2">
         <input asp-for="RememberMe" />
-        <label asp-for="RememberMe">Remember me</label>
+        <label asp-for="RememberMe">@Localizer["RememberMe"]</label>
     </div>
 
     <p><span asp-validation-for="UserName"></span></p>
     <p><span asp-validation-for="Password"></span></p>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">@Localizer["SignIn"]</button>
 
-    <p class="mt-3">Forgot password? <a class="btn-link" asp-controller="Account" asp-action="ForgotPassword" role="button">Click here.</a></p>
-    <p class="mt-3">New to QR Animal? <a class="btn-link" asp-controller="Account" asp-action="Registration" role="button">Create an account.</a></p>
+    <p class="mt-3">@Localizer["Forgot"] <a class="btn-link" asp-controller="Account" asp-action="ForgotPassword" role="button">@Localizer["ClickHere"]</a></p>
+    <p class="mt-3">@Localizer["New"] <a class="btn-link" asp-controller="Account" asp-action="Registration" role="button">@Localizer["Create"]</a></p>
 </form>
