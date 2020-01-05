@@ -18,7 +18,7 @@ namespace Masny.QRAnimal.Web.Controllers
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами.
         /// </summary>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
