@@ -10,7 +10,9 @@ body {
     align-items: center;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
-    background-color: #F5F5F5;
+    background-image: url("/images/bg-account.jpg"); /* Photo by Erda Estremera on Unsplash */
+    background-size: cover;
+    background-position: center;
 }
 
 .form-account {
