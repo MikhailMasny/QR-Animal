@@ -33,18 +33,12 @@ namespace Masny.QRAnimal.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLocalization();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddControllersWithViews()
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationContext>());
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -57,6 +51,12 @@ namespace Masny.QRAnimal.Web
                 options.DefaultRequestCulture = new RequestCulture("en");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddSignalR();
@@ -78,8 +78,6 @@ namespace Masny.QRAnimal.Web
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //RuntimeMigration.ApplyMigration(app);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -90,8 +88,8 @@ namespace Masny.QRAnimal.Web
                 app.UseHsts();
             }
 
-            //var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization();
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
 

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home - QR Animal";
+    ViewData["Title"] = @Localizer["Index"] + " - QR Animal";
 }
 
 @{
@@ -21,36 +21,36 @@
             <div class="inner">
                 <h3 class="logo-wrapper">QR Animal</h3>
                 <nav class="nav nav-wrapper justify-content-center">
-                    @*<a class="nav-link active" href="#">Home</a>*@
 
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
+                            <input class="btn btn-outline-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
                         </form>
                     }
                     else
                     {
-                        <a class="btn btn-outline-light btn-sm mr-2" asp-controller="Account" asp-action="Login">Sign In</a>
-                        <a class="btn btn-outline-warning btn-sm" asp-controller="Account" asp-action="Registration">Sign Up</a>
+                        <a class="btn btn-outline-light btn-sm mr-2" asp-controller="Account" asp-action="Login">@Localizer["SignIn"]</a>
+                        <a class="btn btn-outline-warning btn-sm" asp-controller="Account" asp-action="Registration">@Localizer["SignUp"]</a>
                     }
+
                 </nav>
             </div>
         </header>
 
         <main role="main" class="inner middle-wrapper">
-            <h1 class="cover-heading">Text.</h1>
-            <p class="lead">Text.</p>
+            <h1>@Localizer["Header"]</h1>
+            <p class="lead">@Localizer["Text"]</p>
             <p class="lead">
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">Profile</a>
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">Online chat</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
                 }
                 else
                 {
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Account" asp-action="Registration">Join us</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Account" asp-action="Registration">@Localizer["Join"]</a>
                 }
 
             </p>

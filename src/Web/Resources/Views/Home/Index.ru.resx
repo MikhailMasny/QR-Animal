@@ -117,13 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error404" xml:space="preserve">
-    <value>Page not found.</value>
+  <data name="Chat" xml:space="preserve">
+    <value>Онлайн чат</value>
   </data>
-  <data name="Error500" xml:space="preserve">
-    <value>Internal server error.</value>
+  <data name="Header" xml:space="preserve">
+    <value>Заголовок</value>
   </data>
-  <data name="ErrorAnother" xml:space="preserve">
-    <value>Sorry, something went wrong..</value>
+  <data name="Index" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Присоединиться к нам</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Текст</value>
   </data>
 </root>
