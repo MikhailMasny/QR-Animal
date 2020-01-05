@@ -118,30 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Chat" xml:space="preserve">
-    <value>Онлайн чат</value>
+    <value>Online chat - QR Animal</value>
   </data>
-  <data name="Header" xml:space="preserve">
-    <value>Заголовок</value>
-  </data>
-  <data name="Index" xml:space="preserve">
-    <value>Главная - QR Animal</value>
-  </data>
-  <data name="Join" xml:space="preserve">
-    <value>Присоединиться к нам</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Профиль</value>
-  </data>
-  <data name="SignIn" xml:space="preserve">
-    <value>Войти</value>
-  </data>
-  <data name="SignOut" xml:space="preserve">
-    <value>Выйти</value>
-  </data>
-  <data name="SignUp" xml:space="preserve">
-    <value>Зарегистрироваться</value>
-  </data>
-  <data name="Text" xml:space="preserve">
-    <value>Текст</value>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
   </data>
 </root>
