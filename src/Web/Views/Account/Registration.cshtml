@@ -11,10 +11,6 @@
 <form class="form-account form-bg shadow-sm" method="post" asp-controller="Account" asp-action="Registration" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
-
-    @*Place for logo*@
-    @*<img class="mb-4" src="" alt="" width="72" height="72">*@
-
 <h1 class="h3 mb-3 font-weight-normal">@Localizer["SignUp"]</h1>
 
     <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="@Localizer["Username"]" required autofocus />
