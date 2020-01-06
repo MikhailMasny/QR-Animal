@@ -3,27 +3,18 @@
 }
 
 @{
-    ViewData["Title"] = "Registartion succeeded - QR Animal";
+    ViewData["Title"] = Localizer["Title"];
 }
 
-<script>
-    var timeout = 5;
-    window.onload = function RedirectPage()
-    {
-        timeout--;
+<div class="form-account form-bg shadow-sm">
 
-        if (timeout <= 0)
-        {
-            location.replace(document.location.origin)
-        }
-        else
-        {
-            setTimeout(RedirectPage, 1000)
-        }
-    }
-</script>
+    <!-- Icons made by Freepik from www.flaticon.com -->
+    <a asp-controller="Home" asp-action="Index"><img class="mb-4" src="~/images/logo.png" alt="Logo" width="128" height="128"></a>
 
-<div class="form-account form-bg">
-    <h2>Спасибо за регистрацию!</h2>
-    <p>Письмо успешно отправлено. Пожалуйста, проверьте Вашу почту для продолжения регистрации.</p>
+    <h2>@Localizer["Header"]</h2>
+    <p>@Localizer["Message"]</p>
 </div>
+
+@section scripts {
+    <script src="~/js/redirect.js"></script>
+}

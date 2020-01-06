@@ -35,7 +35,7 @@ namespace Masny.QRAnimal.Web.Controllers
         private readonly IOptions<AppSettings> _options;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами.
         /// </summary>
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>

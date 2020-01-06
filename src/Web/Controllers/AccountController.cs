@@ -13,12 +13,17 @@ namespace Masny.QRAnimal.Web.Controllers
     /// </summary>
     public class AccountController : Controller
     {
+        private const string _emailExisted = "Email is already existed.";
+        private const string _incorrectData = "Incorrect username and / or password";
+        private const string _accountConfirm = "Confirm your account";
+        private const string _accountResetPassword = "Reset password";
+
         private readonly IIdentityService _identityService;
         private readonly IMessageSender _messageSender;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами.
         /// </summary>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
@@ -59,7 +64,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
                 if (result == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Email is already existed.");
+                    ModelState.AddModelError(string.Empty, _emailExisted);
 
                     return View(model);
                 }
@@ -76,7 +81,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
                     var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailConfirm.cshtml", emailModel);
 
-                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", body);
+                    await _messageSender.SendMessageAsync(model.Email, _accountConfirm, body);
 
                     return View("RegistartionSucceeded");
                 }
@@ -142,7 +147,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 }
             }
 
-            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+            ModelState.AddModelError(string.Empty, _incorrectData);
 
             return View(model);
         }
@@ -228,7 +233,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
                 var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailForgotPassword.cshtml", emailModel);
 
-                await _messageSender.SendMessageAsync(model.Email, "Reset password", body);
+                await _messageSender.SendMessageAsync(model.Email, _accountResetPassword, body);
 
                 return View("ForgotPasswordConfirmation");
             }

@@ -8,8 +8,6 @@ body {
     display: flex;
     -ms-flex-align: center;
     align-items: center;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
     background-image: url("/images/bg-account.jpg"); /* Photo by Erda Estremera on Unsplash */
     background-size: cover;
     background-position: center;
@@ -71,6 +69,10 @@ body {
 .form-bg {
     background-color: #FFFFFF;
     border-radius: 0.5rem;
+}
+
+.list-group-item {
+    padding: .25rem 1.25rem;
 }
 
 @media (min-width: 768px) {

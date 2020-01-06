@@ -24,7 +24,7 @@ namespace Masny.QRAnimal.Web.Controllers
         private readonly IIdentityService _identityService;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами.
         /// </summary>
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>

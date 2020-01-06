@@ -11,16 +11,16 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// Пароль.
         /// </summary>
         [Required]
-        [StringLength(100, ErrorMessage = "Пароль должен содержать как минимум 6 символов", MinimumLength = 6)]
+        [StringLength(20, MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         /// <summary>
         /// Подтвердить пароль.
         /// </summary>
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        [Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
 
         /// <summary>

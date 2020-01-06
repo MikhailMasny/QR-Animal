@@ -1,66 +1,66 @@
 ﻿@model AnimalViewModel
 
 @{
-    ViewData["Title"] = "Add new animal - QR Animal";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="shadow-sm p-3 bg-white rounded">
-    <h4 class="mb-3">Add new animal</h4>
+    <h4 class="mb-3">@Localizer["Add"]</h4>
 
     <form method="post" asp-controller="Animal" asp-action="Create">
         <div asp-validation-summary="ModelOnly"></div>
 
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>Nickname</label>
-                <input id="animalNickname" type="text" class="form-control" asp-for="Nickname" placeholder="Nickname" required />
+                <label>@Localizer["Nickname"]</label>
+                <input id="animalNickname" type="text" class="form-control" asp-for="Nickname" placeholder="@Localizer["Nickname"]" required />
                 <span asp-validation-for="Nickname"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>Birth date</label>
-                <input id="animalBirthDate" type="date" class="form-control" asp-for="BirthDate" placeholder="BirthDate" required />
+                <label>@Localizer["BirthDate"]</label>
+                <input id="animalBirthDate" type="date" class="form-control" asp-for="BirthDate" placeholder="@Localizer["BirthDate"]" required />
                 <span asp-validation-for="BirthDate"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>Passport</label>
-                <input id="animalPassport" type="text" class="form-control" asp-for="Passport" placeholder="Passport" required />
+                <label>@Localizer["Passport"]</label>
+                <input id="animalPassport" type="text" class="form-control" asp-for="Passport" placeholder="@Localizer["Passport"]" required />
                 <span asp-validation-for="Passport"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>Kind</label>
-                <input id="animalKind" type="text" class="form-control" asp-for="Kind" placeholder="Kind" required />
+                <label>@Localizer["Kind"]</label>
+                <input id="animalKind" type="text" class="form-control" asp-for="Kind" placeholder="@Localizer["Kind"]" required />
                 <span asp-validation-for="Kind"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>Breed</label>
-                <input id="animalBreed" type="text" class="form-control" asp-for="Breed" placeholder="Breed" required />
+                <label>@Localizer["Breed"]</label>
+                <input id="animalBreed" type="text" class="form-control" asp-for="Breed" placeholder="@Localizer["Breed"]" required />
                 <span asp-validation-for="Breed"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>Gender</label>
+                <label>@Localizer["Gender"]</label>
                 <select id="animalGender" class="form-control" asp-for="Gender" asp-items="Model.GenderSelectList" required>
-                    <option value="">Select gender</option>
+                    <option value="">@Localizer["SelectGender"]</option>
                 </select>
             </div>
         </div>
 
         <div class="checkbox mb-2">
             <input asp-for="IsPublic" />
-            <label asp-for="IsPublic">Everyone can see your animal</label>
+            <label asp-for="IsPublic">@Localizer["Public"]</label>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label>Features</label>
+                <label>@Localizer["Features"]</label>
                 <textarea id="animalFeatures" class="form-control" asp-for="Features" aria-label="With textarea"></textarea>
                 <span asp-validation-for="Features"></span>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-outline-success btn-lg btn-block">Add</button>
+        <button type="submit" class="btn btn-outline-success btn-lg btn-block">@Localizer["Add"]</button>
     </form>
 </div>
 

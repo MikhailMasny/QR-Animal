@@ -10,13 +10,13 @@ namespace Masny.QRAnimal.Application.Exceptions
     /// </summary>
     public class RequestValidationException : Exception
     {
-        private const string _error = "One or more validation failures have occurred.";
+        private const string _errorMessage = "One or more validation failures have occurred.";
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         public RequestValidationException()
-            : base(_error)
+            : base(_errorMessage)
         {
             Failures = new Dictionary<string, string[]>();
         }

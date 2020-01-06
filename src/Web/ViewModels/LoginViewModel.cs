@@ -10,22 +10,19 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// <summary>
         /// Имя пользователя.
         /// </summary>
-        [Required(ErrorMessage = "Неверное имя пользователя")]
-        [Display(Name = "Имя пользователя")]
+        [Required]
         public string UserName { get; set; }
 
         /// <summary>
         /// Пароль.
         /// </summary>
-        [Required(ErrorMessage = "Неверный пароль")]
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         /// <summary>
         /// Запомнить.
         /// </summary>
-        [Display(Name = "Запомнить?")]
         public bool RememberMe { get; set; }
 
         /// <summary>
