@@ -10,32 +10,28 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// <summary>
         /// Имя пользователя.
         /// </summary>
-        [Required(ErrorMessage = "Неверное имя пользователя")]
-        [Display(Name = "Имя пользователя")]
+        [Required]
         public string UserName { get; set; }
 
         /// <summary>
         /// Электронный адрес.
         /// </summary>
-        [Required(ErrorMessage = "Неверная электронная почта")]
-        [Display(Name = "Электронная почта")]
+        [Required]
         public string Email { get; set; }
 
         /// <summary>
         /// Пароль.
         /// </summary>
-        [Required(ErrorMessage = "Неверный пароль")]
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         /// <summary>
         /// Подтвердить пароль.
         /// </summary>
-        [Required(ErrorMessage = "Неверный пароль")]
-        [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Подтвердить пароль")]
+        [Compare(nameof(Password))]
         public string PasswordConfirm { get; set; }
     }
 }
