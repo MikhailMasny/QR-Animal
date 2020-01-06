@@ -1,4 +1,4 @@
-﻿@model ErrorCodeViewModel
+﻿@model ErrorViewModel
 
 @{
     Layout = "_Account";
@@ -9,7 +9,6 @@
 }
 
 <div class="form-account form-bg">
-    <h2>@Localizer["Error"] @Model.Number</h2>
-    <p>@Model.Message</p>
+    <h2>@Localizer["Error"] @Model.RequestId</h2>
     <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-sm" role="button">@Localizer["ToIndex"]</a>
 </div>

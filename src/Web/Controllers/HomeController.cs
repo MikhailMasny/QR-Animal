@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Globalization;
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -13,16 +14,6 @@ namespace Masny.QRAnimal.Web.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        private readonly IStringLocalizer<HomeController> _localizer;
-
-        /// <summary>
-        /// Конструктор с параметрами.
-        /// </summary>
-        public HomeController(IStringLocalizer<HomeController> localizer)
-        {
-            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-        }
-
         /// <summary>
         /// Главная страница.
         /// </summary>
@@ -40,20 +31,12 @@ namespace Masny.QRAnimal.Web.Controllers
         [Route("Error/{code:int}")]
         public IActionResult Error(int code)
         {
-            var errorCodeViewModel = new ErrorCodeViewModel
+            var errorViewModel = new ErrorViewModel
             {
-                Number = code
+                RequestId = code.ToString(CultureInfo.InvariantCulture)
             };
 
-            switch (code)
-            {
-                case 404: { errorCodeViewModel.Message = _localizer["Error404"]; } break;
-                case 500: { errorCodeViewModel.Message = _localizer["Error500"]; } break;
-
-                default: { errorCodeViewModel.Message = _localizer["ErrorAnother"]; } break;
-            }
-
-            return View(errorCodeViewModel);
+            return View(errorViewModel);
         }
 
         /// <summary>

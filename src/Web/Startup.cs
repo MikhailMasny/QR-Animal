@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using System;
 using System.Globalization;
 
 namespace Masny.QRAnimal.Web
@@ -78,6 +79,8 @@ namespace Masny.QRAnimal.Web
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app = app ?? throw new ArgumentNullException(nameof(app));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
