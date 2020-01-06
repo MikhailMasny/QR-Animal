@@ -8,7 +8,6 @@ body {
     display: flex;
     -ms-flex-align: center;
     align-items: center;
-    margin: 1rem;
     background-image: url("/images/bg-account.jpg"); /* Photo by Erda Estremera on Unsplash */
     background-size: cover;
     background-position: center;

@@ -19,10 +19,15 @@
 
     <link href="~/css/account.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/validation.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/cookie.css" rel="stylesheet" asp-append-version="true">
 
     @RenderSection("Scripts", required: false)
 </head>
 <body class="text-center">
+
     @RenderBody()
+
+    <partial name="_CookieConsentPartial" />
+
 </body>
 </html>

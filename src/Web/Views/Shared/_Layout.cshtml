@@ -19,13 +19,14 @@
 
     <link href="~/css/style.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/validation.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/cookie.css" rel="stylesheet" asp-append-version="true">
 
     @RenderSection("Scripts", required: false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-divider">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom bg-custom nav-divider">
         <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">QR Animal</a>@*TODO LOGO*@
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">QR Animal</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarqranimal" aria-controls="navbarqranimal" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -41,9 +42,6 @@
                     </li>
                 </ul>
 
-                <div class="mr-2">
-                    <partial name="_SelectLanguagePartial" />
-                </div>
                 <form method="post" asp-controller="Account" asp-action="Logout">
                     <input class="btn btn-outline-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
                 </form>
@@ -52,15 +50,19 @@
     </nav>
 
     <div class="container">
-        <partial name="_CookieConsentPartial" />
-
         @RenderBody()
     </div>
 
     <footer class="container">
         <hr class="hr-divider">
-        <p>QR Animal &copy; 2019</p>
+
+        <div class="footer-container mb-2">
+            <div>QR Animal &copy; 2019</div>
+            <div><partial name="_SelectLanguagePartial" /></div>
+        </div>
     </footer>
+
+    <partial name="_CookieConsentPartial" />
 
 </body>
 </html>
