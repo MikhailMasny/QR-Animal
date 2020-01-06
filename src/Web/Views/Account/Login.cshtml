@@ -11,6 +11,9 @@
 <form class="form-account form-bg shadow-sm" method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" asp-antiforgery="true">
     <div asp-validation-summary="ModelOnly"></div>
 
+    <!-- Icons made by Freepik from www.flaticon.com -->
+    <a asp-controller="Home" asp-action="Index"><img class="mb-4" src="~/images/logo.png" alt="Logo" width="128" height="128"></a>
+
     <h1 class="h3 mb-3 font-weight-normal">@Localizer["SignIn"]</h1>
 
     <input id="username" type="text" class="form-control" asp-for="UserName" placeholder="@Localizer["Username"]" required autofocus />

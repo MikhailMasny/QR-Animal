@@ -121,7 +121,7 @@
     <value>Онлайн чат</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Заголовок</value>
+    <value>Вся информация в одном сканировании</value>
   </data>
   <data name="Join" xml:space="preserve">
     <value>Присоединяйтесь к нам</value>
@@ -139,7 +139,7 @@
     <value>Зарегистрироваться</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>Текст</value>
+    <value>С помощью нашего веб-приложения, адаптивного под все размеры экранов, Вы cможете добавить всех своих животных и быстро делиться информацией о них при помощи QR кода.</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Главная - QR Animal</value>

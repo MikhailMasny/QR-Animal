@@ -124,7 +124,7 @@
     <value>Youremail@example.com</value>
   </data>
   <data name="HaveAccount" xml:space="preserve">
-    <value>У меня уже есть аккаунт.</value>
+    <value>У меня уже есть аккаунт</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
