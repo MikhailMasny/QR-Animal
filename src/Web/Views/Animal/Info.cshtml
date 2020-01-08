@@ -1,7 +1,7 @@
 ﻿@model AnimalViewModel
 
 @{
-    ViewData["Title"] = $"Animal {@Model.Nickname} - QR Animal";
+    ViewData["Title"] = Localizer["Title", Model.Nickname];
 }
 
 <div class="media shadow-sm p-3 bg-white rounded">
@@ -12,25 +12,26 @@
         <div class="col mt-4">
             <div class="media-body">
 
-                <h2 class="mt-0">@Model.Nickname 
-                
-                @if(@Model.IsPublic)
-                {
-                    <span class="badge badge-danger">Public</span>
-                }
-                else
-                {
-                    <span class="badge badge-success">Private</span>
-                }
+                <h2 class="mt-0">
+                    @Model.Nickname
+
+                    @if (@Model.IsPublic)
+                    {
+                        <span class="badge badge-danger">@Localizer["Public"]</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-success">@Localizer["Private"]</span>
+                    }
 
                 </h2>
 
-                Kind: <b>@Model.Kind</b><br />
-                Breed: <b>@Model.Breed</b><br />
-                Gender: <b>@Model.Gender</b><br />
-                Passport: <b>@Model.Passport</b><br />
-                BirthDate: <b>@Model.BirthDate</b><br />
-                Features: <b>@Model.Features</b><br />
+                @Localizer["Kind"]: <b>@Model.Kind</b><br />
+                @Localizer["Breed"]: <b>@Model.Breed</b><br />
+                @Localizer["Gender"]: <b>@Model.Gender</b><br />
+                @Localizer["Passport"]: <b>@Model.Passport</b><br />
+                @Localizer["BirthDate"]: <b>@Model.BirthDate</b><br />
+                @Localizer["Features"]: <b>@Model.Features</b><br />
             </div>
         </div>
     </div>

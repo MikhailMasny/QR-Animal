@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Masny.QRAnimal.Application.Models
@@ -27,7 +28,7 @@ namespace Masny.QRAnimal.Application.Models
         /// <summary>
         /// Массив ошибок.
         /// </summary>
-        public string[] Errors { get; set; }
+        public IEnumerable<string> Errors { get; set; }
 
         /// <summary>
         /// Результат успешно.
@@ -35,7 +36,7 @@ namespace Masny.QRAnimal.Application.Models
         /// <returns>Результат.</returns>
         public static Result Success()
         {
-            return new Result(true, new string[] { });
+            return new Result(true, Array.Empty<string>());
         }
 
         /// <summary>

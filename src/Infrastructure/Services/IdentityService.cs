@@ -47,16 +47,24 @@ namespace Masny.QRAnimal.Infrastructure.Services
                 UserName = userName
             };
 
-            var result = await _userManager.CreateAsync(user, password);
-            var code = string.Empty;
+            var isExist = await _userManager.FindByEmailAsync(email);
+            IdentityResult result;
 
-            if (result.Succeeded)
+            if (isExist == null)
             {
-                await _userManager.AddToRoleAsync(user, "User");
-                code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                result = await _userManager.CreateAsync(user, password);
+                var code = string.Empty;
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                    code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                }
+
+                return (result.ToApplicationResult(), user.Id, code);
             }
 
-            return (result.ToApplicationResult(), user.Id, code);
+            return (null, null, null);
         }
 
         /// <inheritdoc />
@@ -75,7 +83,6 @@ namespace Masny.QRAnimal.Infrastructure.Services
         /// <inheritdoc />
         public async Task<Result> LoginUserAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
         {
-            // UNDONE: Реализовать корректное поведение RememberMe
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
 
             return result.ToApplicationResult();

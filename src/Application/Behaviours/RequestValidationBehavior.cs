@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using Masny.QRAnimal.Application.Exceptions;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ValidationException = Masny.QRAnimal.Application.Exceptions.ValidationException;
 
 namespace Masny.QRAnimal.Application.Application.Behaviours
 {
@@ -24,7 +25,7 @@ namespace Masny.QRAnimal.Application.Application.Behaviours
         /// <param name="validators">Обработчики от FluentValidation.</param>
         public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators;
+            _validators = validators ?? throw new ArgumentNullException(nameof(validators));
         }
 
         /// <summary>
@@ -36,6 +37,8 @@ namespace Masny.QRAnimal.Application.Application.Behaviours
         /// <returns></returns>
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            next = next ?? throw new ArgumentNullException(nameof(next));
+
             var context = new ValidationContext(request);
 
             var failures = _validators.Select(v => v.Validate(context))
@@ -45,7 +48,7 @@ namespace Masny.QRAnimal.Application.Application.Behaviours
 
             if (failures.Any())
             {
-                throw new ValidationException(failures);
+                throw new RequestValidationException(failures);
             }
 
             return next();

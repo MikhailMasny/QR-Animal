@@ -8,17 +8,27 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        Use this space to summarize your privacy and cookie use policy. <a asp-page="/Privacy">Learn More</a>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div id="cookieContainer" class="cookie-container" role="alert">
+        <div class="cookie-wrapper">
+            <div class="cookie-text mr-2">
+                @Localizer["Policy"]
+            </div>
+            <div id="cookieConsent">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
     </div>
+
     <script>
         (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            let button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
+
+                let cookieContainer = document.getElementById("cookieContainer");
+                cookieContainer.classList.add("hidden");
             }, false);
         })();
     </script>

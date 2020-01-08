@@ -7,8 +7,9 @@ body {
     display: -ms-flexbox;
     display: flex;
     color: #FFFFFF;
-    background-image: url("/images/background.jpg"); /* Photo by Febiyan on Unsplash */
+    background-image: url("/images/bg-main.jpg"); /* Photo by Krista Mangulsone on Unsplash */
     background-size: cover;
+    background-position: center;
 }
 
 .main-container {
@@ -16,6 +17,11 @@ body {
 }
 
 .head-wrapper {
+    margin-bottom: 2rem;
+}
+
+.text-wrapper {
+    font-weight: 300;
     margin-bottom: 2rem;
 }
 
@@ -30,7 +36,8 @@ body {
 }
 
 .middle-wrapper {
-    padding: 0 1.5rem;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
     .middle-wrapper .btn-lg {

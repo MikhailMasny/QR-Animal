@@ -13,15 +13,21 @@ namespace Masny.QRAnimal.Web.Controllers
     /// </summary>
     public class AccountController : Controller
     {
+        private const string _emailExisted = "Email is already existed.";
+        private const string _incorrectData = "Incorrect username and / or password";
+        private const string _accountConfirm = "Confirm your account";
+        private const string _accountResetPassword = "Reset password";
+
         private readonly IIdentityService _identityService;
         private readonly IMessageSender _messageSender;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами.
         /// </summary>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="messageSender">Cервис работы с почтой.</param>
+        /// <param name="razorViewToStringRenderer">Cервис для генерации HTML документов.</param>
         public AccountController(IIdentityService identityService,
                                  IMessageSender messageSender,
                                  IRazorViewToStringRenderer razorViewToStringRenderer)
@@ -32,8 +38,9 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Страница для входа в систему.
+        /// Страница для регистрации нового пользователя.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         public IActionResult Registration()
         {
@@ -44,13 +51,23 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Регистрация нового пользователя.
         /// </summary>
         /// <param name="model">Модель пользовательских данных.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistrationAsync(RegistrationViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var (result, userId, code) = await _identityService.CreateUserAsync(model.Email, model.UserName, model.Password);
+
+                if (result == null)
+                {
+                    ModelState.AddModelError(string.Empty, _emailExisted);
+
+                    return View(model);
+                }
 
                 if (result.Succeeded)
                 {
@@ -62,11 +79,11 @@ namespace Masny.QRAnimal.Web.Controllers
                         Code = callbackUrl
                     };
 
-                    var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+                    var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailConfirm.cshtml", emailModel);
 
-                    await _messageSender.SendMessageAsync(model.Email, "Confirm your account", body);
+                    await _messageSender.SendMessageAsync(model.Email, _accountConfirm, body);
 
-                    return RedirectToAction("Index", "Home");
+                    return View("RegistartionSucceeded");
                 }
 
                 foreach (var error in result.Errors)
@@ -82,6 +99,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Страница для входа в систему.
         /// </summary>
         /// <param name="returnUrl">Возврат по определенному адресу.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -94,13 +112,16 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Выполнение входа.
+        /// Вход в систему.
         /// </summary>
         /// <param name="model">Модель пользовательских данных.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var (result, message) = await _identityService.EmailConfirmCheckerAsync(model.UserName);
@@ -126,7 +147,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 }
             }
 
-            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+            ModelState.AddModelError(string.Empty, _incorrectData);
 
             return View(model);
         }
@@ -146,10 +167,11 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Подтвердить email.
+        /// Подтверждение почты.
         /// </summary>
         /// <param name="userId">Id пользователя.</param>
         /// <param name="code">Confirmation Token.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -172,7 +194,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Страница для восстановления пароля.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -181,20 +203,22 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Восстановить пароль.
+        /// Восстановление пароля.
         /// </summary>
         /// <param name="model">Модель для восстановления пароля.</param>
-        /// <returns></returns>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
-                var (result, userId, userName, code) = await _identityService.ForgotPassword(model.Email);
+                var (result, _, userName, code) = await _identityService.ForgotPassword(model.Email);
 
-                if(!result)
+                if (!result)
                 {
                     return View("ForgotPasswordConfirmation");
                 }
@@ -207,9 +231,9 @@ namespace Masny.QRAnimal.Web.Controllers
                     Code = callbackUrl
                 };
 
-                var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailTemplate.cshtml", emailModel);
+                var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailForgotPassword.cshtml", emailModel);
 
-                await _messageSender.SendMessageAsync(model.Email, "Reset password", body);
+                await _messageSender.SendMessageAsync(model.Email, _accountResetPassword, body);
 
                 return View("ForgotPasswordConfirmation");
             }
@@ -222,6 +246,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// </summary>
         /// <param name="userName">Имя пользователя.</param>
         /// <param name="code">Confirmation Token</param>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string userName = null, string code = null)
@@ -235,14 +260,17 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Сбросить пароль.
+        /// Сброс пароля.
         /// </summary>
         /// <param name="model">Модель сброса пароля.</param>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (!ModelState.IsValid)
             {
                 return View(model);

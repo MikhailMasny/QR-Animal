@@ -2,6 +2,14 @@
     background-color: #F5F5F5;
 }
 
+.navbar-custom {
+    padding: .25rem 1rem;
+}
+
+.bg-custom {
+    background-color: #1a1a1f;
+}
+
 .chat-reverse {
     display: flex;
     flex-direction: column-reverse;
@@ -32,4 +40,10 @@
 
 .li-without-dot {
     list-style: none;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
 }

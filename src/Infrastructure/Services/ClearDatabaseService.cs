@@ -11,6 +11,8 @@ namespace Masny.QRAnimal.Infrastructure.Services
     /// </summary>
     public class ClearDatabaseService : IClearDatabaseService
     {
+        private const string _doWorkMessage = "Marked data for deletion cleared.";
+
         private readonly ILogger _logger;
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Marked data for deletion cleared.");
+                _logger.LogInformation(_doWorkMessage);
 
                 // Выполнение каждый час
                 await Task.Delay(3600000, stoppingToken);

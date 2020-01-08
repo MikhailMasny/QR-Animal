@@ -14,7 +14,8 @@ namespace Masny.QRAnimal.Web
 {
     public class Program
     {
-        private static readonly string url = "http://*:85";
+        private const string url = "http://*:85";
+        private const string logErrorMessage = "Error.";
 
         public async static Task Main(string[] args)
         {
@@ -42,7 +43,7 @@ namespace Masny.QRAnimal.Web
                     catch (Exception ex)
                     {
                         var logger = loggerFactory.CreateLogger<Program>();
-                        logger.LogError(ex, "Error.");
+                        logger.LogError(ex, logErrorMessage);
                     }
                 }
 

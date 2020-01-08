@@ -7,6 +7,7 @@ using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
 using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
+using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
@@ -14,16 +15,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using QRCoder;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
-
-// UNDONE: добавить DTO модели
-// UNDONE: добавить задачу worker для удаления определенных данных
-// UNDONE: добавить возможность при создании животного делать его исключительно приватным
 
 namespace Masny.QRAnimal.Web.Controllers
 {
@@ -36,20 +31,27 @@ namespace Masny.QRAnimal.Web.Controllers
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
         private readonly IIdentityService _identityService;
+        private readonly IQRCodeGeneratorService _QRCodeGeneratorService;
+        private readonly IOptions<AppSettings> _options;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор с параметрами.
         /// </summary>
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
+        /// <param name="QRCodeGeneratorService">Сервис для формирования QR кода.</param>
         public AnimalController(ILogger<AnimalController> logger,
                                 IMediator mediator,
-                                IIdentityService identityService)
+                                IIdentityService identityService,
+                                IQRCodeGeneratorService QRCodeGeneratorService,
+                                IOptions<AppSettings> options)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _QRCodeGeneratorService = QRCodeGeneratorService ?? throw new ArgumentNullException(nameof(QRCodeGeneratorService));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -74,11 +76,14 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Добавить нового животного.
+        /// Добавление нового животного.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(AnimalViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -109,16 +114,20 @@ namespace Masny.QRAnimal.Web.Controllers
                 {
                     id = await _mediator.Send(animalCommand);
                 }
-                catch
+                catch (RequestValidationException failures)
                 {
-                    // UNDONE: Добавить обработчик.
+                    foreach (var error in failures.Failures)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Value[0]);
+                    }
+
                     return View(model);
                 }
 
                 // Создание команды для добавления QR кода для животного
                 var qrCodeDTO = new QRCodeDTO
                 {
-                    Code = $"http://localhost:85/Animal/Public/{id}",
+                    Code = _options.Value.QRGeneratorCode + id,
                     Created = DateTime.Now,
                     AnimalId = id
                 };
@@ -130,6 +139,8 @@ namespace Masny.QRAnimal.Web.Controllers
 
                 await _mediator.Send(qrCommand);
 
+                _logger.LogInformation($"{User.Identity.Name} successfully created animal with id: {id}.");
+
                 return RedirectToAction("Index", "Profile");
             }
 
@@ -139,6 +150,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <summary>
         /// Страница для обновления данных животного.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -174,11 +186,14 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Обновить животное.
+        /// Обновление животного.
         /// </summary>
+        /// <returns>Определенное представление.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(AnimalViewModel model)
         {
+            model = model ?? throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
                 var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -205,11 +220,17 @@ namespace Masny.QRAnimal.Web.Controllers
                 {
                     await _mediator.Send(animalCommand);
                 }
-                catch
+                catch (RequestValidationException failures)
                 {
-                    // UNDONE: Добавить обработчик.
+                    foreach (var error in failures.Failures)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Value[0]);
+                    }
+
                     return View(model);
                 }
+
+                _logger.LogInformation($"{User.Identity.Name} successfully edited animal with id: {model.Id}.");
 
                 return RedirectToAction("Index", "Profile");
             }
@@ -218,10 +239,10 @@ namespace Masny.QRAnimal.Web.Controllers
         }
 
         /// <summary>
-        /// Удалить выбранное животное (пометить для удаления).
+        /// Удаление выбранного животного (пометить для удаления).
         /// </summary>
         /// <param name="id">Идентификатор.</param>
-        /// <returns>Представление главной страницы.</returns>
+        /// <returns>Определенное представление.</returns>
         public async Task<IActionResult> Delete(int id)
         {
             var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -229,26 +250,28 @@ namespace Masny.QRAnimal.Web.Controllers
             var animalCommand = new MarkAsDeletedAnimalCommand
             {
                 Id = id,
-                UserId = userId 
+                UserId = userId
             };
 
             try
             {
                 await _mediator.Send(animalCommand);
             }
-            catch (NotFoundException ex)
+            catch
             {
-                // UNDONE: Logger
+                _logger.LogInformation($"{User.Identity.Name} can't delete animal with id: {id}.");
             }
+
+            _logger.LogInformation($"{User.Identity.Name} successfully deleted animal with id: {id}.");
 
             return RedirectToAction("Index", "Profile");
         }
 
         /// <summary>
-        /// Получить информацию о выбранном животном.
+        /// Страница для получения информации о выбранном животном.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
-        /// <returns>Представление страницы с информацией о животном.</returns>
+        /// <returns>Определенное представление.</returns>
         public async Task<IActionResult> Info(int id)
         {
             var userId = await _identityService.GetUserIdByNameAsync(User.Identity.Name);
@@ -262,8 +285,6 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var userAnimal = await _mediator.Send(animalQuery);
 
-            //_logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
-
             if (userAnimal == null)
             {
                 return RedirectToAction("Index", "Profile");
@@ -276,7 +297,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
 
-            var code = CreateQRCode(qrCodeText.Code);
+            var code = _QRCodeGeneratorService.CreateQRCode(qrCodeText.Code);
 
             var animalViewModel = new AnimalViewModel
             {
@@ -293,14 +314,17 @@ namespace Masny.QRAnimal.Web.Controllers
                 Code = code
             };
 
+            _logger.LogInformation($"For {User.Identity.Name} successfully showed animal with id: {userAnimal.Id}.");
+
             return View(animalViewModel);
         }
 
         /// <summary>
-        /// Получить информацию о выбранном животном (для другого пользователя, Public).
+        /// Страница для получения информации о выбранном животном (для другого пользователя, Public).
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <returns>Представление публичной страницы с информацией о животном.</returns>
+        [AllowAnonymous]
         public async Task<IActionResult> Public(int id)
         {
             var animalQuery = new GetAnimalQuery
@@ -311,11 +335,9 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var userAnimal = await _mediator.Send(animalQuery);
 
-            //_logger.LogInformation($"Animal {userAnimal.Nickname} showed for user {User.Identity.Name}.");
-
             if (userAnimal == null || !userAnimal.IsPublic)
             {
-                return RedirectToAction("Index", "Home");
+                return View("PermissionDenied");
             }
 
             var qrQuery = new GetQRCodeQuery
@@ -325,7 +347,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
 
-            var code = CreateQRCode(qrCodeText.Code);
+            var code = _QRCodeGeneratorService.CreateQRCode(qrCodeText.Code);
 
             var animalViewModel = new AnimalViewModel
             {
@@ -342,26 +364,9 @@ namespace Masny.QRAnimal.Web.Controllers
                 Code = code
             };
 
+            _logger.LogInformation($"Animal with id: {userAnimal.Id}, successfully showed on public request.");
+
             return View(animalViewModel);
-        }
-
-        // UNDONE: Перенести в сервисы или отдельный метод
-        private static byte[] CreateQRCode(string text)
-        {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            var code = BitmapToBytes(qrCodeImage);
-
-            return code;
-        }
-
-        private static byte[] BitmapToBytes(Bitmap img)
-        {
-            using MemoryStream stream = new MemoryStream();
-            img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            return stream.ToArray();
         }
     }
 }

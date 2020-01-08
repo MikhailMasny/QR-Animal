@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.DTO;
+using Masny.QRAnimal.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -36,8 +37,8 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             public GetAnimalsByUserIdQueryHandler(IApplicationContext context,
                                                   IMapper mapper)
             {
-                _context = context;
-                _mapper = mapper;
+                _context = context ?? throw new ArgumentNullException(nameof(context));
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             }
 
             /// <summary>
@@ -46,7 +47,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <returns>DTO животного.</returns>
             public async Task<IEnumerable<AnimalDTO>> Handle(GetAnimalsByUserIdQuery request, CancellationToken cancellationToken)
             {
-                var entites = await _context.Animals.Where(a => a.UserId == request.UserId && 
+                var entites = await _context.Animals.Where(a => a.UserId == request.UserId &&
                                                            !a.IsDeleted)
                                                     .ToListAsync(cancellationToken);
 

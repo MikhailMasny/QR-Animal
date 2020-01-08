@@ -4,67 +4,63 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+
+    <!-- Icons made by Freepik from www.flaticon.com -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="~/css/style.css" rel="stylesheet" asp-append-version="true">
-    <link href="~/css/validation.css" rel="stylesheet" asp-append-version="true">
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <link href="~/css/style.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/validation.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/cookie.css" rel="stylesheet" asp-append-version="true">
+
+    @RenderSection("Scripts", required: false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-divider">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom bg-custom nav-divider">
         <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">QR Animal</a>@*TODO LOGO*@
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">QR Animal</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarqranimal" aria-controls="navbarqranimal" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarqranimal">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
+                    </li>
+                </ul>
 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Profile" asp-action="Index">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Chat">Online chat</a>
-                        </li>
-                    </ul>
-
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
-                    </form>
-                }
-                else
-                {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Chat">Online chat</a>
-                        </li>
-                    </ul>
-
-                    <a asp-controller="Account" asp-action="Login" class="btn text-white btn-link btn-sm mr-2" role="button">Sign In</a>
-                    <a asp-controller="Account" asp-action="Registration" class="btn btn-outline-light btn-sm" role="button">Sign Up</a>
-                }
-
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <input class="btn btn-outline-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
+                </form>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <partial name="_CookieConsentPartial" />
-
         @RenderBody()
     </div>
 
     <footer class="container">
         <hr class="hr-divider">
-        <p>&copy; 2019 QR Animal &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+
+        <div class="footer-container mb-2">
+            <div>QR Animal &copy; 2019</div>
+            <div><partial name="_SelectLanguagePartial" /></div>
+        </div>
     </footer>
 
-    @RenderSection("Scripts", required: false)
+    <partial name="_CookieConsentPartial" />
 
 </body>
 </html>

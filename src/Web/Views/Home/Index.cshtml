@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Home - QR Animal";
+    Layout = null;
 }
 
 @{
-    Layout = null;
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <!DOCTYPE html>
@@ -12,45 +12,57 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+
+    <!-- Icons made by Freepik from www.flaticon.com -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/cookie.css" rel="stylesheet" asp-append-version="true">
 </head>
 <body class="text-center">
     <div class="main-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
         <header class="head-wrapper mb-auto">
             <div class="inner">
                 <h3 class="logo-wrapper">QR Animal</h3>
                 <nav class="nav nav-wrapper justify-content-center">
-                    @*<a class="nav-link active" href="#">Home</a>*@
+
+                    <div class="mr-2">
+                        <partial name="_SelectLanguagePartial" />
+                    </div>
 
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" asp-controller="Account" asp-action="Logout">
-                            <input class="btn btn-outline-warning btn-sm" type="submit" value="Sign Out" />
+                            <input class="btn btn-warning btn-sm" type="submit" value="@Localizer["SignOut"]" />
                         </form>
                     }
                     else
                     {
-                        <a class="btn btn-outline-light btn-sm mr-2" asp-controller="Account" asp-action="Login">Sign In</a>
-                        <a class="btn btn-outline-warning btn-sm" asp-controller="Account" asp-action="Registration">Sign Up</a>
+                        <a class="btn btn-light btn-sm mr-2" asp-controller="Account" asp-action="Login">@Localizer["SignIn"]</a>
+                        <a class="btn btn-warning btn-sm" asp-controller="Account" asp-action="Registration">@Localizer["SignUp"]</a>
                     }
+
                 </nav>
             </div>
         </header>
 
         <main role="main" class="inner middle-wrapper">
-            <h1 class="cover-heading">Text.</h1>
-            <p class="lead">Text.</p>
+            <h2>@Localizer["Header"]</h2>
+            <p class="text-wrapper">@Localizer["Text"]</p>
             <p class="lead">
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">Profile</a>
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">Online chat</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
                 }
                 else
                 {
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Account" asp-action="Registration">Join us</a>
+                    <a class="btn btn-lg btn-outline-light" asp-controller="Account" asp-action="Registration">@Localizer["Join"]</a>
                 }
 
             </p>
@@ -61,6 +73,10 @@
                 <p>QR Animals &copy; 2019</p>
             </div>
         </footer>
+
     </div>
+
+    <partial name="_CookieConsentPartial" />
+
 </body>
 </html>

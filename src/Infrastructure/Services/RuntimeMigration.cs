@@ -16,8 +16,10 @@ namespace Masny.QRAnimal.Infrastructure.Services
         /// <param name="app">Строитель приложения.</param>
         public static void ApplyMigration(IApplicationBuilder app)
         {
-            using IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            scope.ServiceProvider.GetService<ApplicationContext>().Database.Migrate();
+            using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetService<ApplicationContext>().Database.Migrate();
+            }
         }
     }
 }

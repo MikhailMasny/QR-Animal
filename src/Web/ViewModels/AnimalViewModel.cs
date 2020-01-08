@@ -23,13 +23,13 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// <summary>
         /// Вид (разновидность).
         /// </summary>
-        [Required(ErrorMessage = "Неверный Kind")]
+        [Required]
         public string Kind { get; set; }
 
         /// <summary>
         /// Порода.
         /// </summary>
-        [Required(ErrorMessage = "Неверный Breed")]
+        [Required]
         public string Breed { get; set; }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// <summary>
         /// Паспорт.
         /// </summary>
-        [Required(ErrorMessage = "Неверный Passport")]
+        [Required]
         public string Passport { get; set; }
 
         /// <summary>
@@ -51,19 +51,19 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// <summary>
         /// Кличка.
         /// </summary>
-        [Required(ErrorMessage = "Неверный Nickname")]
+        [Required]
         public string Nickname { get; set; }
 
         /// <summary>
         /// Особенности.
         /// </summary>
-        [Required(ErrorMessage = "Неверный Features")]
+        [Required]
         public string Features { get; set; }
 
         /// <summary>
         /// Доступно всем.
         /// </summary>
-        [Required(ErrorMessage = "Неверный IsPublic")]
+        [Required]
         public bool IsPublic { get; set; }
 
         /// <summary>

@@ -69,6 +69,6 @@ namespace Masny.QRAnimal.Domain.Entities
         /// <summary>
         /// Навигация по QR кодам.
         /// </summary>
-        public ICollection<QRCode> QRCodes { get; set; }
+        public ICollection<QRCode> QRCodes { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Masny.QRAnimal.Application.Models;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Linq;
 
 namespace Masny.QRAnimal.Infrastructure.Extensions
@@ -16,6 +17,8 @@ namespace Masny.QRAnimal.Infrastructure.Extensions
         /// <returns>Результат.</returns>
         public static Result ToApplicationResult(this IdentityResult result)
         {
+            result = result ?? throw new ArgumentNullException(nameof(result));
+
             return result.Succeeded
                 ? Result.Success()
                 : Result.Failure(result.Errors.Select(e => e.Description));
@@ -28,9 +31,11 @@ namespace Masny.QRAnimal.Infrastructure.Extensions
         /// <returns>Результат.</returns>
         public static Result ToApplicationResult(this SignInResult result)
         {
+            result = result ?? throw new ArgumentNullException(nameof(result));
+
             return result.Succeeded
                 ? Result.Success()
-                : Result.Failure(new string[] { });
+                : Result.Failure(Array.Empty<string>());
         }
     }
 }

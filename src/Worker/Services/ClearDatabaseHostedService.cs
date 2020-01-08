@@ -1,5 +1,4 @@
 ﻿using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,6 +13,10 @@ namespace Masny.QRAnimal.Worker.Services
     /// </summary>
     public class ClearDatabaseHostedService : BackgroundService
     {
+        private const string _executeMessage = "Clear database service running.";
+        private const string _doWorkMessage = "Clear database service is working.";
+        private const string _stopMessage = "Clear database service is stopping.";
+
         private readonly ILogger<ClearDatabaseHostedService> _logger;
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace Masny.QRAnimal.Worker.Services
         /// <param name="stoppingToken">Токен для прерывания работы.</param>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Clear database service running.");
+            _logger.LogInformation(_executeMessage);
 
             await DoWork(stoppingToken);
         }
@@ -50,14 +53,16 @@ namespace Masny.QRAnimal.Worker.Services
         /// <param name="stoppingToken">Токен для прерывания работы.</param>
         private async Task DoWork(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Clear database service is working.");
+            _logger.LogInformation(_doWorkMessage);
 
-            using var scope = Services.CreateScope();
-            var scopedProcessingService =
-                scope.ServiceProvider
-                     .GetRequiredService<IClearDatabaseService>();
+            using (var scope = Services.CreateScope())
+            {
+                var scopedProcessingService =
+                    scope.ServiceProvider
+                         .GetRequiredService<IClearDatabaseService>();
 
-            await scopedProcessingService.DoWork(stoppingToken);
+                await scopedProcessingService.DoWork(stoppingToken);
+            }
         }
 
         /// <summary>
@@ -66,7 +71,7 @@ namespace Masny.QRAnimal.Worker.Services
         /// <param name="stoppingToken">Токен для прерывания работы.</param>
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Clear database service is stopping.");
+            _logger.LogInformation(_stopMessage);
 
             await Task.CompletedTask;
         }
