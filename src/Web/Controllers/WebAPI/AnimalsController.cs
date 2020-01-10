@@ -1,19 +1,12 @@
-﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
-using Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode;
-using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
-using Masny.QRAnimal.Application.CQRS.Queries.GetQRCode;
-using Masny.QRAnimal.Application.DTO;
-using Masny.QRAnimal.Application.Exceptions;
-using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Application.Models;
+﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Web.Extensions;
-using Masny.QRAnimal.Web.ViewModels;
+using Masny.QRAnimal.Web.Models;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Masny.QRAnimal.Web.Controllers.WebAPI
@@ -25,14 +18,18 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
     [ApiController]
     public class AnimalsController : Controller
     {
+        private readonly ILogger _logger;
         private readonly IMediator _mediator;
 
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
+        /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>
-        public AnimalsController(IMediator mediator)
+        public AnimalsController(ILogger<AnimalController> logger,
+                                IMediator mediator)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
@@ -45,14 +42,37 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
         {
             var animalsQuery = new GetAnimalsQuery();
 
-            var publicAnimals = await _mediator.Send(animalsQuery);
+            var publicAnimals =
+                (await _mediator.Send(animalsQuery))
+                .Where(a => a.IsPublic)
+                .ToList();
 
-            if (publicAnimals == null)
+            if (!publicAnimals.Any())
             {
                 return Ok();
             }
 
-            return Json(publicAnimals);
+            var animalModels = new List<AnimalModel>();
+
+            publicAnimals.ForEach(animal =>
+            {
+                animalModels.Add(new AnimalModel
+                {
+                    Id = animal.Id,
+                    UserId = animal.UserId,
+                    Kind = animal.Kind,
+                    Breed = animal.Breed,
+                    Gender = animal.Gender.ToLocalString(),
+                    Passport = animal.Passport,
+                    BirthDate = animal.BirthDate,
+                    Nickname = animal.Nickname,
+                    Features = animal.Features
+                });
+            });
+
+            _logger.LogInformation($"Successfully sent {publicAnimals.Count} public animals.");
+
+            return Json(animalModels);
         }
     }
 }

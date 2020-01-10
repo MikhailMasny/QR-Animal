@@ -41,6 +41,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="mediator">Медиатор.</param>
         /// <param name="identityService">Cервис работы с идентификацией пользователя.</param>
         /// <param name="QRCodeGeneratorService">Сервис для формирования QR кода.</param>
+        /// <param name="options">Настройки приложения.</param>
         public AnimalController(ILogger<AnimalController> logger,
                                 IMediator mediator,
                                 IIdentityService identityService,
