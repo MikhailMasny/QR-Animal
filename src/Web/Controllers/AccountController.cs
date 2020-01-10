@@ -288,11 +288,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 return View("ResetPasswordConfirmation");
             }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error);
-            }
-            return View(model);
+            return View("ResetPasswordInvalid");
         }
     }
 }
