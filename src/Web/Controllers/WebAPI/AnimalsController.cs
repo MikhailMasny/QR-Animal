@@ -4,6 +4,8 @@ using Masny.QRAnimal.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +16,14 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
     /// <summary>
     /// Контроллер управления животными пользователя через API.
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [FeatureGate("FeatureWebAPI")]
     public class AnimalsController : Controller
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
+        private readonly IFeatureManager _featureManager;
 
         /// <summary>
         /// Конструктор с параметрами.
@@ -27,10 +31,12 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>
         public AnimalsController(ILogger<AnimalController> logger,
-                                IMediator mediator)
+                                IMediator mediator,
+                                IFeatureManager featureManager)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _featureManager = featureManager ?? throw new ArgumentNullException(nameof(featureManager));
         }
 
         /// <summary>
