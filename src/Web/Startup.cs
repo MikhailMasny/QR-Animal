@@ -100,7 +100,13 @@ namespace Masny.QRAnimal.Web
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = crh =>
+                {
+                    crh.Context.Response.Headers.Add("Cache-Control", "public, max-age=600");
+                }
+            });
 
             app.UseCookiePolicy();
 
