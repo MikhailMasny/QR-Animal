@@ -6,12 +6,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.FeatureManagement;
 using Microsoft.FeatureManagement.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+// UNDONE: Возможно стоит рассмотреть создание профиля для animal.
 
 namespace Masny.QRAnimal.Web.Controllers.WebAPI
 {
@@ -25,7 +26,6 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
-        private readonly IFeatureManager _featureManager;
         private readonly IMemoryCache _memoryCache;
 
         /// <summary>
@@ -33,16 +33,13 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
         /// </summary>
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>
-        /// <param name="featureManager">Менеджер флагов функций.</param>
         /// <param name="memoryCache">Кэш.</param>
         public AnimalsController(ILogger<AnimalController> logger,
                                 IMediator mediator,
-                                IFeatureManager featureManager,
                                 IMemoryCache memoryCache)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _featureManager = featureManager ?? throw new ArgumentNullException(nameof(featureManager));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
@@ -53,7 +50,7 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
         [HttpGet]
         public async Task<IActionResult> GetAllPublicAnimalsAsync()
         {
-            var publicAnimals = 
+            var publicAnimals =
                 (await GetAnimals())
                 .Where(a => a.IsPublic)
                 .ToList();
@@ -122,6 +119,8 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
                 Nickname = publicAnimal.Nickname,
                 Features = publicAnimal.Features
             };
+
+            _logger.LogInformation($"Successfully sent public animal with Id: {animalModel.Id}.");
 
             return Json(animalModel);
         }
