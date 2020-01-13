@@ -61,6 +61,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Страница для чата пользователей.
         /// </summary>
         [Authorize]
+        [ResponseCache(CacheProfileName = "NotCaching")]
         public IActionResult Chat()
         {
             return View();
