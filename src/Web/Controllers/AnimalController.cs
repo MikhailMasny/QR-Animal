@@ -326,6 +326,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// <param name="id">Идентификатор.</param>
         /// <returns>Представление публичной страницы с информацией о животном.</returns>
         [AllowAnonymous]
+        [ResponseCache(CacheProfileName = "Caching")]
         public async Task<IActionResult> Public(int id)
         {
             var animalQuery = new GetAnimalQuery

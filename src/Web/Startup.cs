@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +40,18 @@ namespace Masny.QRAnimal.Web
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options =>
+            {
+                options.CacheProfiles.Add("Caching", new CacheProfile() 
+                { 
+                    Duration = 300 
+                });
+
+                options.CacheProfiles.Add("NotCaching", new CacheProfile() 
+                { 
+                    Location = ResponseCacheLocation.None, NoStore = true 
+                });
+            })
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationContext>());
@@ -100,7 +112,13 @@ namespace Masny.QRAnimal.Web
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = crh =>
+                {
+                    crh.Context.Response.Headers.Add("Cache-Control", "public, max-age=600");
+                }
+            });
 
             app.UseCookiePolicy();
 
