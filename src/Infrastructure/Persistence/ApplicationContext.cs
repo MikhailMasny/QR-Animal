@@ -32,6 +32,12 @@ namespace Masny.QRAnimal.Infrastructure.Persistence
             Database.Migrate();
         }
 
+        public ApplicationContext(DbContextOptions<ApplicationContext> options, bool isTest)
+            : base(options) 
+        {
+            // TODO: Восстановить на RuntimeMigration (commit 8b76cefb)
+        }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             return base.SaveChangesAsync(cancellationToken);
