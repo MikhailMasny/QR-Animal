@@ -23,10 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Create\" />
     <Folder Include="Commands\Delete\" />
     <Folder Include="Commands\Update\" />
-    <Folder Include="Queries\GetAnimal\" />
     <Folder Include="Queries\GetQRCode\" />
   </ItemGroup>
 

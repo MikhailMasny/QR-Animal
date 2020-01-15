@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
 using Masny.QRAnimal.Application.Mapping;
 using Masny.QRAnimal.Infrastructure.Persistence;
-using Masny.QRAnimal.UnitTests;
 using System;
 
-namespace UnitTests
+namespace Masny.QRAnimal.UnitTests
 {
     /// <summary>
     /// Реализация базового приспособления.
     /// </summary>
-    public class BaseFixture : IDisposable
+    public class BaseTestsFixture : IDisposable
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
-        public BaseFixture()
+        public BaseTestsFixture()
         {
             Context = ApplicationContextFactory.Create();
 

@@ -46,7 +46,7 @@ namespace Masny.QRAnimal.UnitTests
                 Breed = "Breed",
                 Gender = GenderTypes.None,
                 Passport = "1234567890QWERTY",
-                BirthDate = DateTime.Now,
+                BirthDate = new DateTime(2000, 01, 01),
                 Nickname = "Nickname",
                 Features = "Features",
                 IsDeleted = false,
@@ -57,7 +57,7 @@ namespace Masny.QRAnimal.UnitTests
             {
                 Id = 1,
                 Code = "Code",
-                Created = DateTime.Now,
+                Created = new DateTime(2000, 01, 01),
                 AnimalId = 1
             });
 
