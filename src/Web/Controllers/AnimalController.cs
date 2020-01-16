@@ -250,7 +250,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var animalCommand = new MarkAsDeletedAnimalCommand
             {
-                Id = id,
+                AnimalId = id,
                 UserId = userId
             };
 

@@ -3,6 +3,7 @@ using Masny.QRAnimal.Domain.Enums;
 using Masny.QRAnimal.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace Masny.QRAnimal.UnitTests
 {
@@ -38,28 +39,83 @@ namespace Masny.QRAnimal.UnitTests
         {
             context = context ?? throw new ArgumentNullException(nameof(context));
 
-            context.Animals.Add(new Animal
+            var animals = new List<Animal>
             {
-                Id = 1,
-                UserId = "QWERTY1234567890",
-                Kind = "Kind",
-                Breed = "Breed",
-                Gender = GenderTypes.None,
-                Passport = "1234567890QWERTY",
-                BirthDate = new DateTime(2000, 01, 01),
-                Nickname = "Nickname",
-                Features = "Features",
-                IsDeleted = false,
-                IsPublic = true
-            });
+                new Animal
+                {
+                    Id = 1,
+                    UserId = "QWERTY1234567890_One",
+                    Kind = "Kind_One",
+                    Breed = "Breed_One",
+                    Gender = GenderTypes.None,
+                    Passport = "1234567890QWERTY_One",
+                    BirthDate = new DateTime(2001, 01, 01),
+                    Nickname = "Nickname_One",
+                    Features = "Features_One",
+                    IsDeleted = false,
+                    IsPublic = true
+                },
 
-            context.QRCodes.Add(new QRCode
+                new Animal
+                {
+                    Id = 2,
+                    UserId = "QWERTY1234567890_Two",
+                    Kind = "Kind_Two",
+                    Breed = "Breed_Two",
+                    Gender = GenderTypes.None,
+                    Passport = "1234567890QWERTY_Two",
+                    BirthDate = new DateTime(2002, 01, 01),
+                    Nickname = "Nickname_Two",
+                    Features = "Features_Two",
+                    IsDeleted = false,
+                    IsPublic = false
+                },
+
+                new Animal
+                {
+                    Id = 3,
+                    UserId = "QWERTY1234567890_Three",
+                    Kind = "Kind_Three",
+                    Breed = "Breed_Three",
+                    Gender = GenderTypes.None,
+                    Passport = "1234567890QWERTY_Three",
+                    BirthDate = new DateTime(2003, 01, 01),
+                    Nickname = "Nickname_Three",
+                    Features = "Features_Three",
+                    IsDeleted = true,
+                    IsPublic = false
+                }
+            };
+
+            var qrcodes = new List<QRCode>
             {
-                Id = 1,
-                Code = "Code",
-                Created = new DateTime(2000, 01, 01),
-                AnimalId = 1
-            });
+                new QRCode
+                {
+                    Id = 1,
+                    Code = "Code",
+                    Created = new DateTime(2001, 01, 01),
+                    AnimalId = 1
+                },
+
+                new QRCode
+                {
+                    Id = 2,
+                    Code = "Code_Two",
+                    Created = new DateTime(2002, 01, 01),
+                    AnimalId = 2
+                },
+
+                new QRCode
+                {
+                    Id = 3,
+                    Code = "Code_Three",
+                    Created = new DateTime(2003, 01, 01),
+                    AnimalId = 3
+                }
+            };
+
+            context.Animals.AddRange(animals);
+            context.QRCodes.AddRange(qrcodes);
 
             context.SaveChanges();
         }

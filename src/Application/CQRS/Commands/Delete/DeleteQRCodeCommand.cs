@@ -18,7 +18,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteQRCode
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public int Id { get; set; }
+        public int AnimalId { get; set; }
 
         /// <summary>
         /// Команда удалить.
@@ -45,12 +45,12 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteQRCode
                 request = request ?? throw new ArgumentNullException(nameof(request));
 
 
-                var entity = await _context.QRCodes.Where(qr => qr.AnimalId == request.Id)
+                var entity = await _context.QRCodes.Where(qr => qr.AnimalId == request.AnimalId)
                                                    .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(QRCode), request.Id);
+                    throw new NotFoundException(nameof(QRCode), request.AnimalId);
                 }
 
                 _context.QRCodes.Remove(entity);

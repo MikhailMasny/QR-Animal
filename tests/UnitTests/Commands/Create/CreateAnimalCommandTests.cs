@@ -1,14 +1,13 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal;
 using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Domain.Enums;
-using Masny.QRAnimal.UnitTests;
 using Shouldly;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests.Commands.Create
+namespace Masny.QRAnimal.UnitTests.Commands.Create
 {
     public class CreateAnimalCommandTests : BaseTestsFixture
     {
@@ -18,13 +17,13 @@ namespace UnitTests.Commands.Create
             // Arrange
             var animal = new AnimalDTO
             {
-                Id = 2,
+                Id = 4,
                 UserId = "QWERTY1234567890_test",
                 Kind = "Kind_test",
                 Breed = "Breed_test",
                 Gender = GenderTypes.None,
                 Passport = "1234567890QWERTY_test",
-                BirthDate = new DateTime(2000, 01, 01),
+                BirthDate = new DateTime(2004, 01, 01),
                 Nickname = "Nickname_test",
                 Features = "Features_test",
                 IsPublic = false
@@ -38,9 +37,9 @@ namespace UnitTests.Commands.Create
             // Act
             var handler = new CreateAnimalCommand.CreateAnimalCommandHandler(Context, Mapper);
 
-            var result = await handler.Handle(command, CancellationToken.None);
+            await handler.Handle(command, CancellationToken.None);
 
-            var entity = Context.Animals.Find(result);
+            var entity = Context.Animals.Find(animal.Id);
 
             // Assert
             entity.ShouldNotBeNull();
