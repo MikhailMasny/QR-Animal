@@ -5,6 +5,7 @@ using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
+using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -95,6 +96,8 @@ namespace Masny.QRAnimal.Web
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app = app ?? throw new ArgumentNullException(nameof(app));
+
+            app.UseRuntimeMigration();
 
             if (env.IsDevelopment())
             {
