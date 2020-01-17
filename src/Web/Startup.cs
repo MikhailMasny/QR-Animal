@@ -98,6 +98,7 @@ namespace Masny.QRAnimal.Web
             app = app ?? throw new ArgumentNullException(nameof(app));
 
             app.UseRuntimeMigration();
+            app.UseDataSeed();
 
             if (env.IsDevelopment())
             {

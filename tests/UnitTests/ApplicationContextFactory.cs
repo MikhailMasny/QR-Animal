@@ -22,7 +22,7 @@ namespace Masny.QRAnimal.UnitTests
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            var context = new ApplicationContext(options, true);
+            var context = new ApplicationContext(options);
 
             context.Database.EnsureCreated();
 
