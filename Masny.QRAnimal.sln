@@ -17,11 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", "src\Worker\Worker.csproj", "{FC30479C-CA26-4FC8-8570-F2540CB2A683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{7A35126D-07CA-4F10-9CDD-2C372A28AFD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{7A35126D-07CA-4F10-9CDD-2C372A28AFD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "tests\IntegrationTests\IntegrationTests.csproj", "{CB9564A2-84EF-447B-BD39-A2C883613857}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests", "tests\FunctionalTests\FunctionalTests.csproj", "{7BDFE0BE-3936-4FA3-A4F3-D53CB7290CB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "tests\IntegrationTests\IntegrationTests.csproj", "{CB9564A2-84EF-447B-BD39-A2C883613857}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +55,6 @@ Global
 		{CB9564A2-84EF-447B-BD39-A2C883613857}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB9564A2-84EF-447B-BD39-A2C883613857}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB9564A2-84EF-447B-BD39-A2C883613857}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BDFE0BE-3936-4FA3-A4F3-D53CB7290CB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BDFE0BE-3936-4FA3-A4F3-D53CB7290CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BDFE0BE-3936-4FA3-A4F3-D53CB7290CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BDFE0BE-3936-4FA3-A4F3-D53CB7290CB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,7 +67,6 @@ Global
 		{FC30479C-CA26-4FC8-8570-F2540CB2A683} = {4E41763A-386F-4A31-92B6-6FBF49A68129}
 		{7A35126D-07CA-4F10-9CDD-2C372A28AFD6} = {5AC51C6B-3F2A-4EA4-8815-D65E4E25C12E}
 		{CB9564A2-84EF-447B-BD39-A2C883613857} = {5AC51C6B-3F2A-4EA4-8815-D65E4E25C12E}
-		{7BDFE0BE-3936-4FA3-A4F3-D53CB7290CB2} = {5AC51C6B-3F2A-4EA4-8815-D65E4E25C12E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BE1041F-6C34-42D0-9AC8-16A9E5DAC11B}
