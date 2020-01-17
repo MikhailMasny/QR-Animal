@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -9,6 +10,8 @@ namespace Masny.QRAnimal.IntegrationTests
     {
         public HomeControllerIndex(WebTestFixture factory)
         {
+            factory = factory ?? throw new ArgumentNullException(nameof(factory));
+
             Client = factory.CreateClient();
         }
 
@@ -23,7 +26,7 @@ namespace Masny.QRAnimal.IntegrationTests
             var stringResponse = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Contains("QR Animals &copy; 2019", stringResponse);
+            Assert.Contains("QR Animals &copy; 2019-2020", stringResponse);
         }
     }
 }
