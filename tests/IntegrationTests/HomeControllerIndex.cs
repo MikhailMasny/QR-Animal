@@ -22,7 +22,7 @@ namespace Masny.QRAnimal.IntegrationTests
         public async Task Return_HomePage_WithFooterInformation()
         {
             // Arrange
-            var response = await Client.GetAsync("/");
+            HttpResponseMessage response = await Client.GetAsync("/");
 
             // Act
             response.EnsureSuccessStatusCode();
