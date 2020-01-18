@@ -14,7 +14,9 @@
             <h4>
                 @if (@Model.IsPublic)
                 {
-                    <span class="badge badge-danger">@Localizer["Public"]</span>
+                    <a href="@Model.Link" target="_blank">
+                        <span class="badge badge-danger"><i class="fas fa-link mr-1"></i>@Localizer["Public"]</span>
+                    </a>
                 }
                 else
                 {
