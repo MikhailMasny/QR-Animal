@@ -123,6 +123,9 @@
   <data name="Send" xml:space="preserve">
     <value>Отправить</value>
   </data>
+  <data name="Text" xml:space="preserve">
+    <value>Ваш логин:</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Онлайн чат - QR Animal</value>
   </data>

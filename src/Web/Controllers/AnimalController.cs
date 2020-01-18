@@ -296,9 +296,9 @@ namespace Masny.QRAnimal.Web.Controllers
                 AnimalId = userAnimal.Id
             };
 
-            QRCodeDTO qrCodeText = await _mediator.Send(qrQuery);
+            QRCodeDTO qrCode = await _mediator.Send(qrQuery);
 
-            var code = _QRCodeGeneratorService.CreateQRCode(qrCodeText.Code);
+            var code = _QRCodeGeneratorService.CreateQRCode(qrCode.Code);
 
             var animalViewModel = new AnimalViewModel
             {
@@ -312,6 +312,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 Nickname = userAnimal.Nickname,
                 Features = userAnimal.Features,
                 IsPublic = userAnimal.IsPublic,
+                Link = qrCode.Code,
                 Code = code
             };
 
