@@ -22,7 +22,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
         /// <summary>
         /// Команда добавить.
         /// </summary>
-        public class CreateTodoItemCommandHandler : IRequestHandler<CreateAnimalCommand, int>
+        public class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, int>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -32,7 +32,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateAnimal
             /// </summary>
             /// <param name="context">Контекст.</param>
             /// <param name="mapper">Маппер.</param>
-            public CreateTodoItemCommandHandler(IApplicationContext context,
+            public CreateAnimalCommandHandler(IApplicationContext context,
                                                 IMapper mapper)
             {
                 _context = context ?? throw new ArgumentNullException(nameof(context));
