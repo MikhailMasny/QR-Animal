@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System;
 using System.Globalization;
 
@@ -61,6 +60,7 @@ namespace Masny.QRAnimal.Web.Controllers
         /// Страница для чата пользователей.
         /// </summary>
         [Authorize]
+        [ResponseCache(CacheProfileName = "NotCaching")]
         public IActionResult Chat()
         {
             return View();

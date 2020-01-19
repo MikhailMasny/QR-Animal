@@ -4,34 +4,45 @@
     ViewData["Title"] = Localizer["Title", Model.Nickname];
 }
 
-<div class="media shadow-sm p-3 bg-white rounded">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
-        <div class="col mt-4">
-            <img class="qr-code mr-2" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Code))" alt="QRCode">
+<div class="shadow-sm p-3 bg-white rounded">
+
+    <div class="d-flex justify-content-between">
+        <div>
+            <h2 class="font-weight-light">@Model.Nickname</h2>
         </div>
-        <div class="col mt-4">
-            <div class="media-body">
+        <div>
+            <h4>
+                @if (@Model.IsPublic)
+                {
+                    <a href="@Model.Link" target="_blank">
+                        <span class="badge badge-danger"><i class="fas fa-link mr-1"></i>@Localizer["Public"]</span>
+                    </a>
+                }
+                else
+                {
+                    <span class="badge badge-success">@Localizer["Private"]</span>
+                }
+            </h4>
+        </div>
+    </div>
 
-                <h2 class="mt-0">
-                    @Model.Nickname
+    <div class="media">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
+            <div class="col mt-2">
+                <img class="qr-code mr-2" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Code))" alt="QRCode">
+            </div>
+            <div class="col mt-2">
+                <div class="media-body font-weight-light">
+                    <p>
+                        @Localizer["Kind"]: <span class="font-weight-bold">@Model.Kind</span><br />
+                        @Localizer["Breed"]: <span class="font-weight-bold">@Model.Breed</span><br />
+                        @Localizer["Gender"]: <span class="font-weight-bold">@Model.Gender</span><br />
+                        @Localizer["Passport"]: <span class="font-weight-bold">@Model.Passport</span><br />
+                        @Localizer["BirthDate"]: <span class="font-weight-bold">@Model.BirthDate.ToShortDateString()</span>
+                    </p>
 
-                    @if (@Model.IsPublic)
-                    {
-                        <span class="badge badge-danger">@Localizer["Public"]</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-success">@Localizer["Private"]</span>
-                    }
-
-                </h2>
-
-                @Localizer["Kind"]: <b>@Model.Kind</b><br />
-                @Localizer["Breed"]: <b>@Model.Breed</b><br />
-                @Localizer["Gender"]: <b>@Model.Gender</b><br />
-                @Localizer["Passport"]: <b>@Model.Passport</b><br />
-                @Localizer["BirthDate"]: <b>@Model.BirthDate</b><br />
-                @Localizer["Features"]: <b>@Model.Features</b><br />
+                    <p>@Localizer["Features"]: <br /> <span class="font-weight-bold">@Model.Features</span></p>
+                </div>
             </div>
         </div>
     </div>

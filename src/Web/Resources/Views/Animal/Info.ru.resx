@@ -136,10 +136,10 @@
     <value>Паспорт</value>
   </data>
   <data name="Private" xml:space="preserve">
-    <value>Видно только вам</value>
+    <value>Приватно</value>
   </data>
   <data name="Public" xml:space="preserve">
-    <value>Видно всем</value>
+    <value>Общедоступно</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Животное {0} - QR Animal</value>

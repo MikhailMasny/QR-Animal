@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: #F5F5F5;
+    background-color: #F7F7F7;
 }
 
 .navbar-custom {
@@ -8,6 +8,13 @@
 
 .bg-custom {
     background-color: #1a1a1f;
+}
+
+.bg-header {
+    background: #FD4865;
+    background: -webkit-linear-gradient(to right, #FD4865, #EFA878);
+    background: linear-gradient(to right, #FD4865, #EFA878);
+    color: #FFFFFF;
 }
 
 .chat-reverse {

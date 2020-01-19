@@ -18,7 +18,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        public int Id { get; set; }
+        public int AnimalId { get; set; }
 
         /// <summary>
         /// Идентификатор пользователя.
@@ -50,14 +50,14 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal
                 request = request ?? throw new ArgumentNullException(nameof(request));
 
 
-                var entity = await _context.Animals.Where(a => a.Id == request.Id &&
+                var entity = await _context.Animals.Where(a => a.Id == request.AnimalId &&
                                                           a.UserId == request.UserId &&
                                                           !a.IsDeleted)
                                                    .SingleOrDefaultAsync();
 
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(Animal), request.Id);
+                    throw new NotFoundException(nameof(Animal), request.AnimalId);
                 }
 
                 entity.IsDeleted = true;

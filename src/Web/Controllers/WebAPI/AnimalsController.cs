@@ -1,10 +1,11 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.FeatureManagement;
 using Microsoft.FeatureManagement.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,20 +24,21 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
     {
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
-        private readonly IFeatureManager _featureManager;
+        private readonly IMemoryCache _memoryCache;
 
         /// <summary>
         /// Конструктор с параметрами.
         /// </summary>
         /// <param name="logger">Логгер.</param>
         /// <param name="mediator">Медиатор.</param>
+        /// <param name="memoryCache">Кэш.</param>
         public AnimalsController(ILogger<AnimalController> logger,
                                 IMediator mediator,
-                                IFeatureManager featureManager)
+                                IMemoryCache memoryCache)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _featureManager = featureManager ?? throw new ArgumentNullException(nameof(featureManager));
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         /// <summary>
@@ -46,10 +48,8 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
         [HttpGet]
         public async Task<IActionResult> GetAllPublicAnimalsAsync()
         {
-            var animalsQuery = new GetAnimalsQuery();
-
             var publicAnimals =
-                (await _mediator.Send(animalsQuery))
+                (await GetAnimals())
                 .Where(a => a.IsPublic)
                 .ToList();
 
@@ -79,6 +79,54 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
             _logger.LogInformation($"Successfully sent {publicAnimals.Count} public animals.");
 
             return Json(animalModels);
+        }
+
+        /// <summary>
+        /// Получить животное по id (публичных).
+        /// </summary>
+        /// <returns>Животное (json).</returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPublicAnimalAsync([FromRoute] int id)
+        {
+            if (!_memoryCache.TryGetValue(id, out AnimalDTO publicAnimal))
+            {
+                publicAnimal =
+                    (await GetAnimals())
+                    .SingleOrDefault(a => a.IsPublic && a.Id == id);
+
+                if (publicAnimal != null)
+                {
+                    _memoryCache.Set(publicAnimal.Id, publicAnimal, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+                }
+            }
+
+            if (publicAnimal == null)
+            {
+                return Ok();
+            }
+
+            var animalModel = new AnimalModel
+            {
+                Id = publicAnimal.Id,
+                UserId = publicAnimal.UserId,
+                Kind = publicAnimal.Kind,
+                Breed = publicAnimal.Breed,
+                Gender = publicAnimal.Gender.ToLocalString(),
+                Passport = publicAnimal.Passport,
+                BirthDate = publicAnimal.BirthDate,
+                Nickname = publicAnimal.Nickname,
+                Features = publicAnimal.Features
+            };
+
+            _logger.LogInformation($"Successfully sent public animal with Id: {animalModel.Id}.");
+
+            return Json(animalModel);
+        }
+
+        [NonAction]
+        private async Task<IEnumerable<AnimalDTO>> GetAnimals()
+        {
+            return await _mediator.Send(new GetAnimalsQuery());
         }
     }
 }

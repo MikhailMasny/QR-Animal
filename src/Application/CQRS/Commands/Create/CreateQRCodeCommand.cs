@@ -12,7 +12,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
     /// <summary>
     /// Добавить новый QRCode.
     /// </summary>
-    public class CreateQRCodeCommand : IRequest<string>
+    public class CreateQRCodeCommand : IRequest<(string Code, int Id)>
     {
         /// <summary>
         /// DTO QRCode.
@@ -22,7 +22,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
         /// <summary>
         /// Команда добавить.
         /// </summary>
-        public class CreateQRCodeCommandHandler : IRequestHandler<CreateQRCodeCommand, string>
+        public class CreateQRCodeCommandHandler : IRequestHandler<CreateQRCodeCommand, (string Code, int Id)>
         {
             private readonly IApplicationContext _context;
             private readonly IMapper _mapper;
@@ -43,7 +43,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
             /// Добавить новый QR код.
             /// </summary>
             /// <returns>QR код.</returns>
-            public async Task<string> Handle(CreateQRCodeCommand request, CancellationToken cancellationToken)
+            public async Task<(string Code, int Id)> Handle(CreateQRCodeCommand request, CancellationToken cancellationToken)
             {
                 request = request ?? throw new ArgumentNullException(nameof(request));
 
@@ -52,7 +52,7 @@ namespace Masny.QRAnimal.Application.CQRS.Commands.CreateQRCode
                 _context.QRCodes.Add(entity);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return entity.Code;
+                return (entity.Code, entity.Id);
             }
         }
     }
