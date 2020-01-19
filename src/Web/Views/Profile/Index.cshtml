@@ -4,14 +4,14 @@
     ViewData["Title"] = Localizer["Title", User.Identity.Name];
 }
 
-<div class="shadow-sm p-3 bg-white rounded">
+<div class="shadow-sm p-3 bg-white bg-header rounded">
     <div>
-        <h1>@Localizer["Hello"], @User.Identity.Name!</h1>
+        <h1 class="font-weight-light">@Localizer["Hello"], @User.Identity.Name!</h1>
         <p class="font-weight-normal">@Localizer["Display"]</p>
     </div>
 
     <div>
-        <a asp-controller="Animal" asp-action="Create" class="btn btn-outline-success btn-sm" role="button">@Localizer["Add"]</a>
+        <a asp-controller="Animal" asp-action="Create" class="btn btn-outline-light btn-sm" role="button">@Localizer["Add"]</a>
     </div>
 </div>
 
@@ -30,8 +30,8 @@
                         <h6 class="card-subtitle mb-2 text-muted">@item.Passport</h6>
                         <p class="card-text">@item.Features</p>
 
-                        <a asp-controller="Animal" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm mt-1">@Localizer["Edit"]</a>
-                        <a asp-controller="Animal" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm mt-1">@Localizer["Delete"]</a>
+                        <a asp-controller="Animal" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm mt-1"><i class="far fa-edit mr-1"></i>@Localizer["Edit"]</a>
+                        <a asp-controller="Animal" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm mt-1"><i class="fas fa-trash-alt mr-1"></i>@Localizer["Delete"]</a>
                     </div>
                 </div>
             </div>

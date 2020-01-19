@@ -67,6 +67,11 @@ namespace Masny.QRAnimal.Web.ViewModels
         public bool IsPublic { get; set; }
 
         /// <summary>
+        /// QR код в виде ссылки.
+        /// </summary>
+        public string Link { get; set; }
+
+        /// <summary>
         /// QR код.
         /// </summary>
         public byte[] Code { get; set; }

@@ -5,24 +5,24 @@
 }
 
 <div class="shadow-sm p-3 bg-white rounded">
-    <h4 class="mb-3">@Localizer["Add"]</h4>
+    <h2 class="font-weight-light mb-4">@Localizer["Add"]</h2>
 
     <form method="post" asp-controller="Animal" asp-action="Create">
         <div asp-validation-summary="ModelOnly"></div>
 
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>@Localizer["Nickname"]</label>
+                <small>@Localizer["Nickname"]</small>
                 <input id="animalNickname" type="text" class="form-control" asp-for="Nickname" placeholder="@Localizer["Nickname"]" required />
                 <span asp-validation-for="Nickname"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>@Localizer["BirthDate"]</label>
+                <small>@Localizer["BirthDate"]</small>
                 <input id="animalBirthDate" type="date" class="form-control" asp-for="BirthDate" placeholder="@Localizer["BirthDate"]" required />
                 <span asp-validation-for="BirthDate"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>@Localizer["Passport"]</label>
+                <small>@Localizer["Passport"]</small>
                 <input id="animalPassport" type="text" class="form-control" asp-for="Passport" placeholder="@Localizer["Passport"]" required />
                 <span asp-validation-for="Passport"></span>
             </div>
@@ -30,17 +30,17 @@
 
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>@Localizer["Kind"]</label>
+                <small>@Localizer["Kind"]</small>
                 <input id="animalKind" type="text" class="form-control" asp-for="Kind" placeholder="@Localizer["Kind"]" required />
                 <span asp-validation-for="Kind"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>@Localizer["Breed"]</label>
+                <small>@Localizer["Breed"]</small>
                 <input id="animalBreed" type="text" class="form-control" asp-for="Breed" placeholder="@Localizer["Breed"]" required />
                 <span asp-validation-for="Breed"></span>
             </div>
             <div class="form-group col-md-4">
-                <label>@Localizer["Gender"]</label>
+                <small>@Localizer["Gender"]</small>
                 <select id="animalGender" class="form-control" asp-for="Gender" asp-items="Model.GenderSelectList" required>
                     <option value="">@Localizer["SelectGender"]</option>
                 </select>
@@ -54,7 +54,7 @@
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label>@Localizer["Features"]</label>
+                <small>@Localizer["Features"]</small>
                 <textarea id="animalFeatures" class="form-control" asp-for="Features" aria-label="With textarea"></textarea>
                 <span asp-validation-for="Features"></span>
             </div>

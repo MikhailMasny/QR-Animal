@@ -21,13 +21,15 @@
 
     <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/cookie.css" rel="stylesheet" asp-append-version="true">
+
+    <script src="https://kit.fontawesome.com/774757ecec.js" crossorigin="anonymous"></script>
 </head>
 <body class="text-center">
     <div class="main-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
         <header class="head-wrapper mb-auto">
             <div class="inner">
-                <h3 class="logo-wrapper">QR Animal</h3>
+                <h3 class="logo-wrapper"><i class="fas fa-paw mr-2"></i>QR Animal</h3>
                 <nav class="nav nav-wrapper justify-content-center">
 
                     <div class="mr-2">
@@ -57,8 +59,8 @@
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
-                    <a class="btn btn-lg btn-outline-light" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
+                    <a class="btn btn-lg btn-outline-light mt-1" asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
+                    <a class="btn btn-lg btn-outline-light mt-1" asp-controller="Home" asp-action="Chat">@Localizer["Chat"]</a>
                 }
                 else
                 {
