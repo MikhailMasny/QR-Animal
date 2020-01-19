@@ -1,25 +1,36 @@
 ﻿@model AnimalViewModel
 
 @{
-    Layout = "_Account";
+    Layout = "_Animal";
 }
 
 @{
     ViewData["Title"] = @Localizer["Title", Model.Nickname];
 }
 
-<div class="form-account form-bg shadow-sm">
-    <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Code))" alt="QRCode" width="225" height="225">
-
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><h2>@Model.Nickname</h2></li>
-        <li class="list-group-item">@Model.Kind</li>
-        <li class="list-group-item">@Model.Breed</li>
-        <li class="list-group-item">@Model.Gender</li>
-        <li class="list-group-item">@Model.Passport</li>
-        <li class="list-group-item">@Model.BirthDate.ToShortDateString()</li>
-        <li class="list-group-item">@Model.Features</li>
-    </ul>
-
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-4">@Localizer["ToIndex"]</a>
+<div class="container">
+    <div class="bg-wrapper">
+        <div class="bg-image"></div>
+    </div>
+    <div class="animal-wrapper">
+        <div class="animal-content animal-border">
+            <div class="qr-code-border">
+                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Code))" alt="QRCode" class="qr-code">
+            </div>
+            <div class="info-main">
+                <div class="info-name">@Model.Nickname</div>
+                <div class="info-passport">@Model.Passport</div>
+            </div>
+            <div>
+                <div class="info-text info-border">@Model.Kind</div>
+                <div class="info-text info-border">@Model.Breed</div>
+                <div class="info-text info-border">@Model.Gender</div>
+                <div class="info-text info-border">@Model.BirthDate.ToShortDateString()</div>
+                <div class="info-text">@Model.Features</div>
+            </div>
+        </div>
+        <div class="footer">
+            <a asp-controller="Home" asp-action="Index" class="powered-by" title="@Localizer["ToIndex"]">Powered by QR Animal</a>
+        </div>
+    </div>
 </div>
