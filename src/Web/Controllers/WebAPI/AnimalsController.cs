@@ -12,8 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// UNDONE: Возможно стоит рассмотреть создание профиля для animal.
-
 namespace Masny.QRAnimal.Web.Controllers.WebAPI
 {
     /// <summary>

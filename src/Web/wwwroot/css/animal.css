@@ -36,7 +36,7 @@ body {
     -moz-filter: blur(10px);
     -ms-filter: blur(10px);
     filter: blur(10px);
-    background-image: url("/images/bg-account.jpg");
+    background-image: url("/images/bg-animal.jpg"); /* Photo by Alvan Nee on Unsplash */
 }
 
 .animal-wrapper {
