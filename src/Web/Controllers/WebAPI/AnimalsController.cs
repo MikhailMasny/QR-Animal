@@ -55,7 +55,7 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
 
             if (!publicAnimals.Any())
             {
-                return Ok();
+                return NoContent();
             }
 
             var animalModels = new List<AnimalModel>();
@@ -102,7 +102,7 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
 
             if (publicAnimal == null)
             {
-                return Ok();
+                return NoContent();
             }
 
             var animalModel = new AnimalModel
