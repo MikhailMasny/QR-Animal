@@ -20,6 +20,21 @@ docker-compose up -d
 1. [Docker](https://www.docker.com/products/docker-desktop) should be installed on the computer and in the files ([appsetting.json](https://github.com/MikhailMasny/QR-Animal/blob/master/src/Web/appsettings.json) and [appsetting.json](https://github.com/MikhailMasny/QR-Animal/blob/master/src/Worker/appsettings.json)) of the projects ***.Web** and ***.Worker** the true flag should be set opposite the value "IsDockerSupport".
 2. If the table to interact with the Serilog has not been added, restart the container / application.
 
+### Email settings
+
+For the correct functioning of sending mail, you must add the **sendersettings.json** file to the root of the [Web](https://github.com/MikhailMasny/QR-Animal/tree/master/src/Web) project filled in according to the pattern below.
+
+```
+{
+  "MailSettings": {
+    "Server": "smtp.your.server",
+    "Port": "123",
+    "EmailAddress": "email@email.email",
+    "Password": "password"
+  }
+}
+```
+
 ### User features
 1. Register animals;
 2. Perform various operations with animal data;
