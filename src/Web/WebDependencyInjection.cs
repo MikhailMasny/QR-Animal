@@ -36,9 +36,9 @@ namespace Masny.QRAnimal.Web
                     NoStore = true
                 });
             })
-                .AddDataAnnotationsLocalization()
-                .AddViewLocalization()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationContext>());
+            .AddDataAnnotationsLocalization()
+            .AddViewLocalization()
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationContext>());
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -63,7 +63,8 @@ namespace Masny.QRAnimal.Web
 
             services.AddScoped<IApplicationContext, ApplicationContext>();
 
-            services.AddHealthChecks().AddDbContextCheck<ApplicationContext>();
+            services.AddHealthChecks()
+                    .AddDbContextCheck<ApplicationContext>();
 
             services.AddSignalR();
             services.AddFeatureManagement();
