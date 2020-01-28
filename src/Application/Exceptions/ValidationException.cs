@@ -60,7 +60,5 @@ namespace Masny.QRAnimal.Application.Exceptions
         /// Словарь ошибок.
         /// </summary>
         public IDictionary<string, string[]> Failures { get; }
-
-        
     }
 }

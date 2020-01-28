@@ -1,4 +1,5 @@
-﻿using Masny.QRAnimal.Application.Interfaces;
+﻿using Masny.QRAnimal.Application.Constants;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Identity;
@@ -101,7 +102,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
 
             if (user == null)
             {
-                return (false, "Пользователь не найден.");
+                return (false, ErrorConstants.UserNotFound);
             }
 
             var isConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -111,7 +112,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
                 return (true, null);
             }
 
-            return (false, "Вы не подтвердили свой email.");
+            return (false, ErrorConstants.UserNotVerifiedEmail);
         }
 
         /// <inheritdoc />
@@ -121,7 +122,7 @@ namespace Masny.QRAnimal.Infrastructure.Services
 
             if (user == null)
             {
-                return (null, "Пользователь не существует");
+                return (null, ErrorConstants.UserNotFound);
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -130,10 +131,10 @@ namespace Masny.QRAnimal.Infrastructure.Services
             {
                 await SignInUserAsync(user.Email, user.UserName);
 
-                return (result.ToApplicationResult(), "Успешно");
+                return (result.ToApplicationResult(), CommonConstants.Successfully);
             }
 
-            return (result.ToApplicationResult(), "Проблемы с токеном");
+            return (result.ToApplicationResult(), ErrorConstants.TokenIssues);
         }
 
         /// <inheritdoc />

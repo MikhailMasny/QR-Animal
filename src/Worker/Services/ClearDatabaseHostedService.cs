@@ -55,14 +55,13 @@ namespace Masny.QRAnimal.Worker.Services
         {
             _logger.LogInformation(_doWorkMessage);
 
-            using (var scope = Services.CreateScope())
-            {
-                var scopedProcessingService =
-                    scope.ServiceProvider
-                         .GetRequiredService<IClearDatabaseService>();
+            using var scope = Services.CreateScope();
 
-                await scopedProcessingService.DoWork(stoppingToken);
-            }
+            var scopedProcessingService =
+                scope.ServiceProvider
+                        .GetRequiredService<IClearDatabaseService>();
+
+            await scopedProcessingService.DoWork(stoppingToken);
         }
 
         /// <summary>

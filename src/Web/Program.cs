@@ -1,3 +1,4 @@
+using Masny.QRAnimal.Application.Constants;
 using Masny.QRAnimal.Infrastructure.Logging;
 using Masny.QRAnimal.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +18,7 @@ namespace Masny.QRAnimal.Web
 
             try
             {
-                Log.Information("Starting web host.");
+                Log.Information(CommonConstants.HostStart);
 
                 IHost host = CreateHostBuilder(args).Build();
 
@@ -27,7 +28,7 @@ namespace Masny.QRAnimal.Web
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly.");
+                Log.Fatal(ex, CommonConstants.HostTerminate);
             }
             finally
             {

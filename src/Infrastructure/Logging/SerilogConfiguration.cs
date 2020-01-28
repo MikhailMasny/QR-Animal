@@ -1,4 +1,5 @@
-﻿using Masny.QRAnimal.Application.Models;
+﻿using Masny.QRAnimal.Application.Constants;
+using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Serilog;
@@ -27,7 +28,7 @@ namespace Masny.QRAnimal.Infrastructure.Logging
             var isDockerSupport = appSettings.IsDockerSupport;
 
             var connectionString = configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());
-            var tableName = "EventLog";
+            var tableName = CommonConstants.EventLog;
 
             //var object1 = new SqlColumn { ColumnName = "OtherData", DataType = SqlDbType.NVarChar, DataLength = 64 };
             //var object2 = new SqlColumn { ColumnName = "AnotherData", DataType = SqlDbType.NVarChar, DataLength = 64 };
