@@ -176,19 +176,17 @@ namespace Masny.QRAnimal.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId != null && code != null)
             {
-                return View("Error");
+                var (result, _) = await _identityService.ConfirmEmail(userId, code);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
-            var (result, _) = await _identityService.ConfirmEmail(userId, code);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            return View("Error");
+            return RedirectToAction("Error", "Home");
         }
 
         /// <summary>
@@ -251,12 +249,12 @@ namespace Masny.QRAnimal.Web.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string userName = null, string code = null)
         {
-            if (userName == null || code == null)
+            if (userName != null || code != null)
             {
-                return View("Error");
+                return View();
             }
 
-            return View();
+            return RedirectToAction("Error", "Home");
         }
 
         /// <summary>
@@ -278,12 +276,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var result = await _identityService.ResetPassword(model.UserName, model.Password, model.Code);
 
-            if (result == null)
-            {
-                return View("ResetPasswordConfirmation");
-            }
-
-            if (result.Succeeded)
+            if (result == null || result.Succeeded)
             {
                 return View("ResetPasswordConfirmation");
             }

@@ -48,23 +48,22 @@ namespace Masny.QRAnimal.Infrastructure.Services
             };
 
             var isExist = await _userManager.FindByEmailAsync(email);
-            IdentityResult result;
 
-            if (isExist == null)
+            if (isExist != null)
             {
-                result = await _userManager.CreateAsync(user, password);
-                var code = string.Empty;
-
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "User");
-                    code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                }
-
-                return (result.ToApplicationResult(), user.Id, code);
+                return (null, null, null);
             }
 
-            return (null, null, null);
+            IdentityResult result = await _userManager.CreateAsync(user, password);
+            var code = string.Empty;
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+                code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            }
+
+            return (result.ToApplicationResult(), user.Id, code);
         }
 
         /// <inheritdoc />

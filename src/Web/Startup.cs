@@ -41,24 +41,15 @@ namespace Masny.QRAnimal.Web
             services.AddWeb();
         }
 
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app)
         {
             app = app ?? throw new ArgumentNullException(nameof(app));
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
 
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
 
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions()
