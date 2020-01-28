@@ -3,6 +3,7 @@ using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
+using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,8 +45,7 @@ namespace Masny.QRAnimal.Web
         {
             app = app ?? throw new ArgumentNullException(nameof(app));
 
-            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(locOptions.Value);
+            app.UseLocalization();
 
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
             app.UseHsts();
@@ -73,7 +73,7 @@ namespace Masny.QRAnimal.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHealthChecks("/health").RequireAuthorization();
-                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<ChatHub>("/chatHub").RequireAuthorization();
             });
         }
     }

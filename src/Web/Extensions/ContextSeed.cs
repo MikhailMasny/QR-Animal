@@ -30,7 +30,7 @@ namespace Masny.QRAnimal.Web.Extensions
 
                 using var applicationContext = new ApplicationContext(contextOptions);
 
-                ApplicationContextSeed.IdentitySeedAsync(applicationContext, userManager, roleManager).Wait();
+                ApplicationContextSeed.IdentitySeedAsync(applicationContext, userManager, roleManager).GetAwaiter().GetResult();
 
                 Log.Information(logInformationMessage);
             }
