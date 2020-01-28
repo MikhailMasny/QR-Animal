@@ -1,5 +1,4 @@
-﻿using Masny.QRAnimal.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+﻿using Masny.QRAnimal.Infrastructure.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -8,14 +7,14 @@ using System;
 namespace Masny.QRAnimal.Web.Extensions
 {
     /// <summary>
-    /// Класс для применения миграции в режиме реального времени.
+    /// Класс для заполнения контекста.
     /// </summary>
-    public static class RuntimeMigration
+    public static class ContextSeed
     {
-        private const string logErrorMessage = "An error occurred migrating the DB.";
+        private const string logErrorMessage = "An error occurred seeding the DB.";
 
         /// <summary>
-        /// Применить миграцию.
+        /// Заполнить базу данных.
         /// </summary>
         /// <param name="host">Хост приложения.</param>
         public static void Initialize(IHost host)
@@ -28,7 +27,7 @@ namespace Masny.QRAnimal.Web.Extensions
 
             try
             {
-                services.GetService<ApplicationContext>().Database.Migrate();
+                ApplicationContextSeed.IdentitySeedAsync(services).Wait();
             }
             catch (Exception ex)
             {
