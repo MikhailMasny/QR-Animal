@@ -72,7 +72,7 @@ namespace Masny.QRAnimal.Web.Controllers
                     UserId = a.UserId,
                     Kind = a.Kind,
                     Breed = a.Breed,
-                    Gender = a.Gender.ToLocalString(),
+                    Gender = a.Gender.ToString(),
                     Passport = a.Passport,
                     BirthDate = a.BirthDate,
                     Nickname = a.Nickname,

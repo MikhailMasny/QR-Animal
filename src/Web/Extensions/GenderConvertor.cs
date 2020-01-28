@@ -3,7 +3,7 @@
 namespace Masny.QRAnimal.Web.Extensions
 {
     /// <summary>
-    /// Метод расширения для конвертации пола животного из ViewModel для DTO.
+    /// Метод расширения для конвертации пола животного.
     /// </summary>
     public static class GenderConvertor
     {
@@ -18,32 +18,11 @@ namespace Masny.QRAnimal.Web.Extensions
 
             switch (genderName)
             {
-                case "Male": { result = GenderTypes.Male; } break;
+                case nameof(GenderTypes.Male): { result = GenderTypes.Male; } break;
 
-                case "Female": { result = GenderTypes.Female; } break;
+                case nameof(GenderTypes.Female): { result = GenderTypes.Female; } break;
 
                 default: { result = GenderTypes.None; } break;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Конвертация на основе полученных данных от DTO.
-        /// </summary>
-        /// <param name="genderTypes">Тип пола (enum).</param>
-        /// <returns>Конвертированное значение в виде string.</returns>
-        public static string ToLocalString(this GenderTypes genderTypes)
-        {
-            string result;
-
-            switch (genderTypes)
-            {
-                case GenderTypes.Male: { result = "Male"; } break;
-
-                case GenderTypes.Female: { result = "Female"; } break;
-
-                default: { result = "Неизвестно"; } break;
             }
 
             return result;

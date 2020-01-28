@@ -8,6 +8,7 @@ using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Exceptions;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
+using Masny.QRAnimal.Domain.Enums;
 using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
@@ -66,11 +67,11 @@ namespace Masny.QRAnimal.Web.Controllers
                 BirthDate = DateTime.Now,
                 GenderSelectList = new SelectList(new List<string>
                 {
-                    "None",
-                    "Male",
-                    "Female"
+                    GenderTypes.None.ToString(),
+                    GenderTypes.Female.ToString(),
+                    GenderTypes.Male.ToString()
                 },
-                "Gender")
+                nameof(AnimalViewModel.Gender))
             };
 
             return View(viewModel);
@@ -306,7 +307,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 UserId = userAnimal.UserId,
                 Kind = userAnimal.Kind,
                 Breed = userAnimal.Breed,
-                Gender = userAnimal.Gender.ToLocalString(),
+                Gender = userAnimal.Gender.ToString(),
                 Passport = userAnimal.Passport,
                 BirthDate = userAnimal.BirthDate,
                 Nickname = userAnimal.Nickname,
@@ -358,7 +359,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 UserId = userAnimal.UserId,
                 Kind = userAnimal.Kind,
                 Breed = userAnimal.Breed,
-                Gender = userAnimal.Gender.ToLocalString(),
+                Gender = userAnimal.Gender.ToString(),
                 Passport = userAnimal.Passport,
                 BirthDate = userAnimal.BirthDate,
                 Nickname = userAnimal.Nickname,
