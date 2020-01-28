@@ -21,8 +21,7 @@ namespace Masny.QRAnimal.Web
 
                 IHost host = CreateHostBuilder(args).Build();
 
-                RuntimeMigration.Initialize(host);
-                ContextSeed.Initialize(host);
+                InitialServicesScopeFactory.Build(host);
 
                 host.Run();
             }

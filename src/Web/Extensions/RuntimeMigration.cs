@@ -1,7 +1,6 @@
 ﻿using Masny.QRAnimal.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 
@@ -13,22 +12,22 @@ namespace Masny.QRAnimal.Web.Extensions
     public static class RuntimeMigration
     {
         private const string logErrorMessage = "An error occurred migrating the DB.";
+        private const string logInformationMessage = "The database is successfully migrated.";
 
         /// <summary>
         /// Применить миграцию.
         /// </summary>
-        /// <param name="host">Хост приложения.</param>
-        public static void Initialize(IHost host)
+        /// <param name="serviceProvider">Провайдер сервисов.</param>
+        public static void Initialize(IServiceProvider serviceProvider)
         {
-            host = host ?? throw new ArgumentNullException(nameof(host));
-
-            using var scope = host.Services.CreateScope();
-
-            var services = scope.ServiceProvider;
+            serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             try
             {
-                services.GetService<ApplicationContext>().Database.Migrate();
+                var appContextService = serviceProvider.GetRequiredService<ApplicationContext>();
+                appContextService.Database.Migrate();
+
+                Log.Information(logInformationMessage);
             }
             catch (Exception ex)
             {

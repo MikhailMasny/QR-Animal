@@ -1,7 +1,5 @@
 ﻿using Masny.QRAnimal.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,16 +12,18 @@ namespace Masny.QRAnimal.Infrastructure.Identity
     public static class ApplicationContextSeed
     {
         /// <summary>
-        /// Заполнение базы данных начальными данными.
+        /// Заполнить базу данных начальными данными.
         /// </summary>
-        /// <param name="serviceProvider">Провайдер сервисов.</param>
-        public static async Task IdentitySeedAsync(IServiceProvider serviceProvider)
+        /// <param name="applicationContext">Контекст приложения.</param>
+        /// <param name="userManager">Управление пользователем.</param>
+        /// <param name="roleManager">Управление ролями.</param>
+        public static async Task IdentitySeedAsync(ApplicationContext applicationContext,
+                                                   UserManager<ApplicationUser> userManager,
+                                                   RoleManager<IdentityRole> roleManager)
         {
-            var contextOptions = serviceProvider.GetRequiredService<DbContextOptions<ApplicationContext>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-            using var applicationContext = new ApplicationContext(contextOptions);
+            applicationContext = applicationContext ?? throw new ArgumentNullException(nameof(applicationContext));
+            userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
 
             // Проверка на пустоту данных в базе данных.
             if (applicationContext.Users.Any() || applicationContext.Roles.Any() || applicationContext.UserRoles.Any())
