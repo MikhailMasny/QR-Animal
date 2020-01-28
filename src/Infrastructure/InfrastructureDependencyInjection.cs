@@ -27,7 +27,6 @@ namespace Masny.QRAnimal.Infrastructure
             services.AddScoped<IMessageSender, EmailSenderService>();
             services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
 
-            services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IQRCodeGeneratorService, QRCodeGeneratorService>();
 
             return services;
