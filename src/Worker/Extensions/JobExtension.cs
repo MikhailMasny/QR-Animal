@@ -1,6 +1,6 @@
 ﻿using Coravel;
+using Masny.QRAnimal.Worker.Jobs;
 using Microsoft.AspNetCore.Builder;
-using Serilog;
 using System;
 
 namespace Masny.QRAnimal.Worker.Extensions
@@ -22,13 +22,9 @@ namespace Masny.QRAnimal.Worker.Extensions
 
             serviceProvider.UseScheduler(scheduler =>
             {
-                scheduler.Schedule(() =>
-                {
-                    Log.Information("Test 1");
-                    Log.Warning("Test 2");
-                    Log.Error("Test 3");
-                })
-                .EveryFiveSeconds();
+                // TODO: Изменить время.
+                scheduler.Schedule<ClearDatabaseJob>()
+                         .EveryTenSeconds();
             });
         }
     }

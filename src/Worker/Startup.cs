@@ -4,8 +4,8 @@ using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
-using Masny.QRAnimal.Infrastructure.Services;
 using Masny.QRAnimal.Worker.Extensions;
+using Masny.QRAnimal.Worker.Jobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -37,10 +37,11 @@ namespace Masny.QRAnimal.Worker
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
             services.AddApplication();
-            services.AddScoped<IClearDatabaseService, ClearDatabaseService>();
-            services.AddScheduler();
 
+            services.AddScheduler();
+            services.AddScoped<ClearDatabaseJob>();
             services.AddScoped<IApplicationContext, ApplicationContext>();
+
             services.AddHealthChecks();
         }
 

@@ -1,6 +1,5 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.DTO;
-using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
