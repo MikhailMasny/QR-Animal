@@ -61,7 +61,8 @@ namespace Masny.QRAnimal.Worker.Services
                 scope.ServiceProvider
                         .GetRequiredService<IClearDatabaseService>();
 
-            await scopedProcessingService.DoWork(stoppingToken);
+            //await scopedProcessingService.DoWork(stoppingToken);
+            await Task.CompletedTask;
         }
 
         /// <summary>

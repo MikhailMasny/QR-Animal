@@ -11,7 +11,6 @@ namespace Masny.QRAnimal.Application.Interfaces
         /// <summary>
         /// Запустить работу сервиса.
         /// </summary>
-        /// <param name="stoppingToken">Токен для прерывания работы.</param>
-        Task DoWork(CancellationToken stoppingToken);
+        Task DoWork();
     }
 }

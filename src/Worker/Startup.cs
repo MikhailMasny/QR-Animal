@@ -1,7 +1,10 @@
 using Coravel;
+using Masny.QRAnimal.Application;
+using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
+using Masny.QRAnimal.Infrastructure.Services;
 using Masny.QRAnimal.Worker.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +36,11 @@ namespace Masny.QRAnimal.Worker
             string connectionString = Configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddApplication();
+            services.AddScoped<IClearDatabaseService, ClearDatabaseService>();
             services.AddScheduler();
 
+            services.AddScoped<IApplicationContext, ApplicationContext>();
             services.AddHealthChecks();
         }
 

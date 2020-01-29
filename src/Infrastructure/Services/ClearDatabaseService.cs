@@ -25,15 +25,11 @@ namespace Masny.QRAnimal.Infrastructure.Services
         }
 
         /// <inheritdoc />
-        public async Task DoWork(CancellationToken stoppingToken)
+        public async Task DoWork()
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _logger.LogInformation(_doWorkMessage);
+            _logger.LogInformation(_doWorkMessage);
 
-                // Выполнение каждый час
-                await Task.Delay(3600000, stoppingToken);
-            }
+            await Task.CompletedTask;
         }
     }
 }
