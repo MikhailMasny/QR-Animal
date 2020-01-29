@@ -1,8 +1,11 @@
 ﻿using Coravel.Invocable;
+using Masny.QRAnimal.Application.CQRS.Commands.DeleteAnimal;
+using Masny.QRAnimal.Application.CQRS.Commands.DeleteQRCode;
 using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Masny.QRAnimal.Worker.Jobs
@@ -12,8 +15,6 @@ namespace Masny.QRAnimal.Worker.Jobs
     /// </summary>
     public class ClearDatabaseJob : IInvocable
     {
-        private const string _doWorkMessage = "Marked data for deletion cleared.";
-
         private readonly ILogger _logger;
         private readonly IMediator _mediator;
 
@@ -31,10 +32,31 @@ namespace Masny.QRAnimal.Worker.Jobs
 
         public async Task Invoke()
         {
-            // TODO: разработать специальный класс для очистки.
-            await _mediator.Send(new GetAnimalsQuery());
+            var animals = await _mediator.Send(new GetDeletedAnimalsQuery());
 
-            _logger.LogInformation(_doWorkMessage);
+            if (animals.Any())
+            {
+                foreach (var a in animals)
+                {
+                    var animalId = a.Id;
+
+                    var qrDeleteCommand = new DeleteQRCodeCommand
+                    {
+                        AnimalId = animalId
+                    };
+
+                    await _mediator.Send(qrDeleteCommand);
+
+                    var animalDeleteCommand = new DeleteAnimalCommand
+                    {
+                        Id = animalId
+                    };
+
+                    await _mediator.Send(animalDeleteCommand);
+                }
+            }
+
+            _logger.LogInformation($"The clear database job completed successfully. {animals.Count()} marked data has been deleted.");
         }
     }
 }

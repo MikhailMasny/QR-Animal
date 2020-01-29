@@ -22,9 +22,8 @@ namespace Masny.QRAnimal.Worker.Extensions
 
             serviceProvider.UseScheduler(scheduler =>
             {
-                // TODO: Изменить время.
                 scheduler.Schedule<ClearDatabaseJob>()
-                         .EveryTenSeconds();
+                         .Weekly();
             });
         }
     }
