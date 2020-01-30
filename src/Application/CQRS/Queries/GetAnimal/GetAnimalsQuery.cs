@@ -29,7 +29,7 @@ namespace Masny.QRAnimal.Application.CQRS.Queries.GetAnimal
             /// <param name="context">Контекст.</param>
             /// <param name="mapper">Маппер.</param>
             public GetAnimalsQueryHandler(IApplicationContext context,
-                                         IMapper mapper)
+                                          IMapper mapper)
             {
                 _context = context ?? throw new ArgumentNullException(nameof(context));
                 _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
