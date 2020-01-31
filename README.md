@@ -61,7 +61,7 @@ The user registers, confirms his account through a letter in the mail and gets a
 - [Serilog](https://serilog.net/);
 - [MimeKit](http://www.mimekit.net/);
 - [Automapper](https://automapper.org/);
-- [Background tasks](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-3.1&tabs=visual-studio);
+- [Coravel](https://github.com/jamesmh/coravel);
 - [Health service](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-3.1);
 - [SignalR](https://dotnet.microsoft.com/apps/aspnet/signalr);
 - [xUnit](https://xunit.net/);
