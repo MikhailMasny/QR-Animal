@@ -1,9 +1,11 @@
+using Coravel;
+using Masny.QRAnimal.Application;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Application.Models;
 using Masny.QRAnimal.Infrastructure.Extensions;
 using Masny.QRAnimal.Infrastructure.Persistence;
-using Masny.QRAnimal.Infrastructure.Services;
-using Masny.QRAnimal.Worker.Services;
+using Masny.QRAnimal.Worker.Extensions;
+using Masny.QRAnimal.Worker.Jobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -34,8 +36,11 @@ namespace Masny.QRAnimal.Worker
             string connectionString = Configuration.GetConnectionString(isDockerSupport.ToDbConnectionString());
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddScoped<IClearDatabaseService, ClearDatabaseService>();
-            services.AddHostedService<ClearDatabaseHostedService>();
+            services.AddApplication();
+
+            services.AddScheduler();
+            services.AddScoped<ClearDatabaseJob>();
+            services.AddScoped<IApplicationContext, ApplicationContext>();
 
             services.AddHealthChecks();
         }
@@ -46,6 +51,8 @@ namespace Masny.QRAnimal.Worker
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCoravelScheduler();
 
             app.UseRouting();
             app.UseEndpoints(endpoints => endpoints.MapHealthChecks("/health"));

@@ -1,4 +1,6 @@
-﻿namespace Masny.QRAnimal.Infrastructure.Extensions
+﻿using Masny.QRAnimal.Application.Constants;
+
+namespace Masny.QRAnimal.Infrastructure.Extensions
 {
     /// <summary>
     /// Метод расширения для конвертации окружения приложения в текстовый формат получения секции строки подключения к БД.
@@ -16,9 +18,9 @@
 
             switch (environment)
             {
-                case true: { result = "DockerConnection"; } break;
+                case true: { result = CommonConstants.DockerConnection; } break;
 
-                default: { result = "WindowsConnection"; } break;
+                default: { result = CommonConstants.WindowsConnection; } break;
             }
 
             return result;

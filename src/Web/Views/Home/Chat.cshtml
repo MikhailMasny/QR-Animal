@@ -12,5 +12,7 @@
     <ul id="messagesList" class="p-3 chat-reverse"></ul>
 </div>
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js" asp-append-version="true"></script>
+@section scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+}

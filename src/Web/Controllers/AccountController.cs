@@ -1,4 +1,5 @@
-﻿using Masny.QRAnimal.Application.DTO;
+﻿using Masny.QRAnimal.Application.Constants;
+using Masny.QRAnimal.Application.DTO;
 using Masny.QRAnimal.Application.Interfaces;
 using Masny.QRAnimal.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +14,6 @@ namespace Masny.QRAnimal.Web.Controllers
     /// </summary>
     public class AccountController : Controller
     {
-        private const string _emailExisted = "Email is already existed.";
-        private const string _incorrectData = "Incorrect username and / or password";
-        private const string _accountConfirm = "Confirm your account";
-        private const string _accountResetPassword = "Reset password";
-
         private readonly IIdentityService _identityService;
         private readonly IMessageSender _messageSender;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
@@ -64,7 +60,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
                 if (result == null)
                 {
-                    ModelState.AddModelError(string.Empty, _emailExisted);
+                    ModelState.AddModelError(string.Empty, ErrorConstants.RegistrationEmailExist);
 
                     return View(model);
                 }
@@ -81,7 +77,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
                     var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailConfirm.cshtml", emailModel);
 
-                    await _messageSender.SendMessageAsync(model.Email, _accountConfirm, body);
+                    await _messageSender.SendMessageAsync(model.Email, ErrorConstants.AccountConfirm, body);
 
                     return View("RegistartionSucceeded");
                 }
@@ -147,7 +143,7 @@ namespace Masny.QRAnimal.Web.Controllers
                 }
             }
 
-            ModelState.AddModelError(string.Empty, _incorrectData);
+            ModelState.AddModelError(string.Empty, ErrorConstants.LoginIncorrectData);
 
             return View(model);
         }
@@ -176,19 +172,17 @@ namespace Masny.QRAnimal.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId != null && code != null)
             {
-                return View("Error");
+                var (result, _) = await _identityService.ConfirmEmail(userId, code);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
-            var (result, _) = await _identityService.ConfirmEmail(userId, code);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            return View("Error");
+            return RedirectToAction("Error", "Home");
         }
 
         /// <summary>
@@ -233,7 +227,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
                 var body = await _razorViewToStringRenderer.RenderViewToStringAsync("Views/Email/EmailForgotPassword.cshtml", emailModel);
 
-                await _messageSender.SendMessageAsync(model.Email, _accountResetPassword, body);
+                await _messageSender.SendMessageAsync(model.Email, ErrorConstants.AccountResetPassword, body);
 
                 return View("ForgotPasswordConfirmation");
             }
@@ -251,12 +245,12 @@ namespace Masny.QRAnimal.Web.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string userName = null, string code = null)
         {
-            if (userName == null || code == null)
+            if (userName != null || code != null)
             {
-                return View("Error");
+                return View();
             }
 
-            return View();
+            return RedirectToAction("Error", "Home");
         }
 
         /// <summary>
@@ -278,12 +272,7 @@ namespace Masny.QRAnimal.Web.Controllers
 
             var result = await _identityService.ResetPassword(model.UserName, model.Password, model.Code);
 
-            if (result == null)
-            {
-                return View("ResetPasswordConfirmation");
-            }
-
-            if (result.Succeeded)
+            if (result == null || result.Succeeded)
             {
                 return View("ResetPasswordConfirmation");
             }

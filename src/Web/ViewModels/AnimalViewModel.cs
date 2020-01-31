@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Masny.QRAnimal.Domain.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -82,10 +83,10 @@ namespace Masny.QRAnimal.Web.ViewModels
         /// </summary>
         public SelectList GenderSelectList { get; set; } = new SelectList(new List<string>
         {
-            "None",
-            "Male",
-            "Female"
+            GenderTypes.None.ToString(),
+            GenderTypes.Female.ToString(),
+            GenderTypes.Male.ToString()
         },
-        "Gender");
+        nameof(Gender));
     }
 }

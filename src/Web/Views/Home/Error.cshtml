@@ -14,5 +14,6 @@
     <a asp-controller="Home" asp-action="Index"><img class="mb-4" src="~/images/logo.png" alt="Logo" width="128" height="128"></a>
 
     <h2>@Localizer["Error"] @Model.RequestId</h2>
+    <p>@Localizer["Message"]</p>
     <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-sm" role="button">@Localizer["ToIndex"]</a>
 </div>

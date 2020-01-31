@@ -12,7 +12,7 @@ namespace Masny.QRAnimal.Infrastructure.Identity
     public static class ApplicationContextSeed
     {
         /// <summary>
-        /// Заполнение базы данных начальными данными.
+        /// Заполнить базу данных начальными данными.
         /// </summary>
         /// <param name="applicationContext">Контекст приложения.</param>
         /// <param name="userManager">Управление пользователем.</param>
@@ -46,7 +46,6 @@ namespace Masny.QRAnimal.Infrastructure.Identity
                 UserName = "demouser",
                 Email = "demouser@microsoft.com"
             };
-
 
             if (await userManager.FindByNameAsync(defaultAdmin.UserName) == null)
             {

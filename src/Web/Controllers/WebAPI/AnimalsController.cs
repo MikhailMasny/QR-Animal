@@ -1,6 +1,5 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.DTO;
-using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +67,7 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
                     UserId = animal.UserId,
                     Kind = animal.Kind,
                     Breed = animal.Breed,
-                    Gender = animal.Gender.ToLocalString(),
+                    Gender = animal.Gender.ToString(),
                     Passport = animal.Passport,
                     BirthDate = animal.BirthDate,
                     Nickname = animal.Nickname,
@@ -111,7 +110,7 @@ namespace Masny.QRAnimal.Web.Controllers.WebAPI
                 UserId = publicAnimal.UserId,
                 Kind = publicAnimal.Kind,
                 Breed = publicAnimal.Breed,
-                Gender = publicAnimal.Gender.ToLocalString(),
+                Gender = publicAnimal.Gender.ToString(),
                 Passport = publicAnimal.Passport,
                 BirthDate = publicAnimal.BirthDate,
                 Nickname = publicAnimal.Nickname,

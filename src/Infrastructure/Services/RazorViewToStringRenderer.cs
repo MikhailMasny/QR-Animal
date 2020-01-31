@@ -49,27 +49,27 @@ namespace Masny.QRAnimal.Infrastructure.Services
             var actionContext = GetActionContext();
             var view = FindView(actionContext, viewName);
 
-            using (var output = new StringWriter())
-            {
-                var viewContext = new ViewContext(
-                    actionContext,
-                    view,
-                    new ViewDataDictionary<TModel>(
-                        metadataProvider: new EmptyModelMetadataProvider(),
-                        modelState: new ModelStateDictionary())
-                    {
-                        Model = model
-                    },
-                    new TempDataDictionary(
-                        actionContext.HttpContext,
-                        _tempDataProvider),
-                    output,
-                    new HtmlHelperOptions());
+            using var output = new StringWriter();
 
-                await view.RenderAsync(viewContext);
+            ViewContext viewContext = new ViewContext(
+                actionContext,
+                view,
+                new ViewDataDictionary<TModel>(
+                    metadataProvider: new EmptyModelMetadataProvider(),
+                    modelState: new ModelStateDictionary())
+                {
+                    Model = model
+                },
+                new TempDataDictionary(
+                    actionContext.HttpContext,
+                    _tempDataProvider),
+                output,
+                new HtmlHelperOptions());
 
-                return output.ToString();
-            }
+            await view.RenderAsync(viewContext);
+
+            return output.ToString();
+
         }
 
         private IView FindView(ActionContext actionContext, string viewName)

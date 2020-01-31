@@ -1,6 +1,5 @@
 ﻿using Masny.QRAnimal.Application.CQRS.Queries.GetAnimal;
 using Masny.QRAnimal.Application.Interfaces;
-using Masny.QRAnimal.Web.Extensions;
 using Masny.QRAnimal.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -72,7 +71,7 @@ namespace Masny.QRAnimal.Web.Controllers
                     UserId = a.UserId,
                     Kind = a.Kind,
                     Breed = a.Breed,
-                    Gender = a.Gender.ToLocalString(),
+                    Gender = a.Gender.ToString(),
                     Passport = a.Passport,
                     BirthDate = a.BirthDate,
                     Nickname = a.Nickname,

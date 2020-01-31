@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace Masny.QRAnimal.Web
@@ -42,27 +40,14 @@ namespace Masny.QRAnimal.Web
             services.AddWeb();
         }
 
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app)
         {
             app = app ?? throw new ArgumentNullException(nameof(app));
 
-            app.UseRuntimeMigration();
-            app.UseDataSeed();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
-            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(locOptions.Value);
+            app.UseLocalization();
 
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions()
@@ -87,7 +72,7 @@ namespace Masny.QRAnimal.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHealthChecks("/health").RequireAuthorization();
-                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<ChatHub>("/chatHub").RequireAuthorization();
             });
         }
     }
